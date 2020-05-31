@@ -10,7 +10,6 @@
             :id="param.id"
             type="text"
             class="form-control"
-            :value="param.value"
             @change="writeData(param.id, $event.target.value)"
           />
         </div>
@@ -29,8 +28,8 @@ export default {
   data() {
     return {
       paramsAll: [
-        { id: "vision", title: "Зрение", value: this.fields.vision },
-        { id: "language", title: "Язык", value: this.fields.language }
+        { id: "vision", title: "Зрение" },
+        { id: "language", title: "Язык" }
       ],
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };

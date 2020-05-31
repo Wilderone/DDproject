@@ -1,35 +1,40 @@
 <template>
-  <div class="container name-cont">
-    <div class="row name">
-      <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 namecol input-group-prepend rowname">
-        <input id="nameinp" class="form-control nameinp" type="text" placeholder="Имя" />
-      </div>
-      <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 gendercol rowname">
-        <div class="input-group genderinp">
-          <select id="genderinp" class="custom-select">
-            <option selected>Пол</option>
-            <option value="1">Мужской</option>
-            <option value="2">Женский</option>
-            <option value="3">Другое</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 expcol rowname">
+  <div>
+    <div class="row size">
+      <div v-for="(param) in paramsAll" :key="param.id" :class="[col, param.id]">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">exp</span>
+            <span class="input-group-text">{{param.title}}</span>
           </div>
-          <input id="exp" type="text" class="form-control" placeholder="exp" />
+          <input
+            :id="param.id"
+            type="text"
+            class="form-control"
+            @change="writeData(param.id, $event.target.value)"
+            :value="param.value"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-const EventBus = require("../EventBus").default.v;
 export default {
+  props: ["fields"],
+  methods: {
+    writeData: function(id, value) {
+      this.fields[id] = value;
+    }
+  },
   data: function() {
-    return {};
+    return {
+      paramsAll: [
+        { id: "name", title: "Имя", value: this.fields.name },
+        { id: "level", title: "Уровень", value: this.fields.level },
+        { id: "currentExp", title: "Опыт", value: this.fields.currentExp }
+      ],
+      col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
+    };
   }
 };
 </script>

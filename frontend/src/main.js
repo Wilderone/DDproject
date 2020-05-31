@@ -7,16 +7,18 @@ import SecondaryChars from "./components/SecondaryChars";
 import Tabs from "./components/Tabs";
 import Hits from "./components/Hits";
 import MainStats from "./components/MainStats";
+import SaveCommon from "./components/SaveCommon";
 import lsWatcher from "vue-storage-watcher"
-import axios from '../node_modules/axios'
+
 
 Vue.config.productionTip = false;
 const EventBus = require('./EventBus').default.v
 Vue.use(lsWatcher, { prefix: 'dd_!' })
-
 EventBus.$on('send-data', () => {
-  alert('Send Data')
+
+
 })
+
 new Vue({
   el: '#tab-content',
   components: { SecondaryChars, Hits, MainStats },
@@ -234,12 +236,12 @@ new Vue({
       }
     },
     readLsSecondary: function () {
-      console.log('dsa')
+
       if (localStorage.secondaryStats == undefined || localStorage.secondaryStats.length == 0) {
 
         localStorage.secondaryStats = [];
       } else {
-        console.log('dsa')
+
         let secStatsForLoad = JSON.parse(localStorage.secondaryStats);
         this.secStats.forEach(element => {
           secStatsForLoad.forEach(currStat => {
@@ -258,25 +260,77 @@ new Vue({
   },
 
 });
+
+new Vue({
+  el: "#common-t",
+  components: {
+    Common, Size, Vision, Name, SaveCommon
+  },
+  methods: {
+    readLsCommonData: function () {
+
+      if (localStorage.CommonData == undefined || localStorage.CommonData.length == 0) {
+        localStorage.setItem('CommonData', JSON.stringify(this.commonData))
+      } else {
+        this.commonData = JSON.parse(localStorage.CommonData)
+      }
+    }
+  },
+  created: function () {
+    this.readLsCommonData()
+  },
+
+  data: {
+
+    commonData: {
+      owner: "superuser",
+
+      common: {
+        race: '',
+        sex: '',
+
+        class: '',
+      },
+      nameSexExp: {
+        name: "",
+        level: '',
+        currentExp: '',
+      },
+      heigWeigSize: {
+        height: '',
+        weight: '',
+        size: '',
+      },
+      visLang: {
+        vision: '',
+        language: ''
+      }
+
+    },
+  }
+})
 new Vue({
   render: (h) => h(Tabs),
 
 }).$mount('#tabs')
 
-new Vue({
-  render: (h) => h(Common),
+// new Vue({
+//   render: (h) => h(Common),
+//   data: {
 
-}).$mount("#common");
-new Vue({
-  render: (h) => h(Name),
-}).$mount("#name");
-new Vue({
-  render: (h) => h(Size),
-}).$mount("#size");
+//   }
 
-new Vue({
-  render: (h) => h(Vision),
-}).$mount("#vision");
+// }).$mount("#common");
+// new Vue({
+//   render: (h) => h(Name),
+// }).$mount("#name");
+// new Vue({
+//   render: (h) => h(Size),
+// }).$mount("#size");
+
+// new Vue({
+//   render: (h) => h(Vision),
+// }).$mount("#vision");
 
 // new Vue({
 //   render: (h) => h(SecondaryChars),

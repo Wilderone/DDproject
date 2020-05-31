@@ -12,10 +12,14 @@
 
 <body>
   <main id="wrappy" class="wrapper container">
-    <div id="common">
-      <common></common>
+    <div id="common-t">
+      <common :fields="commonData.common"></common>
+      <name :fields="commonData.nameSexExp"></name>
+      <size :fields="commonData.heigWeigSize"></size>
+      <vision :fields="commonData.visLang"></vision>
+      <save-common :common-data="commonData"></save-common>
     </div>
-    <div id="name" class="m-5">
+    <!-- <div id="name" class="m-5">
       <name></name>
     </div>
     <div id="size">
@@ -23,7 +27,7 @@
     </div>
     <div id="vision">
       <vision></vision>
-    </div>
+    </div> -->
     <div class="container">
       <div class="row">
         <div id="tabs" class="">

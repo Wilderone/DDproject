@@ -11,7 +11,7 @@
             </div>
             <div>
               <button @click.prevent="sendData()" class="btn-primary save-hero">Сохранить</button>
-              <button class="btn-primary flush">Сбросить</button>
+              <button @click="clearData()" class="btn-primary flush">Сбросить</button>
             </div>
           </div>
         </form>
@@ -19,26 +19,17 @@
     </div>
 
     <div class="row names">
-      <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-        <select id="race" type="text" class="race custom-select" placeholder="Раса">
-          <option value="0">Раса</option>
-          <option name="Human" value="1">Человек</option>
-          <option name="Dwarf" value="2">Дварф</option>
-          <option name="Elf" value="3">Эльф</option>
+      <div :class="col" v-for="param in paramsAll" :key="param.id">
+        <select
+          @change="writeData(param.id, $event.target.value)"
+          :value="param.currOption"
+          :id="param.id"
+          type="text"
+          class="custom-select"
+          :placeholder="param.title"
+        >
+          <option v-for="item in param.options" :key="item.title" :value="item.value">{{item.title}}</option>
         </select>
-      </div>
-      <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 racelevelcol">
-        <select id="class" type="text" class="class custom-select" placeholder="Класс">
-          <option value="0">Класс</option>
-          <option name="Warrior" value="1">Воин</option>
-          <option name="Mage" value="2">Маг</option>
-          <option name="Hunter" value="3">Следопыт</option>
-          <option name="Priest" value="4">Жрец</option>
-          <option name="Warlock" value="5">Колдун</option>
-        </select>
-      </div>
-      <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-        <input id="lvl" type="number" class="level form-control" placeholder="Уровень" />
       </div>
     </div>
   </div>
@@ -47,10 +38,74 @@
 <script>
 const EventBus = require("../EventBus").default.v;
 export default {
+  props: ["fields"],
   methods: {
     sendData: function() {
       EventBus.$emit("send-data");
+    },
+    writeData: function(id, value) {
+      this.fields[id] = value;
+    },
+    clearData: function() {
+      localStorage.removeItem("CommonData");
+      localStorage.removeItem("mainstats");
+      localStorage.removeItem("secondaryStats");
+      window.refre;
+      // localStorage.removeItem('selectedTab')
     }
+  },
+
+  data: function() {
+    return {
+      paramsAll: [
+        {
+          id: "race",
+          title: "Раса",
+          currOption:
+            +this.fields.race == 0 && !this.fields.race.length > 0
+              ? 0
+              : this.fields.race,
+          options: [
+            { value: 0, title: "Выберу расу" },
+            { value: 1, title: "Человек" },
+            { value: 2, title: "Эльф" },
+            { value: 3, title: "Дварф" }
+          ]
+        },
+        {
+          id: "class",
+          title: "Класс",
+          currOption:
+            +this.fields.class == 0 && !this.fields.class.length > 0
+              ? 0
+              : this.fields.class,
+          options: [
+            { value: 0, title: "Выбери Класс" },
+            { value: 1, title: "Воин" },
+            { value: 2, title: "Маг" },
+            { value: 3, title: "Следопыт" },
+            { value: 4, title: "Жрец" },
+            { value: 5, title: "Колдун" }
+          ]
+        },
+        {
+          id: "sex",
+          title: "Пол",
+          currOption:
+            +this.fields.sex == 0 && !this.fields.sex.length > 0
+              ? 0
+              : this.fields.sex,
+
+          options: [
+            { value: 0, title: "Выбери пол" },
+            { value: 1, title: "Мужской" },
+            { value: 2, title: "Женский" },
+            { value: 3, title: "Другое" }
+          ]
+        }
+      ],
+      col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
+    };
   }
 };
 </script>
