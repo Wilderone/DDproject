@@ -1,0 +1,202 @@
+{
+  "data": {
+    "owner": "String",
+    "common": {
+      "name": "String",
+      "race": "String",
+      "level": "String",
+      "class": "String",
+      "sex": "String",
+      "currentExp": "Number",
+      "height": "Number",
+      "weight": "Number",
+      "size": "String",
+      "vision": "String",
+      "language": "String"
+    },
+    "basics": {
+      "strength": {
+        "strBase": "Number",
+        "strModif": "Number"
+      },
+      "stamina": {
+        "stamBase": "Number",
+        "stamModif": "Number"
+      },
+      "agility": {
+        "agilBase": "Number",
+        "agilModif": "Number"
+      },
+      "intellect": {
+        "intBase": "Number",
+        "intModif": "Number"
+      },
+      "winsdome": {
+        "winsdBase": "Number",
+        "winsdModif": "Number"
+      },
+      "charisma": {
+        "charismBase": "Number",
+        "charismModif": "Number"
+      }
+    },
+    "secondaryChars": {
+      "dungeons": {
+        "dungeonsBase": "Number",
+        "dungeonsIsTrain": "Boolean"
+      },
+      "healingChars": {
+        "healingCharsBase": "Number",
+        "healingCharsIsTrain": "Boolean"
+      },
+      "intimidation": {
+        "intimidBase": "Number",
+        "intimidIsTrain": "Boolean"
+      },
+      "endurance": {
+        "endurBase": "Number",
+        "endurIsTrain": "Boolean"
+      },
+      "conversation": {
+        "conversBase": "Number",
+        "conversIsTrain": "Boolean"
+      },
+      "stealth": {
+        "stealthBase": "Number",
+        "stealthIsTrain": "Boolean"
+      },
+      "insight": {
+        "insightBase": "Number",
+        "insightIsTrain": "Boolean"
+      },
+      "magic": {
+        "magicBase": "Number",
+        "magicIsTrain": "Boolean"
+      },
+      "athletics": {
+        "athlBase": "Number",
+        "athlIsTrain": "Boolean"
+      },
+      "acrobatics": {
+        "acrobBase": "Number",
+        "acrobIsTrain": "Boolean"
+      },
+      "deception": {
+        "deceptBase": "Number",
+        "deceptIsTrain": "Boolean"
+      },
+      "nature": {
+        "natureBase": "Number",
+        "natureIsTrain": "Boolean"
+      },
+      "theft": {
+        "theftBase": "Number",
+        "theftIsTrain": "Boolean"
+      }
+    },
+    "HitHealth": {
+      "hp": "Number",
+      "hpBase": "Number",
+      "healing": "Number",
+      "injuring": "Number",
+      "isInjured": "Boolean",
+      "healsPerDay": "Number",
+      "healsPerDayLeft": "Number"
+    },
+    "movements": {
+      "initiative": "Number",
+      "initiativeBase": "Number",
+      "speed": "Number",
+      "speedBase": "Number",
+      "actions": "Number"
+    },
+    "combat": {
+      "melee": {
+        "attack": {
+          "dice": "Number",
+          "melModif": "Number",
+          "against": "String"
+        },
+        "damage": {
+          "numOfDices": "Number",
+          "damageDice": "Number",
+          "damageModif": "Number"
+        }
+      },
+      "range": {
+        "attack": {
+          "dice": "Number",
+          "rangeModif": "Number",
+          "against": "String"
+        },
+        "damage": {
+          "numOfDices": "Number",
+          "damageDice": "Number",
+          "damageModif": "Number"
+        }
+      }
+    },
+    "defense": {
+      "armorClassBasic": "Number",
+      "armorClassCurrent": "Number",
+      "reactionBasic": "Number",
+      "reactionCurrent": "Number",
+      "durabilityBasic": "Number",
+      "durabilityCurrent": "Number",
+      "willBasic": "Number",
+      "willCurrent": "Number"
+    },
+    "backpack": {
+      "backpackSlot": {
+        "nameOfItem": "String",
+        "quantOfItem": "Number"
+      }
+    },
+    "currentItems": {
+      "item": {
+        "description": "String",
+        "nameOfItem": "String",
+        "levelOfItem": "String",
+        "rateOfItem": "String",
+        "cellOfItem": "String",
+        "properties": "String",
+        "iconLink": "String",
+        "damageOfItem": {
+          "numOfDices": "Number",
+          "damageDice": "Number",
+          "damageModif": "Number"
+        },
+        "spellOfItem": {
+          "condition": "String",
+          "description": "String",
+          "oncePer": "String"
+        }
+      }
+    },
+    "spells": {
+      "forClass": "String",
+      "spellLevel": "String",
+      "oncePer": "String",
+      "NameOfSpell": "String",
+      "iconLink": "String",
+      "description": "String",
+      "makrs": "String",
+      "target": "String",
+      "spellAttack": {
+        "numOfDices": "Number",
+        "attackDice": "Number",
+        "attackModif": "Number",
+        "basicStat": "String",
+        "against": "String"
+      },
+      "spellDamage": {
+        "numOfDices": "Number",
+        "damageDice": "Number",
+        "damageModif": "Number",
+        "additionalEffects": "String",
+        "trigger": "String"
+      }
+    },
+    "playerNotes": "Blob"
+  }
+}
