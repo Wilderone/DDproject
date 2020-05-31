@@ -26,5 +26,10 @@
   </div>
 </template>
 <script>
-export default {};
+const EventBus = require("../EventBus").default.v;
+export default {
+  data: function() {
+    return {};
+  }
+};
 </script>

@@ -79,15 +79,6 @@ body {
     display: flex;
 }
 
-.choosentab {
-    border-top: 1px solid grey;
-    border-left: 1px solid grey;
-    border-right: 1px solid grey;
-    border-radius: 5px;
-    padding: 6px;
-    background-color: rgba(218, 212, 212, 0.215);
-}
-
 .racelevelcol {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -185,84 +176,8 @@ body {
     margin: 6px 15px 0 15px;
 }
 
-.charnav {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-}
-
-.charnav__select:nth-child(2) {
-    -ms-flex-pack: distribute;
-    justify-content: space-around;
-}
-
-.charnav__select {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    margin: 5px 5px 5px 5px;
-    color: #3278d4;
-}
-
-@media screen and (max-width: 780px) {
-    .select__selectors {
-        min-width: 50%;
-    }
-    .charnav {
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-    }
-    .charnav__select {
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-        flex-direction: column;
-    }
-}
-
 #notes {
     border-radius: 10px;
-}
-
-.select__selectors {
-    text-align: center;
-    cursor: pointer;
-    word-wrap: break-word;
-    margin: 5px;
-}
-
-.select__selectors:after {
-    content: "";
-    display: block;
-    width: 0%;
-    height: 3px;
-    background-color: #e40f0fc5;
-    margin-top: 4px;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.select__selectors:hover:after {
-    width: 60%;
 }
 
 .heal-row,
