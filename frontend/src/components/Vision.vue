@@ -30,7 +30,7 @@ export default {
     return {
       paramsAll: [
         { id: "vision", title: "Зрение", value: this.fields.vision },
-        { id: "language", title: "Язык", value: this.fields.language }
+        { id: "language_hero", title: "Язык", value: this.fields.language_hero }
       ],
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };

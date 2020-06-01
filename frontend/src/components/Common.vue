@@ -76,9 +76,9 @@ export default {
           id: "class_hero",
           title: "Класс",
           currOption:
-            +this.fields.class == 0 && !this.fields.class.length > 0
+            +this.fields.class_hero == 0 && !this.fields.class_hero.length > 0
               ? 0
-              : this.fields.class,
+              : this.fields.class_hero,
           options: [
             { value: 0, title: "Выбери Класс" },
             { value: 1, title: "Воин" },

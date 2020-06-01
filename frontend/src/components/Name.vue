@@ -29,9 +29,9 @@ export default {
   data: function() {
     return {
       paramsAll: [
-        { id: "name_hero", title: "Имя", value: this.fields.name },
-        { id: "level_hero", title: "Уровень", value: this.fields.level },
-        { id: "currentExp", title: "Опыт", value: this.fields.currentExp }
+        { id: "name_hero", title: "Имя", value: this.fields.name_hero },
+        { id: "level_hero", title: "Уровень", value: this.fields.level_hero },
+        { id: "currentexp", title: "Опыт", value: this.fields.currentexp }
       ],
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };

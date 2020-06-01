@@ -330,13 +330,12 @@ new Vue({
       common: {
         race: '',
         sex: '',
-
         class_hero: '',
       },
       nameSexExp: {
         name_hero: "",
         level_hero: '',
-        currentExp: '',
+        currentexp: '',
       },
       heigWeigSize: {
         height: '',
@@ -345,7 +344,7 @@ new Vue({
       },
       visLang: {
         vision: '',
-        language: ''
+        language_hero: ''
       }
 
     },
