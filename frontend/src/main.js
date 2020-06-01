@@ -9,6 +9,7 @@ import Hits from "./components/Hits";
 import MainStats from "./components/MainStats";
 import SaveCommon from "./components/SaveCommon";
 import lsWatcher from "vue-storage-watcher"
+import axios from 'axios';
 
 
 
@@ -23,132 +24,134 @@ EventBus.$on('send-data', () => {
 new Vue({
   el: '#tab-content',
   components: { SecondaryChars, Hits, MainStats },
+
   data: {
     classbs: "col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3",
     mainStatClasses: {
       mainStatsInputbs: "col-5 col-sm-4 col-md-3 col-lg-3 col-xl-3",
       mianStatTitlebs: "col-2 col-sm-4 col-md-4 col-lg-4 col-xl-4"
     },
+
     secStats: [
       {
-        id: 16,
+        id_field: 0,
         tagName: "acrobatics",
         vizibleName: "Акробатика (Лов)",
         value: 0,
-        trained: false
+        training: false
 
       },
       {
-        id: 9,
+        id_field: 0,
         tagName: "athletics",
         vizibleName: "Атлетика (Сил)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 20,
+        id_field: 0,
         tagName: "attention",
         vizibleName: "Внимательность (Мдр)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 17,
-        tagName: "theft",
+        id_field: 0,
+        tagName: "thef",
         vizibleName: "Воровство (Лов)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 10,
+        id_field: 0,
         tagName: "endurance",
         vizibleName: "Выносливость (Тел)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 14,
+        id_field: 0,
         tagName: "intimidation",
         vizibleName: "Запугивание (Хар)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 21,
+        id_field: 0,
         tagName: "streets",
         vizibleName: "Знание улиц (Хар)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 23,
+        id_field: 0,
         tagName: "history",
         vizibleName: "История (Инт)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 11,
+        id_field: 0,
         tagName: "magic",
         vizibleName: "Магия (Инт) ",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 18,
+        id_field: 0,
         tagName: "deception",
         vizibleName: "Обман (Хар)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 15,
+        id_field: 0,
         tagName: "conversation",
         vizibleName: "Переговоры (Хар)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 8,
+        id_field: 0,
         tagName: "dungeons",
         vizibleName: "Подземелья (Мдр)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 7,
+        id_field: 0,
         tagName: "nature",
         vizibleName: "Природа (Мдр)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 19,
+        id_field: 0,
         tagName: "insight",
         vizibleName: "Проницательность (Мдр)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 22,
+        id_field: 0,
         tagName: "religion",
         vizibleName: "Религия (Инт)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 12,
+        id_field: 0,
         tagName: "stealth",
         vizibleName: "Скрытность (Лов)",
         value: 0,
-        trained: false
+        training: false
       },
       {
-        id: 13,
-        tagName: "healing-chars",
+        id_field: 0,
+        tagName: "healingchars",
         vizibleName: "Целительство (Мдр)",
         value: 0,
-        trained: false
+        training: false
       }
     ],
 
@@ -246,18 +249,56 @@ new Vue({
         let secStatsForLoad = JSON.parse(localStorage.secondaryStats);
         this.secStats.forEach(element => {
           secStatsForLoad.forEach(currStat => {
-            if (element.id == currStat.id) {
+            if (element.id_field == currStat.id_field) {
               element.value = +currStat.value
-              element.trained = currStat.trained
+              element.training = currStat.training
             }
           })
         })
       }
     },
   },
+  beforeCreate: function () {
+
+    axios.get('http://80.65.23.35:5000/stats')
+      .then(response => {
+        console.log(response.data)
+        let respSecondary = response.data.secondary_stats
+        this.secStats.forEach(function (elem, elemIndex) {
+          Object.keys(respSecondary).forEach(function (respElem, respElemIndex) {
+            if (elem.tagName == respSecondary[respElem]) {
+
+              elem.id_field = Object.keys(respSecondary)[respElemIndex]
+            }
+          })
+
+        })
+        // TODO доработать когда будут mainstats-base / modif в базе
+        let respMainStats = response.data.main_stats
+        this.mainStats.forEach(function (elem, elemIndex) {
+          Object.keys(respMainStats).forEach(function (respElem, respElemIndex) {
+            if (elem.idBase == respMainStats[respElem]) {
+
+              elem.id = Object.keys(respMainStats)[respElemIndex]
+            }
+          })
+
+        })
+
+        console.log(respMainStats)
+        console.log(this.secStats)
+      }).then(() => {
+        this.readLsSecondary();
+        this.readLsMainstats();
+      })
+
+  },
   created: function () {
-    this.readLsMainstats();
-    this.readLsSecondary();
+
+
+
+
+
   },
 
 });
@@ -290,11 +331,11 @@ new Vue({
         race: '',
         sex: '',
 
-        class: '',
+        class_hero: '',
       },
       nameSexExp: {
-        name: "",
-        level: '',
+        name_hero: "",
+        level_hero: '',
         currentExp: '',
       },
       heigWeigSize: {

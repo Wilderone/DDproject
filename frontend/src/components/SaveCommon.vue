@@ -24,7 +24,7 @@ export default {
       let dfs = this.dataForSend();
       axios({
         method: "post",
-        url: "http://localhost:5000/",
+        url: "http://80.65.23.35:5000/",
         data: {
           dfs
         }

@@ -73,7 +73,7 @@ export default {
           ]
         },
         {
-          id: "class",
+          id: "class_hero",
           title: "Класс",
           currOption:
             +this.fields.class == 0 && !this.fields.class.length > 0

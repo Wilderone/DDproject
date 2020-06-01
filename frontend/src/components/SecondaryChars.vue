@@ -48,10 +48,10 @@
           class="form-check-input position-static trainycheckbox"
           type="checkbox"
           :id="item.tagName+'train'"
-          :value="item.value+'train'"
+          :value="item.training"
           aria-label="..."
           @click="changeValue(item, 'train')"
-          :checked="item.trained ? 'checked':''"
+          :checked="item.training === true ? 'checked':''"
         />
       </div>
     </div>
@@ -64,8 +64,8 @@ export default {
   methods: {
     changeValue: function(item, oper) {
       if (oper == "train") {
-        item.trained = !item.trained;
-        item.trained ? (item.value += 5) : (item.value -= 5);
+        item.training = !item.training;
+        item.training ? (item.value += 5) : (item.value -= 5);
       } else {
         oper === "plus" ? item.value++ : item.value--;
       }
