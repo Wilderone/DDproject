@@ -8,13 +8,22 @@ CREATE TABLE PLAYERS
 	,PASSWORD_PL   bytea 
 );
 
+CREATE TABLE HEROES_RACES_DIC
+(ID_FIELD  INT  GENERATED ALWAYS AS IDENTITY  PRIMARY KEY
+,NAME_FIELD VARCHAR(30) NOT NULL
+);
+CREATE TABLE HEROES_CLASS_DIC
+(ID_FIELD  INT  GENERATED ALWAYS AS IDENTITY  PRIMARY KEY
+,NAME_FIELD VARCHAR(30) NOT NULL
+);
+   
 CREATE TABLE HEROES
 (
 	ID_HERO    		  INT  GENERATED ALWAYS AS IDENTITY PRIMARY KEY
    ,NAME_HERO         VARCHAR(50)
-   ,RACE              VARCHAR(20)
+   ,ID_RACE           INT  REFERENCES HEROES_RACES_DIC(ID_FIELD)
    ,LEVEL_HERO        INT
-   ,CLASS_HERO        INT
+   ,ID_CLASS          INT REFERENCES HEROES_CLASS_DIC(ID_FIELD)
    ,SEX               VARCHAR(20)
    ,CURRENTEXP        INT
    ,HEIGHT            INT
@@ -24,7 +33,7 @@ CREATE TABLE HEROES
    ,LANGUAGE_HERO     INT
    ,GUID_PLAYER       UUID NOT NULL references PLAYERS
 );
-   
+
 CREATE TABLE HEROES_PARAM_DIC
 (ID_FIELD  INT  GENERATED ALWAYS AS IDENTITY  PRIMARY KEY
 ,MAIN_PARAM    BOOL NOT NULL 
@@ -68,12 +77,76 @@ INSERT INTO HEROES_PARAM_DIC(MAIN_PARAM, NAME_FIELD,SHORT_NAME_FIELD )
 	UNION SELECT  FALSE,'RELIGION','REL'
 	UNION SELECT  FALSE,'HISTORY','HIST'
 	order by  1 desc;
+INSERT INTO HEROES_RACES_DIC (NAME_FIELD)
+	SELECT 'ДВАРФ'
+	UNION SELECT 'ПОЛУЭЛЬФ'
+	UNION SELECT 'ТИФЛИНГ'
+	UNION SELECT 'ЭЛАДРИН'
+	UNION SELECT 'ДРАКОНОРОЖДЁННЫЙ'
+	UNION SELECT 'ПОЛУРОСЛИК'
+	UNION SELECT 'ЧЕЛОВЕК'
+	UNION SELECT 'ЭЛЬФ'
+	UNION SELECT 'ГНОМ'
+	UNION SELECT 'ГОЛИАФ'
+	UNION SELECT 'ДЭВ'
+	UNION SELECT 'ПОЛУОРК'
+	UNION SELECT 'ГИТЗЕРАЙ'
+	UNION SELECT 'ДРЕВЕНЬ'
+	UNION SELECT 'МИНОТАВР'
+	UNION SELECT 'ШАРДМАЙНД'
+order by  1 desc;
+INSERT INTO HEROES_CLASS_DIC(NAME_FIELD)
+	SELECT 'АПОСТОЛ'
+	UNION SELECT 'БАРД'
+	UNION SELECT 'ВАРВАР'
+	UNION SELECT 'ВОЕНАЧАЛЬНИК'
+	UNION SELECT 'ВОИН'
+	UNION SELECT 'ВОЛШЕБНИК'
+	UNION SELECT 'ДРУИД'
+	UNION SELECT 'ЖРЕЦ'
+	UNION SELECT 'ЖРЕЦ РУН'
+	UNION SELECT 'КАРАТЕЛЬ'
+	UNION SELECT 'КОЛДУН'
+	UNION SELECT 'ЛОВЕЦ'
+	UNION SELECT 'МОНАХ'
+	UNION SELECT 'ПАЛАДИН'
+	UNION SELECT 'ПЛУТ'
+	UNION SELECT 'ПСИ-ВОИН'
+	UNION SELECT 'ПСИОНИК'
+	UNION SELECT 'РЕВНИТЕЛЬ'
+	UNION SELECT 'СЛЕДОПЫТ'
+	UNION SELECT 'ХРАНИТЕЛЬ'
+	UNION SELECT 'ЧАРОДЕЙ'
+	UNION SELECT 'ШАМАН'order by  1 desc;
 
 
 select * from PLAYERS;
 select * from HEROES;
 select * from HEROES_PARAM_DIC;
 select * from HEROES_PARAM_ADDFL_ARRAY;
+
+/*
+   CREATE OR REPLACE FUNCTION work.fun_test_2 ()
+     RETURNS TABLE(id numeric, number numeric, name text, znach numeric) AS
+   $BODY$ 
+    DECLARE
+    rec RECORD;
+   BEGIN
+   FOR rec IN EXECUTE 'select * from work.test where znach = 10'
+        LOOP
+                id = rec.id;
+                number =rec.number;
+                name = rec.name;
+                znach = rec.znach;
+                RETURN next;
+        END LOOP;
+   END;
+   $BODY$
+     LANGUAGE 'plpgsql' VOLATILE
+     COST 100
+     ROWS 1000;
+   ALTER FUNCTION work.fun_test_2 () OWNER TO postgres;
+*/
 
 --INSERT INTO HEROES_PARAM_DIC(MAIN_PARAM, NAME_FIELD,SHORT_NAME_FIELD )
       
