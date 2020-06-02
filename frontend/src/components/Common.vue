@@ -17,18 +17,26 @@
         </form>
       </div>
     </div>
-
+    <div class="errors" v-if="errors.length>0">
+      <div v-for="(error, index) in errors" :key="index">{{error}}</div>
+    </div>
     <div class="row names">
       <div :class="col" v-for="param in paramsAll" :key="param.id">
         <select
-          @change="writeData(param.id, $event.target.value)"
-          :value="param.currOption"
+          @change="[writeData(param.id, $event.target.value), $event.target.value == 0 ?
+           $event.target.classList.add('not-selected') : 
+           $event.target.classList.remove('not-selected')]"
+          :value="fields[param.id]"
           :id="param.id"
           type="text"
-          class="custom-select"
-          :placeholder="param.title"
+          :class="['custom-select']"
+          :placeholder="fields[param.id]"
         >
-          <option v-for="item in param.options" :key="item.title" :value="item.value">{{item.title}}</option>
+          <option
+            v-for="item in param.options"
+            :key="item.name_field"
+            :value="item.id_field"
+          >{{item.name_field}}</option>
         </select>
       </div>
     </div>
@@ -38,9 +46,18 @@
 <script>
 const EventBus = require("../EventBus").default.v;
 export default {
-  props: ["fields"],
+  props: ["fields", "listOfClassRace"],
   methods: {
     sendData: function() {
+      //TODO Доделать сообщение при некорректном заполнении
+      Object.keys(this.fields).forEach((index, elem, array) => {
+        if (this.fields[index] == 0) {
+          this.errors.push({ field: index });
+          return;
+        } else {
+          this.errors = [];
+        }
+      });
       EventBus.$emit("send-data");
     },
     writeData: function(id, value) {
@@ -50,8 +67,7 @@ export default {
       localStorage.removeItem("CommonData");
       localStorage.removeItem("mainstats");
       localStorage.removeItem("secondaryStats");
-      window.refre;
-      // localStorage.removeItem('selectedTab')
+      window.refresh();
     }
   },
 
@@ -59,34 +75,19 @@ export default {
     return {
       paramsAll: [
         {
-          id: "race",
+          id: "id_race",
           title: "Раса",
-          currOption:
-            +this.fields.race == 0 && !this.fields.race.length > 0
-              ? 0
-              : this.fields.race,
-          options: [
-            { value: 0, title: "Выберу расу" },
-            { value: 1, title: "Человек" },
-            { value: 2, title: "Эльф" },
-            { value: 3, title: "Дварф" }
-          ]
+          currOption: +this.fields.id_race == 0 ? 0 : this.fields.id_race,
+          options: this.listOfClassRace.races
         },
         {
-          id: "class_hero",
+          id: "id_class",
           title: "Класс",
           currOption:
-            +this.fields.class_hero == 0 && !this.fields.class_hero.length > 0
+            +this.fields.id_class == 0 && !this.fields.id_class.length > 0
               ? 0
-              : this.fields.class_hero,
-          options: [
-            { value: 0, title: "Выбери Класс" },
-            { value: 1, title: "Воин" },
-            { value: 2, title: "Маг" },
-            { value: 3, title: "Следопыт" },
-            { value: 4, title: "Жрец" },
-            { value: 5, title: "Колдун" }
-          ]
+              : this.fields.id_class,
+          options: this.listOfClassRace.classes
         },
         {
           id: "sex",
@@ -97,13 +98,14 @@ export default {
               : this.fields.sex,
 
           options: [
-            { value: 0, title: "Выбери пол" },
-            { value: 1, title: "Мужской" },
-            { value: 2, title: "Женский" },
-            { value: 3, title: "Другое" }
+            { id_field: 0, name_field: "Выбери пол" },
+            { id_field: 1, name_field: "Мужской" },
+            { id_field: 2, name_field: "Женский" },
+            { id_field: 3, name_field: "Другое" }
           ]
         }
       ],
+      errors: [],
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };
   }
@@ -114,5 +116,17 @@ export default {
 .save-hero {
   margin: 5px;
   border-radius: 5px;
+}
+.not-selected {
+  border-color: rgba(255, 0, 0, 0.5);
+}
+.errors {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.errors > div {
+  margin-left: 5px;
 }
 </style>

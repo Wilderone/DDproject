@@ -222,8 +222,8 @@ new Vue({
 
   methods: {
     readLsMainstats: function () {
-      if (localStorage.mainstats == undefined || localStorage.mainstats.length == 0) {
-        localStorage.mainstats = [];
+      if (!localStorage.mainstats) {
+        localStorage.mainstats = JSON.stringify(this.mainStats);
 
       } else {
         let mainstatsForLoad = JSON.parse(localStorage.mainstats);
@@ -241,9 +241,8 @@ new Vue({
     },
     readLsSecondary: function () {
 
-      if (localStorage.secondaryStats == undefined || localStorage.secondaryStats.length == 0) {
-
-        localStorage.secondaryStats = [];
+      if (!localStorage.secondaryStats) {
+        localStorage.secondaryStats = JSON.stringify(this.secStats);
       } else {
 
         let secStatsForLoad = JSON.parse(localStorage.secondaryStats);
@@ -287,10 +286,11 @@ new Vue({
 
         console.log(respMainStats)
         console.log(this.secStats)
-      }).then(() => {
+      }).finally(() => {
         this.readLsSecondary();
         this.readLsMainstats();
       })
+
 
   },
   created: function () {
@@ -311,7 +311,7 @@ new Vue({
   methods: {
     readLsCommonData: function () {
 
-      if (localStorage.CommonData == undefined || localStorage.CommonData.length == 0) {
+      if (!localStorage.CommonData) {
         localStorage.setItem('CommonData', JSON.stringify(this.commonData))
       } else {
         this.commonData = JSON.parse(localStorage.CommonData)
@@ -319,18 +319,44 @@ new Vue({
     }
   },
   created: function () {
-    this.readLsCommonData()
+    axios.get('http://80.65.23.35:5000/race_class').then(response => {
+      // console.log(response.data);
+      let common = this.listOfClassRace
+
+      Object.values(response.data.classes).forEach(value => {
+        //console.log(value)
+        common.classes.push(value)
+        // console.log(response.data.classes[value])
+      })
+      Object.values(response.data.races).forEach(value => {
+        //console.log(value)
+        common.races.push(value)
+        //common.classes.push(response.data.classes)
+
+      })
+    })
+      .catch(error => {
+        console.log(error)
+      }).finally(() => {
+        this.readLsCommonData()
+
+      })
+
   },
 
   data: {
+    listOfClassRace: {
+      races: [],
+      classes: []
+    },
 
     commonData: {
       owner: "superuser",
 
       common: {
-        race: '',
+        id_race: 0,
         sex: '',
-        class_hero: '',
+        id_class: 0,
       },
       nameSexExp: {
         name_hero: "",
@@ -382,3 +408,9 @@ new Vue({
 // }).$mount("#sec-chars");
 
 
+// function getCookie(name) {
+//   let matches = document.cookie.match(new RegExp(
+//     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+//   ));
+//   return matches ? decodeURIComponent(matches[1]) : undefined;
+// }
