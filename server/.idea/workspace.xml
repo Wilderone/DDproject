@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.eslintrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/EventBus.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/EventBus.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Common.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Common.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Hits.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Hits.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/MainStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/MainStats.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Name.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Name.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/SecondaryChars.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SecondaryChars.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Size.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Size.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Tabs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Tabs.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Vision.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Vision.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/inputsRow.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/inputsRow.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1cWobr5tSiRNtd86Y9dzxSoPnKb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dd" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RunManager" selected="Python.db_exchange (1)">
+    <configuration name="db_exchange (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="testserv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/db_exchange.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="db_exchange" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="testserv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\projects\workproj\dd\frontend\testserv\db_exchange.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="kw" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="testserv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/kw.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="testserv" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.db_exchange (1)" />
+        <item itemvalue="Python.server" />
+        <item itemvalue="Python.db_exchange" />
+        <item itemvalue="Python.kw" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="" />
+      <created>1590653784473</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590653784473</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="803" y="410" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog" timestamp="1590689177165">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="803" y="410" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590689177165" />
+    <state x="875" y="285" width="993" height="518" key="#xdebugger.XInspectDialog" timestamp="1590689061456">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="875" y="285" width="993" height="518" key="#xdebugger.XInspectDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590689061456" />
+    <state x="968" y="198" key="#xdebugger.evaluate" timestamp="1590688872666">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="968" y="198" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1590688872666" />
+    <state width="545" height="466" key="DebuggerActiveHint" timestamp="1590688081801">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="545" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1590688081801" />
+    <state x="887" y="295" key="FileChooserDialogImpl" timestamp="1591276735043">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="887" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591276735043" />
+    <state width="1483" height="334" key="GridCell.Tab.0.bottom" timestamp="1591207847642">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1483" height="334" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591207847642" />
+    <state width="1483" height="334" key="GridCell.Tab.0.center" timestamp="1591207847642">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1483" height="334" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591207847642" />
+    <state width="1483" height="334" key="GridCell.Tab.0.left" timestamp="1591207847642">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1483" height="334" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591207847642" />
+    <state width="1483" height="334" key="GridCell.Tab.0.right" timestamp="1591207847642">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1483" height="334" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591207847642" />
+    <state width="1482" height="257" key="GridCell.Tab.1.bottom" timestamp="1591126748143">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1482" height="257" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591126748143" />
+    <state width="1482" height="257" key="GridCell.Tab.1.center" timestamp="1591126748143">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1482" height="257" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591126748143" />
+    <state width="1482" height="257" key="GridCell.Tab.1.left" timestamp="1591126748143">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1482" height="257" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591126748143" />
+    <state width="1482" height="257" key="GridCell.Tab.1.right" timestamp="1591126748143">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1482" height="257" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591126748143" />
+    <state x="430" y="183" key="SettingsEditor" timestamp="1591279912376">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="430" y="183" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591279912376" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="herlist" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
