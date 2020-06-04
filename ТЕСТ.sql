@@ -1,4 +1,4 @@
-ЫОШЩЙОРАЩШГЙРАШЛУвыфвыфвфывыф
+select 1
 CREATE TABLE PLAYERS
 (
 	GUID_PLAYER    UUID NOT NULL PRIMARY KEY
