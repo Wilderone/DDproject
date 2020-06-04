@@ -1,6 +1,10 @@
+<<<<<<< Updated upstream
 SELECT MMM
 select 1
 select 2
+=======
+select 1
+>>>>>>> Stashed changes
 CREATE TABLE PLAYERS
 (
 	GUID_PLAYER    UUID NOT NULL PRIMARY KEY
