@@ -1,9 +1,14 @@
 D:SQP{FKPOQEGMVNOQNVIOQ
-
 123142341
 2
+<<<<<<< HEAD
 
 <<<<<<< HEAD
+=======
+=======
+1
+>>>>>>> master
+>>>>>>> master
 123321
 
 12121321414
