@@ -30,7 +30,7 @@ export default {
         }
       })
         .then(function(response) {
-          document.cookie = `uid=${response.data}`;
+          sessionStorage.uid = JSON.stringify(response.data);
           console.log(response.data);
         })
         .catch(function(er) {
