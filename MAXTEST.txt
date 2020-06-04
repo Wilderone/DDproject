@@ -1,5 +1,8 @@
+<<<<<<< Updated upstream
 3232
 
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 2
 =======
