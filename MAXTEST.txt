@@ -1,4 +1,13 @@
-dsadsa3
+<<<<<<< Updated upstream
+3232
+
+=======
+>>>>>>> Stashed changes
+<<<<<<< HEAD
+2
+=======
+1
+>>>>>>> master
 123321
 
 12121321414
