@@ -1,0 +1,207 @@
+{
+    "common":{
+        "owner":"superuser",
+        "common":{
+            "race":"1",
+            "sex":"2",
+            "class_hero":"3"
+        },
+        "nameSexExp":{
+            "name_hero":"dsad",
+            "level_hero":"dsadas",
+            "currentExp":"de1"
+        },
+        "heigWeigSize":{
+            "height":"321321",
+            "weight":"32131",
+            "size":"123"
+        },
+        "visLang":{
+            "vision":"fewqf",
+            "language":"fewfwe"
+        }
+    },
+    "basicsLs":[
+        {
+            "id":"1",
+            "mainTagName":"strength-row",
+            "textTagName":"strength-text",
+            "idBase":"strength-base",
+            "idModif":"strength-modif",
+            "title":"Сила",
+            "valueBase":2,
+            "valueModif":0
+        },
+        {
+            "id":"6",
+            "mainTagName":"stamina-row",
+            "textTagName":"stamina-text",
+            "idBase":"stamina-base",
+            "idModif":"stamina-modif",
+            "title":"Телосложение",
+            "valueBase":4,
+            "valueModif":0
+        },
+        {
+            "id":"2",
+            "mainTagName":"agility-row",
+            "textTagName":"agility-text",
+            "idBase":"agility-base",
+            "idModif":"agility-modif",
+            "title":"Ловкость",
+            "valueBase":6,
+            "valueModif":0
+        },
+        {
+            "id":"4",
+            "mainTagName":"intellect-row",
+            "textTagName":"intellect-text",
+            "idBase":"intellect-base",
+            "idModif":"intellect-modif",
+            "title":"Интеллект",
+            "valueBase":2,
+            "valueModif":0
+        },
+        {
+            "id":"5",
+            "mainTagName":"wisdome-row",
+            "textTagName":"wisdome-text",
+            "idBase":"wisdome-base",
+            "idModif":"wisdome-modif",
+            "title":"Мудрость",
+            "valueBase":3,
+            "valueModif":0
+        },
+        {
+            "id":"3",
+            "mainTagName":"charisma-row",
+            "textTagName":"charisma-text",
+            "idBase":"charisma-base",
+            "idModif":"charisma-modif",
+            "title":"Харизма",
+            "valueBase":1,
+            "valueModif":0
+        }
+    ],
+    "secondaryChars":[
+        {
+            "id_field":"11",
+            "tagName":"acrobatics",
+            "vizibleName":"Акробатика (Лов)",
+            "value":1,
+            "training":false
+        },
+        {
+            "id_field":"18",
+            "tagName":"athletics",
+            "vizibleName":"Атлетика (Сил)",
+            "value":2,
+            "training":false
+        },
+        {
+            "id_field":"13",
+            "tagName":"attention",
+            "vizibleName":"Внимательность (Мдр)",
+            "value":1,
+            "training":false
+        },
+        {
+            "id_field":"19",
+            "tagName":"thef",
+            "vizibleName":"Воровство (Лов)",
+            "value":5,
+            "training":true
+        },
+        {
+            "id_field":"17",
+            "tagName":"endurance",
+            "vizibleName":"Выносливость (Тел)",
+            "value":-2,
+            "training":false
+        },
+        {
+            "id_field":"22",
+            "tagName":"intimidation",
+            "vizibleName":"Запугивание (Хар)",
+            "value":5,
+            "training":true
+        },
+        {
+            "id_field":"10",
+            "tagName":"streets",
+            "vizibleName":"Знание улиц (Хар)",
+            "value":-3,
+            "training":false
+        },
+        {
+            "id_field":"8",
+            "tagName":"history",
+            "vizibleName":"История (Инт)",
+            "value":3,
+            "training":false
+        },
+        {
+            "id_field":"20",
+            "tagName":"magic",
+            "vizibleName":"Магия (Инт) ",
+            "value":8,
+            "training":true
+        },
+        {
+            "id_field":"12",
+            "tagName":"deception",
+            "vizibleName":"Обман (Хар)",
+            "value":6,
+            "training":true
+        },
+        {
+            "id_field":"9",
+            "tagName":"conversation",
+            "vizibleName":"Переговоры (Хар)",
+            "value":5,
+            "training":true
+        },
+        {
+            "id_field":"16",
+            "tagName":"dungeons",
+            "vizibleName":"Подземелья (Мдр)",
+            "value":0,
+            "training":false
+        },
+        {
+            "id_field":"15",
+            "tagName":"nature",
+            "vizibleName":"Природа (Мдр)",
+            "value":1,
+            "training":false
+        },
+        {
+            "id_field":"14",
+            "tagName":"insight",
+            "vizibleName":"Проницательность (Мдр)",
+            "value":3,
+            "training":false
+        },
+        {
+            "id_field":"23",
+            "tagName":"religion",
+            "vizibleName":"Религия (Инт)",
+            "value":4,
+            "training":false
+        },
+        {
+            "id_field":"21",
+            "tagName":"stealth",
+            "vizibleName":"Скрытность (Лов)",
+            "value":8,
+            "training":false
+        },
+        {
+            "id_field":"7",
+            "tagName":"healingchars",
+            "vizibleName":"Целительство (Мдр)",
+            "value":5,
+            "training":false
+        }
+    ]
+}
