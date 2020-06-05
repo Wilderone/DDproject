@@ -1,4 +1,4 @@
-CREATE TABLE PLAYERS
+﻿CREATE TABLE PLAYERS
 (
 	GUID_PLAYER    UUID NOT NULL PRIMARY KEY
 	,FIRST_NAME     VARCHAR(100)
@@ -108,42 +108,6 @@ update RACE_PARAM_DEFAULT as rp
 	where hp.main_param = true;
 */
 
-insert into  RACE_PARAM_DEFAULT (ID_RACE,ID_FIELD_PARAM,FIELD_DEFAULT,ADD_TO_PARAM,ADD_TO_PARAM_DEFAULT)
- SELECT hr.id_field,hp.id_field,10,
-CASE when  hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','ЧЕЛОВЕК','ПОЛУОРК') Then 2 else 0 END
-,0
-  FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
-			where hp.NAME_FIELD = 'STRENGTH'
-union
- SELECT hr.id_field,hp.id_field,10,
-CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ДРАКОНОРОЖДЁННЫЙ','ПОЛУРОСЛИК','ЧЕЛОВЕК','ПОЛУОРК', 'ДРЕВЕНЬ','МИНОТАВР') Then 2 else 0 END
-,CASE when  hr.NAME_FIELD in ('ДВАРФ','ПОЛУЭЛЬФ') Then 2 else 0 END
-  FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
-			where hp.NAME_FIELD = 'STAMINA'
-union
- SELECT hr.id_field,hp.id_field,10,
-CASE when  hr.NAME_FIELD in ('ЭЛАДРИН','ЧЕЛОВЕК','ГИТЗЕРАЙ', 'ДРЕВЕНЬ') Then 2 else 0 END
-,CASE when  hr.NAME_FIELD in ('ПОЛУРОСЛИК','ЭЛЬФ') Then 2 else 0 END
-  FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
-			where hp.NAME_FIELD = 'AGILITY'
-union
- SELECT hr.id_field,hp.id_field,10,
-CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ЧЕЛОВЕК','ГИТЗЕРАЙ', 'ЭЛЬФ') Then 2 else 0 END
-,CASE when  hr.NAME_FIELD in ('ЭЛАДРИН') Then 2 else 0 END
-  FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
-			where hp.NAME_FIELD = 'INTELLECT'
-union
- SELECT hr.id_field,hp.id_field,10,
-CASE when  hr.NAME_FIELD in ('ДВАРФ','ЧЕЛОВЕК','ЭЛЬФ', 'ПОЛУЭЛЬФ','МИНОТАВР','ШАРДМАЙНД') Then 2 else 0 END
-, 0
-  FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
-			where hp.NAME_FIELD = 'WISDOME'
-union
- SELECT hr.id_field,hp.id_field,8,
-CASE when  hr.NAME_FIELD in ('ПОЛУЭЛЬФ','ЭЛАДРИН','ПОЛУРОСЛИК', 'ЧЕЛОВЕК','ШАРДМАЙНД') Then 2 else 0 END
-,CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ДРАКОНОРОЖДЁННЫЙ') Then 2 else 0 END
-  FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
-			where hp.NAME_FIELD = 'CHARISMA'
 
 
 
@@ -267,16 +231,19 @@ CASE when  hr.NAME_FIELD in ('ПОЛУЭЛЬФ','ЭЛАДРИН','ПОЛУРОС
 ,CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ДРАКОНОРОЖДЁННЫЙ') Then 2 else 0 END
   FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
 			where hp.NAME_FIELD = 'CHARISMA';
+
 /*
 select * from PLAYERS;
 select * from HEROES;
 select * from HEROES_PARAM_DIC;
 select * from HEROES_PARAM_ADDFL_ARRAY;
 
+
+DROP TABLE HEROES cascade;
 DROP TABLE PLAYERS cascade;
 DROP TABLE HEROES_RACES_DIC cascade;
 DROP TABLE HEROES_CLASS_DIC cascade;
-DROP TABLE HEROES cascade;
+
 DROP TABLE HEROES_PARAM_DIC cascade;
 DROP TABLE HEROES_PARAM_ADDFL_ARRAY cascade;
 DROP TABLE HEROES_LANGUAGE_DIC cascade;
