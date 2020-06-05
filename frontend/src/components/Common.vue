@@ -83,6 +83,7 @@ export default {
 =======
 >>>>>>> master
       //запрашивает данные выбранного героя
+<<<<<<< HEAD
       EventBus.$emit("select-heri", id);
       // let uid = sessionStorage["uid"];
       // axios({
@@ -105,6 +106,10 @@ export default {
 <<<<<<< HEAD
 =======
       let uid = JSON.parse(sessionStorage["uid"]).current_user;
+=======
+      EventBus.$emit("select-hero", id);
+      let uid = sessionStorage["uid"];
+>>>>>>> master
       axios({
         method: "post",
         url: "http://80.65.23.35:5000/selhero",
@@ -114,12 +119,32 @@ export default {
         }
       })
         .then(response => {
+<<<<<<< HEAD
           console.log(response.data);
+=======
+          console.log("resssss", response.data);
+          EventBus.$emit("loads-hero", response.data);
+          Object.keys(response.data).forEach(key => {
+            Object.keys(this.fields).forEach(fieldKey => {
+              if (fieldKey == key) {
+                this.fields[fieldKey] = response.data[key];
+              }
+            });
+          });
+        })
+        .then(() => {
+          let data = JSON.parse(localStorage.CommonData);
+          data.common = this.fields;
+          localStorage.CommonData = JSON.stringify(data);
+>>>>>>> master
         })
         .catch(error => {
           console.log(error);
         });
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> master
 =======
 >>>>>>> master
     },
@@ -147,6 +172,7 @@ export default {
       localStorage.removeItem("CommonData");
       localStorage.removeItem("mainstats");
       localStorage.removeItem("secondaryStats");
+
       window.location.reload();
     }
   },
