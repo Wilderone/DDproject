@@ -30,7 +30,11 @@ export default {
         }
       })
         .then(function(response) {
+<<<<<<< Updated upstream
+          // тут было записывание uid в ss
+=======
           sessionStorage.uid = JSON.stringify(response.data);
+>>>>>>> Stashed changes
           console.log(response.data);
         })
         .catch(function(er) {
