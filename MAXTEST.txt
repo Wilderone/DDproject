@@ -1,0 +1,18 @@
+<<<<<<< Updated upstream
+D:SQP{FKPOQEGMVNOQNVIOQ
+123142341
+=======
+<<<<<<< HEAD
+>>>>>>> Stashed changes
+2
+=======
+1
+>>>>>>> master
+123321
+
+12121321414
+
+
+dasdadasdasd
+111111
+333333
