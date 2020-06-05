@@ -272,7 +272,7 @@ new Vue({
               elem.id_field = Object.keys(respSecondary)[respElemIndex]
             }
           })
-
+          //CHANGE
         })
         // TODO доработать когда будут mainstats-base / modif в базе
         let respMainStats = response.data.main_stats
