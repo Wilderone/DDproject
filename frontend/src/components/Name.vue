@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row size">
-      <div v-for="(param) in paramsAll" :key="param.id" :class="[col, param.id]">
+      <div v-for="param in paramsAll" :key="param.id" :class="[col, param.id]">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text">{{param.title}}</span>
@@ -11,7 +11,7 @@
             type="text"
             class="form-control"
             @change="writeData(param.id, $event.target.value)"
-            :value="param.value"
+            :value="fields[param.id]"
           />
         </div>
       </div>

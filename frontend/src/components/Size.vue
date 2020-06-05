@@ -9,7 +9,7 @@
           <input
             :id="param.id"
             type="text"
-            :value="param.value"
+            :value="fields[param.id]"
             class="form-control"
             @change="writeData(param.id, $event.target.value)"
           />

@@ -10,7 +10,7 @@
             :id="param.id"
             type="text"
             class="form-control"
-            :value="param.value"
+            :value="fields[param.id]"
             @change="writeData(param.id, $event.target.value)"
           />
         </div>

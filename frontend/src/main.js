@@ -16,10 +16,7 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 const EventBus = require('./EventBus').default.v
 Vue.use(lsWatcher, { prefix: 'dd_!' })
-EventBus.$on('send-data', () => {
 
-
-})
 
 new Vue({
   el: '#tab-content',
@@ -261,7 +258,7 @@ new Vue({
 
     axios.get('http://80.65.23.35:5000/stats')
       .then(response => {
-        console.log(response.data)
+
         let respSecondary = response.data.secondary_stats
         this.secStats.forEach(function (elem, elemIndex) {
           Object.keys(respSecondary).forEach(function (respElem, respElemIndex) {
@@ -284,8 +281,7 @@ new Vue({
 
         })
 
-        console.log(respMainStats)
-        console.log(this.secStats)
+
       }).finally(() => {
         this.readLsSecondary();
         this.readLsMainstats();
@@ -320,31 +316,46 @@ new Vue({
   },
   created: function () {
     axios.get('http://80.65.23.35:5000/race_class').then(response => {
-      // console.log(response.data);
+
       let common = this.listOfClassRace
 
-      Object.values(response.data.classes).forEach(value => {
+      response.data.classes.forEach(value => {
         //console.log(value)
-        common.classes.push(value)
+        common.classes.push(JSON.parse(value))
+
         // console.log(response.data.classes[value])
       })
-      Object.values(response.data.races).forEach(value => {
+      response.data.races.forEach(value => {
         //console.log(value)
-        common.races.push(value)
+        common.races.push(JSON.parse(value))
         //common.classes.push(response.data.classes)
 
       })
     })
+
       .catch(error => {
         console.log(error)
       }).finally(() => {
         this.readLsCommonData()
-
+        this.get_available()
       })
+
 
   },
 
   data: {
+    get_available: function () {
+      axios.get("http://80.65.23.35:5000/heroes").then(response => {
+        this.availableHeroes = []
+        response.data.forEach(elem => {
+          this.availableHeroes.push(elem)
+
+
+        })
+      })
+    },
+    availableHeroes: [],
+
     listOfClassRace: {
       races: [],
       classes: []
