@@ -75,12 +75,9 @@ CREATE TABLE RACE_PARAM_DEFAULT
 	ID_RACE              INT REFERENCES HEROES_RACES_DIC(ID_FIELD)
    ,ID_FIELD_PARAM       INT REFERENCES HEROES_PARAM_DIC(ID_FIELD)
    ,FIELD_DEFAULT        INT
-<<<<<<< Boris
    ,ADDTOPARAM           INT
-=======
    ,ADD_TO_PARAM         INT
    ,ADD_TO_PARAM_DEFAULT INT
->>>>>>> добавил описание рассы
    ,PRIMARY KEY (ID_RACE ,ID_FIELD_PARAM ));
 
 /*insert into  RACE_PARAM_DEFAULT (ID_RACE,ID_FIELD_PARAM) select hr.ID_FIELD,hp.ID_FIELD  from HEROES_PARAM_DIC hp
@@ -107,7 +104,6 @@ update RACE_PARAM_DEFAULT as rp
 			where hp.NAME_FIELD = 'STRENGTH'
 				and hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','ЧЕЛОВЕК','ПОЛУОРК'));
 
-=======
 	where hp.main_param = true;
 */
 
@@ -117,7 +113,6 @@ CASE when  hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','Ч
 ,0
   FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
 			where hp.NAME_FIELD = 'STRENGTH'
---				and hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','ЧЕЛОВЕК','ПОЛУОРК')
 union
  SELECT hr.id_field,hp.id_field,10,
 CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ДРАКОНОРОЖДЁННЫЙ','ПОЛУРОСЛИК','ЧЕЛОВЕК','ПОЛУОРК', 'ДРЕВЕНЬ','МИНОТАВР') Then 2 else 0 END
@@ -148,15 +143,9 @@ CASE when  hr.NAME_FIELD in ('ПОЛУЭЛЬФ','ЭЛАДРИН','ПОЛУРОС
 ,CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ДРАКОНОРОЖДЁННЫЙ') Then 2 else 0 END
   FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
 			where hp.NAME_FIELD = 'CHARISMA'
-<<<<<<< Boris
-
->>>>>>> добавил описание рассы
-=======
-select 1
->>>>>>> добавил инсерты рассы
 
 
---update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
+
 
 INSERT INTO HEROES_PARAM_DIC(MAIN_PARAM, NAME_FIELD,SHORT_NAME_FIELD )
 	select TRUE,'STRENGTH','STR'
