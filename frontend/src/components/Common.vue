@@ -54,6 +54,7 @@
 
 <script>
 import axios from "axios";
+// end of imports
 const EventBus = require("../EventBus").default.v;
 export default {
   props: ["fields", "listOfClassRace", "availableHeroes", "get_available"],
@@ -70,21 +71,26 @@ export default {
 
   methods: {
     requestDataHero: function(id) {
-      let uid = JSON.parse(sessionStorage["uid"]).current_user;
-      axios({
-        method: "post",
-        url: "http://80.65.23.35:5000/selhero",
-        data: {
-          id,
-          uid
-        }
-      })
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      //запрашивает данные выбранного героя
+      EventBus.$emit("select-heri", id);
+      // let uid = sessionStorage["uid"];
+      // axios({
+      //   method: "post",
+      //   url: "http://80.65.23.35:5000/selhero",
+      //   data: {
+      //     id,
+      //     uid
+      //   }
+      // })
+      //   .then(response => {
+      //     console.log(response.data);
+      //     Object.keys(response.data).forEach(key=>{
+
+      //     })
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     },
     consolelog: function(data) {
       console.log(data);

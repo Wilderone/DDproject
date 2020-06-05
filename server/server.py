@@ -16,9 +16,6 @@ def get_data():
     new_pr = pr(data['dfs'])
     current_user = new_pr.current_owner()
     hero_id = new_pr.write_hero_common()
-
-    print(current_user)
-    print(data['dfs']['common']['owner'])
     return {'current_user':current_user, 'hero_id':hero_id}
 
 @app.route('/stats', methods=["GET"])
@@ -31,26 +28,33 @@ def send_stats():
 @app.route('/race_class', methods=["GET"])
 @cross_origin()
 def send_races_classes():
-    return db.read_classes_races()
+    # Отправка доступных к загрузке героев
+    player = db.read_player('superuser@email.ru') #Временно. Для получения пока единственного пользователя
+    result = {"player":player, "races_classes": db.read_classes_races()}
+    return result
 
 @app.route('/heroes', methods=["GET"])
 @cross_origin()
 def send_heroes():
+    uid = json.loads(request.headers.get('uid'))['uid']
 
-    res = json.dumps(db.get_preview_hero())
+
+    #res = json.dumps(db.get_preview_hero())
+    res = json.dumps(db.select_all_heroes(uid))
+
     return res
 
 @app.route('/selhero', methods=["POST"])
 @cross_origin()
 def selhero():
-    print(request.data)
+
     req = request.get_json()
 
     guid = req['uid']
     id_hero = req['id']
     print(id_hero)
     res = db.select_one_hero(guid, id_hero)
-    print(res)
+
 
     return res
 

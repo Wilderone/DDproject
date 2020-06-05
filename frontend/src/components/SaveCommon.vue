@@ -30,7 +30,7 @@ export default {
         }
       })
         .then(function(response) {
-          sessionStorage.uid = JSON.stringify(response.data);
+          // тут было записывание uid в ss
           console.log(response.data);
         })
         .catch(function(er) {

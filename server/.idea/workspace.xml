@@ -2,23 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.eslintrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/public/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/EventBus.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/EventBus.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/Common.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Common.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Hits.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Hits.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/MainStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/MainStats.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Name.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Name.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/SecondaryChars.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SecondaryChars.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Size.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Size.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Tabs.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Tabs.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Vision.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Vision.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/inputsRow.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/inputsRow.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_exchange.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_exchange.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,6 +164,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="968" y="198" key="#xdebugger.evaluate/0.0.1920.1040@0.0.1920.1040" timestamp="1590688872666" />
+    <state x="724" y="133" key="CommitChangelistDialog2" timestamp="1591334527132">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="724" y="133" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1591334527132" />
     <state width="545" height="466" key="DebuggerActiveHint" timestamp="1590688081801">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

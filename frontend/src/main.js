@@ -34,7 +34,7 @@ new Vue({
         id_field: 0,
         tagName: "acrobatics",
         vizibleName: "Акробатика (Лов)",
-        value: 0,
+        value: 2,
         training: false
 
       },
@@ -147,7 +147,7 @@ new Vue({
         id_field: 0,
         tagName: "healingchars",
         vizibleName: "Целительство (Мдр)",
-        value: 0,
+        value: 5,
         training: false
       }
     ],
@@ -218,6 +218,9 @@ new Vue({
   },
 
   methods: {
+    changeSecChar: function (event) {
+      console.log(event)
+    },
     readLsMainstats: function () {
       if (!localStorage.mainstats) {
         localStorage.mainstats = JSON.stringify(this.mainStats);
@@ -257,9 +260,11 @@ new Vue({
   beforeCreate: function () {
 
     axios.get('http://80.65.23.35:5000/stats')
+      // Получение ID первичных и вторичных характеристик
       .then(response => {
 
         let respSecondary = response.data.secondary_stats
+        console.log(respSecondary)
         this.secStats.forEach(function (elem, elemIndex) {
           Object.keys(respSecondary).forEach(function (respElem, respElemIndex) {
             if (elem.tagName == respSecondary[respElem]) {
@@ -289,13 +294,7 @@ new Vue({
 
 
   },
-  created: function () {
 
-
-
-
-
-  },
 
 });
 
@@ -312,20 +311,25 @@ new Vue({
       } else {
         this.commonData = JSON.parse(localStorage.CommonData)
       }
-    }
+    },
+
   },
   created: function () {
+    // Получение списка рас и классов, а так же получение
+    // пока единственного GUID
+    //TODO когда прикрутишь авторизацию убери отсюда guid
     axios.get('http://80.65.23.35:5000/race_class').then(response => {
 
       let common = this.listOfClassRace
-
-      response.data.classes.forEach(value => {
+      sessionStorage.uid = response.data.player;
+      console.log('resp', response.data)
+      response.data.races_classes.classes.forEach(value => {
         //console.log(value)
         common.classes.push(JSON.parse(value))
 
         // console.log(response.data.classes[value])
       })
-      response.data.races.forEach(value => {
+      response.data.races_classes.races.forEach(value => {
         //console.log(value)
         common.races.push(JSON.parse(value))
         //common.classes.push(response.data.classes)
@@ -345,7 +349,15 @@ new Vue({
 
   data: {
     get_available: function () {
-      axios.get("http://80.65.23.35:5000/heroes").then(response => {
+      let uid = JSON.stringify({ "uid": sessionStorage['uid'] })
+      console.log(typeof (uid))
+      axios({
+        method: 'get',
+        url: "http://80.65.23.35:5000/heroes",
+        headers: {
+          "uid": uid
+        }
+      }).then(response => {
         this.availableHeroes = []
         response.data.forEach(elem => {
           this.availableHeroes.push(elem)

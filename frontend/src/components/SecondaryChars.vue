@@ -34,7 +34,7 @@
           disabled="true"
           :name="item.tagName"
           :value="item.value"
-          @change="$emit('changeChar', item)"
+          @change="$emit('changeChar', $event.target)"
         />
         <button
           @click.prevent="changeValue(item, 'plus')"
@@ -48,7 +48,7 @@
           class="form-check-input position-static trainycheckbox"
           type="checkbox"
           :id="item.tagName+'train'"
-          :value="item.training"
+          :value="watchValue"
           aria-label="..."
           @click="changeValue(item, 'train')"
           :checked="item.training === true ? 'checked':''"
@@ -58,6 +58,7 @@
   </div>
 </template>
 <script>
+//import func from "../../vue-temp/vue-editor-bridge";
 const EventBus = require("../EventBus").default.v;
 const Tab = require("./Tabs").default.data.selectedTab;
 export default {
@@ -77,6 +78,11 @@ export default {
   props: {
     secChars: Array
   },
+  computed: {
+    watchValue: function() {
+      return this.secChars.value;
+    }
+  },
 
   data: function() {
     EventBus.$on("current-tag", tag => {
@@ -86,6 +92,7 @@ export default {
         this.isCurrentTab = false;
       }
     });
+
     return {
       isCurrentTab: false,
       checked: false

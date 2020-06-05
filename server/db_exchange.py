@@ -58,7 +58,7 @@ class Classes(Base):
 
 class Races(Base):
     __tablename__ = "heroes_races_dic"
-    id_field = sa.Column(sa.ForeignKey('heroes.id_race'), primary_key=True) #sa.Column(sa.Integer, primary_key=True)
+    id_field = sa.Column(sa.ForeignKey('heroes.id_race'), primary_key=True)
     name_field = sa.Column(sa.VARCHAR)
 
     def __repr__(self):
@@ -168,36 +168,6 @@ def read_player(mail):
     return guid
 
 
-# --------------DATA FOR TESTS---------------
-player = {
-    'guid_player': puuid.uuid1(),
-    'first_name': 'Zina',
-    'mid_name': '',
-    'last_name': 'Korzina',
-    'mail': 'a@korfdsfszina.ru',
-    'password_pl': '1q2w3e4r'
-}
-
-her_common = {'name_hero': '10?',
-              'level_hero': 1,
-              'race': 5,
-              'class_hero': 2,
-              'sex': "bls",
-              'currentexp': 200,
-              'height': 230,
-              'weight': 250, 'size': 3,
-              'vision': 1, 'language_hero': 6,
-              }
-her_stats = {
-    'id_field': 15,
-    'training': False,
-    'field_int': 2,
-    'field_string': None,
-    'field_money': None
-}
-
-
-# --------------DATA FOR TESTS---------------
 
 def write_data_player(**kwargs):
     """Запись нового пользователя. Проверка на уникальность через mail.
@@ -272,17 +242,17 @@ def select_all_heroes(guid):
     for i in hers:
         curr_res = {}
         for key in i.__dict__.keys():
-            if key != '_sa_instance_state':
+            if key != '_sa_instance_state' and key != 'guid_player':
                 curr_res[key] = i.__dict__[key]
 
         available_hers.append(curr_res)
     print(available_hers)
     return available_hers
 
-def get_preview_hero():
+def get_preview_hero(uid):
     """Отладочная функция. Выбирает всех персонажей в базе"""
     session = connect_db()
-    tables = session.query(Hero, Races, Classes).filter(Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
+    tables = session.query(Hero, Races, Classes).filter(Hero.guid_player==uid).filter(Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
     res = []
     for hero, race, clas in tables:
         res.append({"id_hero":hero.id_hero, "name_hero":hero.name_hero, "class_hero":clas.name_field.capitalize(), "hero_level":hero.level_hero})
@@ -311,8 +281,40 @@ def select_one_hero(guid, id):
         if i["id_hero"] == int(id):
             return i
 
-# ------------------TESTS---------------------
 
+# --------------DATA FOR TESTS---------------
+player = {
+    'guid_player': puuid.uuid1(),
+    'first_name': 'Zina',
+    'mid_name': '',
+    'last_name': 'Korzina',
+    'mail': 'a@korfdsfszina.ru',
+    'password_pl': '21q2w3e4r'
+}
+
+her_common = {'name_hero': 'ZINA_HERO',
+              'level_hero': 1,
+              'id_race': 5,
+              'id_class': 2,
+              'sex': "bls",
+              'currentexp': 200,
+              'height': 230,
+              'weight': 250, 'size': 3,
+              'vision': 1, 'language_hero': 6,
+              }
+her_stats = {
+    'id_field': 15,
+    'training': False,
+    'field_int': 2,
+    'field_string': None,
+    'field_money': None
+}
+
+
+# --------------DATA FOR TESTS---------------
+
+# ------------------TESTS---------------------
+#
 # write_data_player(**player)
 # a = write_data_hero(read_player(player['mail']), **her_common)
 

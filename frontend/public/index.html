@@ -35,7 +35,7 @@
 
     <div id="tab-content">
       <div class="container secondary-chars">
-        <secondary-chars :sec-chars='secStats'></secondary-chars>
+        <secondary-chars v-on:changeChar="changeSecChar" :sec-chars='secStats'></secondary-chars>
       </div>
       <div class="hits">
         <hits :classbs="classbs"></hits>
