@@ -16,7 +16,7 @@
   <main id="wrappy" class="wrapper container">
     <div id="common-t">
       <common :fields="commonData.common" :list-of-class-race='listOfClassRace' :available-heroes="availableHeroes"
-        :get_available="get_available">
+        :get_available="get_available" @common-fields="changeCommon">
       </common>
       <name :fields="commonData.nameSexExp"></name>
       <size :fields="commonData.heigWeigSize"></size>

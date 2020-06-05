@@ -72,7 +72,7 @@ class MainStats(Base):
     __tablename__ = 'heroes_param_addfl_array'
     id_hero = sa.Column(sa.ForeignKey("heroes.id_hero"), primary_key=True)
     id_field = sa.Column(sa.Integer)
-
+    modify_param = sa.Column(sa.Integer)
     field_int = sa.Column(sa.Integer)
     field_string = sa.Column(sa.VARCHAR)
     field_money = sa.Column(MONEY)
@@ -142,6 +142,7 @@ def read_classes_races():
         class_result.append(i.convert_json())
 
     result = {'classes': class_result, "races": race_result}
+    session.close()
     return result
 
 
@@ -158,6 +159,7 @@ def read_stats():
     result = {}
     result['main_stats'] = main_stats_result
     result['secondary_stats'] = secondary_stats_result
+    session.commit()
     return result
 
 
@@ -257,6 +259,7 @@ def get_preview_hero(uid):
     res = []
     for hero, race, clas in tables:
         res.append({"id_hero":hero.id_hero, "name_hero":hero.name_hero, "class_hero":clas.name_field.capitalize(), "hero_level":hero.level_hero})
+    session.commit()
     return res
 
 
@@ -280,6 +283,7 @@ def select_one_hero(guid, id):
        # print(type(id))
 
         if i["id_hero"] == int(id):
+
             return i
 
 

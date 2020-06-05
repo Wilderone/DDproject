@@ -35,7 +35,7 @@ new Vue({
         tagName: "acrobatics",
         vizibleName: "Акробатика (Лов)",
         value: 2,
-        training: false
+        dataining: false
 
       },
       {
@@ -43,112 +43,112 @@ new Vue({
         tagName: "athletics",
         vizibleName: "Атлетика (Сил)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "attention",
         vizibleName: "Внимательность (Мдр)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "thef",
         vizibleName: "Воровство (Лов)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "endurance",
         vizibleName: "Выносливость (Тел)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "intimidation",
         vizibleName: "Запугивание (Хар)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "streets",
         vizibleName: "Знание улиц (Хар)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "history",
         vizibleName: "История (Инт)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "magic",
         vizibleName: "Магия (Инт) ",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "deception",
         vizibleName: "Обман (Хар)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "conversation",
         vizibleName: "Переговоры (Хар)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "dungeons",
         vizibleName: "Подземелья (Мдр)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "nature",
         vizibleName: "Природа (Мдр)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "insight",
         vizibleName: "Проницательность (Мдр)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "religion",
         vizibleName: "Религия (Инт)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "stealth",
         vizibleName: "Скрытность (Лов)",
         value: 0,
-        training: false
+        dataining: false
       },
       {
         id_field: 0,
         tagName: "healingchars",
         vizibleName: "Целительство (Мдр)",
         value: 5,
-        training: false
+        dataining: false
       }
     ],
 
@@ -250,7 +250,7 @@ new Vue({
           secStatsForLoad.forEach(currStat => {
             if (element.id_field == currStat.id_field) {
               element.value = +currStat.value
-              element.training = currStat.training
+              element.dataining = currStat.dataining
             }
           })
         })
@@ -300,6 +300,7 @@ new Vue({
 
 new Vue({
   el: "#common-t",
+
   components: {
     Common, Size, Vision, Name, SaveCommon
   },
@@ -312,6 +313,20 @@ new Vue({
         this.commonData = JSON.parse(localStorage.CommonData)
       }
     },
+    changeCommon: function (data) {
+      //Вызывается событием changeCommon из компонентов основных параметров
+      //data is Array [название объекта, название свойства, значение]
+      // listener на html компонентах
+      Object.keys(this.commonData[data[0]]).forEach(elem => {
+
+        if (elem == data[1]) {
+          console.log('elem', elem, data[2])
+          this.commonData[data[0]][elem] = data[2]
+        }
+      })
+
+    }
+
 
   },
   created: function () {
@@ -347,8 +362,12 @@ new Vue({
 
   },
 
+
   data: {
+
+
     get_available: function () {
+      //Список доступных персонажей
       let uid = JSON.stringify({ "uid": sessionStorage['uid'] })
       console.log(typeof (uid))
       axios({
@@ -378,7 +397,7 @@ new Vue({
 
       common: {
         id_race: 0,
-        sex: '',
+        sex: 0,
         id_class: 0,
       },
       nameSexExp: {

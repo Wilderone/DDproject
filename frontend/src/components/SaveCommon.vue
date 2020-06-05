@@ -18,25 +18,22 @@ export default {
   },
 
   data: function() {
-    EventBus.$on(
-      "loads-hero",
-      data => {
-        let currentCommonData = JSON.parse(localStorage.CommonData);
-        Object.keys(currentCommonData).forEach(currentData => {
-          if (typeof currentData == "object") {
-            Object.keys(currentData).forEach(insideData => {
-              Object.keys(data).forEach(serverData => {
-                if (insideData == serverData) {
-                  console.log("AHAHAHHA");
-                  currentData[insideData] = data[serverData];
-                }
-              });
-            });
-          }
-          console.log("currcommondata", currentCommonData);
+    // запись в LS загруженного персонажа и эмит события NewHeroData
+    EventBus.$on("loads-hero", data => {
+      let currentCommonData = JSON.parse(localStorage.CommonData);
+      Object.keys(currentCommonData).forEach(currentData => {
+        Object.keys(currentCommonData[currentData]).forEach(insideData => {
+          Object.keys(data).forEach(serverData => {
+            if (insideData == serverData) {
+              currentCommonData[currentData][insideData] = data[serverData];
+            }
+          });
         });
-      },
-
+      });
+      console.log("currcommondata", currentCommonData);
+      localStorage.CommonData = JSON.stringify(currentCommonData);
+      EventBus.$emit("new-hero-data", currentCommonData);
+    }),
       EventBus.$on("send-data", () => {
         let commonDataForLS = JSON.stringify(this.commonData);
         localStorage.setItem("CommonData", commonDataForLS);
@@ -55,8 +52,8 @@ export default {
           .catch(function(er) {
             console.log(er);
           });
-      })
-    );
+      });
+
     return {};
   }
 };

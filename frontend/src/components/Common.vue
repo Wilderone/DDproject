@@ -12,7 +12,7 @@
               >
                 <option>Создать нового персонажа</option>
                 <option
-                  v-for="(hero, index) in this.availableHeroes"
+                  v-for="(hero, index) in this.charsForLoad"
                   :key="index"
                   :value="hero.id_hero"
                 >{{hero.name_hero}} {{hero.class_hero}} {{hero.hero_level}}лвл</option>
@@ -27,19 +27,20 @@
       </div>
     </div>
     <div class="errors" v-if="errors.length>0">
-      <div v-for="(error, index) in errors" :key="index">{{error}}</div>
+      <div>{{errors}}</div>
     </div>
+
     <div class="row names">
       <div :class="col" v-for="param in paramsAll" :key="param.id">
         <select
           @change="[writeData(param.id, $event.target.value), $event.target.value == 0 ?
            $event.target.classList.add('not-selected') : 
            $event.target.classList.remove('not-selected')]"
-          :value="fields[param.id]"
+          :value="setFields[param.id]"
           :id="param.id"
           type="text"
           :class="['custom-select']"
-          :placeholder="fields[param.id]"
+          :placeholder="setFields[param.id]"
         >
           <option
             v-for="item in param.options"
@@ -47,6 +48,8 @@
             :value="item.id_field"
           >{{item.name_field}}</option>
         </select>
+        {{setFields[param.id]}}
+        {{fields[param.id]}}
       </div>
     </div>
   </div>
@@ -54,6 +57,7 @@
 
 <script>
 import axios from "axios";
+
 // end of imports
 const EventBus = require("../EventBus").default.v;
 export default {
@@ -61,11 +65,13 @@ export default {
   computed: {
     charsForLoad: function() {
       let heroLoad = [];
-      //console.log(this.availableHeroes);
-      this.availableHeroes.forEach(elem => {
-        heroLoad.unshift(elem);
-      });
+      heroLoad = [...this.availableHeroes];
       return heroLoad;
+    },
+    updateField: function() {
+      let updatedField = JSON.parse(localStorage.CommonData).common;
+      // TODO КАКОГО ХУЯ ОНО РАБОТАЕТ
+      return "updatedField";
     }
   },
 
@@ -82,22 +88,12 @@ export default {
           uid
         }
       })
+        //loads-hero обрабатывается в SaveCommon
+        //результат возвращается сюда при событии new-hero-data, см. ниже
         .then(response => {
-          console.log("resssss", response.data);
           EventBus.$emit("loads-hero", response.data);
-          Object.keys(response.data).forEach(key => {
-            Object.keys(this.fields).forEach(fieldKey => {
-              if (fieldKey == key) {
-                this.fields[fieldKey] = response.data[key];
-              }
-            });
-          });
         })
-        .then(() => {
-          let data = JSON.parse(localStorage.CommonData);
-          data.common = this.fields;
-          localStorage.CommonData = JSON.stringify(data);
-        })
+
         .catch(error => {
           console.log(error);
         });
@@ -107,12 +103,12 @@ export default {
     },
     sendData: function() {
       //TODO Доделать сообщение при некорректном заполнении
-      Object.keys(this.fields).forEach((index, elem, array) => {
-        if (this.fields[index] == 0) {
-          this.errors.push({ field: index });
+      Object.keys(this.setFields).forEach((elem, index, array) => {
+        if (this.setFields[elem] == 0) {
+          let title = array[index];
+
+          this.errors = "Заполни все поля правильно";
           return;
-        } else {
-          this.errors = [];
         }
       });
       this.get_available();
@@ -120,7 +116,8 @@ export default {
       EventBus.$emit("send-data");
     },
     writeData: function(id, value) {
-      this.fields[id] = value;
+      this.setFields[id] = value;
+      this.$emit("common-fields", ["common", id, value]);
     },
     clearData: function() {
       localStorage.removeItem("CommonData");
@@ -130,9 +127,17 @@ export default {
       window.location.reload();
     }
   },
+  created: function() {
+    this.setFields = JSON.parse(localStorage.CommonData).common;
+    console.log("23213", this.setFields);
+  },
 
   data: function() {
+    EventBus.$on("new-hero-data", newField => {
+      this.setFields = newField.common;
+    });
     return {
+      setFields: this.updateField,
       loadedHero: 0,
       paramsAll: [
         {
