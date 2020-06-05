@@ -15,21 +15,15 @@
 
   <main id="wrappy" class="wrapper container">
     <div id="common-t">
-      <common :fields="commonData.common" :list-of-class-race='listOfClassRace'></common>
+      <common :fields="commonData.common" :list-of-class-race='listOfClassRace' :available-heroes="availableHeroes"
+        :get_available="get_available">
+      </common>
       <name :fields="commonData.nameSexExp"></name>
       <size :fields="commonData.heigWeigSize"></size>
       <vision :fields="commonData.visLang"></vision>
       <save-common :common-data="commonData"></save-common>
     </div>
-    <!-- <div id="name" class="m-5">
-      <name></name>
-    </div>
-    <div id="size">
-      <size></size>
-    </div>
-    <div id="vision">
-      <vision></vision>
-    </div> -->
+
     <div class="container">
       <div class="row">
         <div id="tabs" class="">
@@ -41,7 +35,7 @@
 
     <div id="tab-content">
       <div class="container secondary-chars">
-        <secondary-chars :sec-chars='secStats'></secondary-chars>
+        <secondary-chars v-on:changeChar="changeSecChar" :sec-chars='secStats'></secondary-chars>
       </div>
       <div class="hits">
         <hits :classbs="classbs"></hits>

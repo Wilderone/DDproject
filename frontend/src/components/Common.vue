@@ -5,8 +5,17 @@
         <form id="personage" action="#">
           <div class="input-group mb-3 save-load">
             <div class="input-group-prepend">
-              <select id="heroes" class="custom-select">
-                <option selected>Выбери персонажа</option>
+              <select
+                id="heroes"
+                class="custom-select"
+                @change="requestDataHero($event.target.value)"
+              >
+                <option>Создать нового персонажа</option>
+                <option
+                  v-for="(hero, index) in this.availableHeroes"
+                  :key="index"
+                  :value="hero.id_hero"
+                >{{hero.name_hero}} {{hero.class_hero}} {{hero.hero_level}}лвл</option>
               </select>
             </div>
             <div>
@@ -44,10 +53,79 @@
 </template>
 
 <script>
+import axios from "axios";
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+// end of imports
+=======
+>>>>>>> Stashed changes
+=======
+// end of imports
+>>>>>>> master
 const EventBus = require("../EventBus").default.v;
 export default {
-  props: ["fields", "listOfClassRace"],
+  props: ["fields", "listOfClassRace", "availableHeroes", "get_available"],
+  computed: {
+    charsForLoad: function() {
+      let heroLoad = [];
+      //console.log(this.availableHeroes);
+      this.availableHeroes.forEach(elem => {
+        heroLoad.unshift(elem);
+      });
+      return heroLoad;
+    }
+  },
+
   methods: {
+    requestDataHero: function(id) {
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+>>>>>>> master
+      //запрашивает данные выбранного героя
+      EventBus.$emit("select-heri", id);
+      // let uid = sessionStorage["uid"];
+      // axios({
+      //   method: "post",
+      //   url: "http://80.65.23.35:5000/selhero",
+      //   data: {
+      //     id,
+      //     uid
+      //   }
+      // })
+      //   .then(response => {
+      //     console.log(response.data);
+      //     Object.keys(response.data).forEach(key=>{
+
+      //     })
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+<<<<<<< HEAD
+=======
+      let uid = JSON.parse(sessionStorage["uid"]).current_user;
+      axios({
+        method: "post",
+        url: "http://80.65.23.35:5000/selhero",
+        data: {
+          id,
+          uid
+        }
+      })
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+>>>>>>> Stashed changes
+=======
+>>>>>>> master
+    },
+    consolelog: function(data) {
+      console.log(data);
+    },
     sendData: function() {
       //TODO Доделать сообщение при некорректном заполнении
       Object.keys(this.fields).forEach((index, elem, array) => {
@@ -58,6 +136,8 @@ export default {
           this.errors = [];
         }
       });
+      this.get_available();
+
       EventBus.$emit("send-data");
     },
     writeData: function(id, value) {
@@ -67,22 +147,25 @@ export default {
       localStorage.removeItem("CommonData");
       localStorage.removeItem("mainstats");
       localStorage.removeItem("secondaryStats");
-      window.refresh();
+      window.location.reload();
     }
   },
 
   data: function() {
     return {
+      loadedHero: 0,
       paramsAll: [
         {
           id: "id_race",
           title: "Раса",
+          defaultTitle: "Выбери расу",
           currOption: +this.fields.id_race == 0 ? 0 : this.fields.id_race,
           options: this.listOfClassRace.races
         },
         {
           id: "id_class",
           title: "Класс",
+          defaultTitle: "Выбери класс",
           currOption:
             +this.fields.id_class == 0 && !this.fields.id_class.length > 0
               ? 0
@@ -106,6 +189,8 @@ export default {
         }
       ],
       errors: [],
+      currRace: "",
+      cirrCLass: "",
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };
   }

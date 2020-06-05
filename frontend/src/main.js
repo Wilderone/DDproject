@@ -16,10 +16,7 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 const EventBus = require('./EventBus').default.v
 Vue.use(lsWatcher, { prefix: 'dd_!' })
-EventBus.$on('send-data', () => {
 
-
-})
 
 new Vue({
   el: '#tab-content',
@@ -37,7 +34,7 @@ new Vue({
         id_field: 0,
         tagName: "acrobatics",
         vizibleName: "Акробатика (Лов)",
-        value: 0,
+        value: 2,
         training: false
 
       },
@@ -150,7 +147,7 @@ new Vue({
         id_field: 0,
         tagName: "healingchars",
         vizibleName: "Целительство (Мдр)",
-        value: 0,
+        value: 5,
         training: false
       }
     ],
@@ -221,6 +218,9 @@ new Vue({
   },
 
   methods: {
+    changeSecChar: function (event) {
+      console.log(event)
+    },
     readLsMainstats: function () {
       if (!localStorage.mainstats) {
         localStorage.mainstats = JSON.stringify(this.mainStats);
@@ -260,9 +260,11 @@ new Vue({
   beforeCreate: function () {
 
     axios.get('http://80.65.23.35:5000/stats')
+      // Получение ID первичных и вторичных характеристик
       .then(response => {
-        console.log(response.data)
+
         let respSecondary = response.data.secondary_stats
+        console.log(respSecondary)
         this.secStats.forEach(function (elem, elemIndex) {
           Object.keys(respSecondary).forEach(function (respElem, respElemIndex) {
             if (elem.tagName == respSecondary[respElem]) {
@@ -284,8 +286,7 @@ new Vue({
 
         })
 
-        console.log(respMainStats)
-        console.log(this.secStats)
+
       }).finally(() => {
         this.readLsSecondary();
         this.readLsMainstats();
@@ -293,14 +294,13 @@ new Vue({
 
 
   },
-  created: function () {
+<<<<<<< HEAD
 
 
+=======
 
 
-
-  },
-
+>>>>>>> master
 });
 
 new Vue({
@@ -316,35 +316,94 @@ new Vue({
       } else {
         this.commonData = JSON.parse(localStorage.CommonData)
       }
-    }
+    },
+
   },
   created: function () {
+    // Получение списка рас и классов, а так же получение
+    // пока единственного GUID
+    //TODO когда прикрутишь авторизацию убери отсюда guid
     axios.get('http://80.65.23.35:5000/race_class').then(response => {
-      // console.log(response.data);
-      let common = this.listOfClassRace
+<<<<<<< Updated upstream
 
-      Object.values(response.data.classes).forEach(value => {
+      let common = this.listOfClassRace
+      sessionStorage.uid = response.data.player;
+      console.log('resp', response.data)
+      response.data.races_classes.classes.forEach(value => {
+=======
+
+      let common = this.listOfClassRace
+<<<<<<< HEAD
+
+      response.data.classes.forEach(value => {
+>>>>>>> Stashed changes
+=======
+      sessionStorage.uid = response.data.player;
+      console.log('resp', response.data)
+      response.data.races_classes.classes.forEach(value => {
+>>>>>>> master
         //console.log(value)
-        common.classes.push(value)
+        common.classes.push(JSON.parse(value))
+
         // console.log(response.data.classes[value])
       })
-      Object.values(response.data.races).forEach(value => {
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+      response.data.races_classes.races.forEach(value => {
+=======
+      response.data.races.forEach(value => {
+>>>>>>> Stashed changes
+=======
+      response.data.races_classes.races.forEach(value => {
+>>>>>>> master
         //console.log(value)
-        common.races.push(value)
+        common.races.push(JSON.parse(value))
         //common.classes.push(response.data.classes)
 
       })
     })
+
       .catch(error => {
         console.log(error)
       }).finally(() => {
         this.readLsCommonData()
-
+        this.get_available()
       })
+
 
   },
 
   data: {
+    get_available: function () {
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+>>>>>>> master
+      let uid = JSON.stringify({ "uid": sessionStorage['uid'] })
+      console.log(typeof (uid))
+      axios({
+        method: 'get',
+        url: "http://80.65.23.35:5000/heroes",
+        headers: {
+          "uid": uid
+        }
+      }).then(response => {
+<<<<<<< HEAD
+=======
+      axios.get("http://80.65.23.35:5000/heroes").then(response => {
+>>>>>>> Stashed changes
+=======
+>>>>>>> master
+        this.availableHeroes = []
+        response.data.forEach(elem => {
+          this.availableHeroes.push(elem)
+
+
+        })
+      })
+    },
+    availableHeroes: [],
+
     listOfClassRace: {
       races: [],
       classes: []
