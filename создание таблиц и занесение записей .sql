@@ -148,8 +148,12 @@ CASE when  hr.NAME_FIELD in ('ПОЛУЭЛЬФ','ЭЛАДРИН','ПОЛУРОС
 ,CASE when  hr.NAME_FIELD in ('ТИФЛИНГ','ДРАКОНОРОЖДЁННЫЙ') Then 2 else 0 END
   FROM  HEROES_PARAM_DIC hp,HEROES_RACES_DIC hr
 			where hp.NAME_FIELD = 'CHARISMA'
+<<<<<<< Boris
 
 >>>>>>> добавил описание рассы
+=======
+select 1
+>>>>>>> добавил инсерты рассы
 
 
 --update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
