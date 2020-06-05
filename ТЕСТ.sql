@@ -1,4 +1,11 @@
+<<<<<<< Updated upstream:ТЕСТ.sql
+SELECT MMM
+select 1
+select 2
+CREATE TABLE PLAYERS
+=======
 ﻿CREATE TABLE PLAYERS
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
 (
 	GUID_PLAYER    UUID NOT NULL PRIMARY KEY
 	,FIRST_NAME     VARCHAR(100)
@@ -67,15 +74,26 @@ CREATE TABLE HEROES_PARAM_ADDFL_ARRAY
    ,TRAINING      BOOL 	NOT NULL
    ,FIELD_INT     INT
    ,FIELD_STRING  VARCHAR(100)
+<<<<<<< Updated upstream:ТЕСТ.sql
+   ,FIELD_MONEY   MONEY 	
+   ,MODIFIC_MAIN_PARAM  int 
+=======
    ,FIELD_MONEY   MONEY
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
    ,PRIMARY KEY (ID_HERO ,ID_FIELD ));
 
 CREATE TABLE RACE_PARAM_DEFAULT
 (
 	ID_RACE              INT REFERENCES HEROES_RACES_DIC(ID_FIELD)
    ,ID_FIELD_PARAM       INT REFERENCES HEROES_PARAM_DIC(ID_FIELD)
+<<<<<<< Updated upstream:ТЕСТ.sql
+   ,FIELD_DEFAULT        INT 
+   ,ADDTOPARAM           INT 	
+   ,ADDTOPARAM_DEFAULT   BOOL 
+=======
    ,FIELD_DEFAULT        INT
    ,ADDTOPARAM           INT
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
    ,PRIMARY KEY (ID_RACE ,ID_FIELD_PARAM ));
 
 insert into  RACE_PARAM_DEFAULT (ID_RACE,ID_FIELD_PARAM) select hr.ID_FIELD,hp.ID_FIELD  from HEROES_PARAM_DIC hp
@@ -97,14 +115,33 @@ update RACE_PARAM_DEFAULT as rp
 			inner join HEROES_PARAM_DIC hp
 				on rpd.ID_FIELD_PARAM = hp.ID_FIELD
 			inner join HEROES_RACES_DIC hr
+<<<<<<< Updated upstream:ТЕСТ.sql
+				on rpd.ID_RACE = hr.ID_FIELD		
+			where hp.NAME_FIELD = 'AGILITY'
+				and hr.NAME_FIELD in ('ЭЛАДРИН','ДРЕВЕНЬ','ЧЕЛОВЕК','ГИТЗЕРАЙ','ПОЛУРОСЛИК','ЭЛЬФ'));
+update RACE_PARAM_DEFAULT as rp 
+	set ADDTOPARAM_DEFAULT = true  where rp.ID_RACE in (
+		select rpd.ID_RACE  from    RACE_PARAM_DEFAULT rpd
+			inner join HEROES_PARAM_DIC hp
+				on rpd.ID_FIELD_PARAM = hp.ID_FIELD
+			inner join HEROES_RACES_DIC hr
+				on rpd.ID_RACE = hr.ID_FIELD		
+			where hp.NAME_FIELD = 'AGILITY'
+				and hr.NAME_FIELD in ('ПОЛУРОСЛИК','ЭЛЬФ'));
+
+   
+--update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
+   
+=======
 				on rpd.ID_RACE = hr.ID_FIELD
 			where hp.NAME_FIELD = 'STRENGTH'
 				and hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','ЧЕЛОВЕК','ПОЛУОРК'));
 
 
 
---update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
+update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
 
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
 INSERT INTO HEROES_PARAM_DIC(MAIN_PARAM, NAME_FIELD,SHORT_NAME_FIELD )
 	select TRUE,'STRENGTH','STR'
 	UNION SELECT TRUE,'STAMINA','STA'
