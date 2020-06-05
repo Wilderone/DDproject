@@ -54,10 +54,14 @@
 
 <script>
 import axios from "axios";
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 // end of imports
 =======
 >>>>>>> Stashed changes
+=======
+// end of imports
+>>>>>>> master
 const EventBus = require("../EventBus").default.v;
 export default {
   props: ["fields", "listOfClassRace", "availableHeroes", "get_available"],
@@ -74,7 +78,10 @@ export default {
 
   methods: {
     requestDataHero: function(id) {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> master
       //запрашивает данные выбранного героя
       EventBus.$emit("select-heri", id);
       // let uid = sessionStorage["uid"];
@@ -95,6 +102,7 @@ export default {
       //   .catch(error => {
       //     console.log(error);
       //   });
+<<<<<<< HEAD
 =======
       let uid = JSON.parse(sessionStorage["uid"]).current_user;
       axios({
@@ -112,6 +120,8 @@ export default {
           console.log(error);
         });
 >>>>>>> Stashed changes
+=======
+>>>>>>> master
     },
     consolelog: function(data) {
       console.log(data);

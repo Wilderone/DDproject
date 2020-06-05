@@ -294,8 +294,13 @@ new Vue({
 
 
   },
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> master
 });
 
 new Vue({
@@ -328,19 +333,29 @@ new Vue({
 =======
 
       let common = this.listOfClassRace
+<<<<<<< HEAD
 
       response.data.classes.forEach(value => {
 >>>>>>> Stashed changes
+=======
+      sessionStorage.uid = response.data.player;
+      console.log('resp', response.data)
+      response.data.races_classes.classes.forEach(value => {
+>>>>>>> master
         //console.log(value)
         common.classes.push(JSON.parse(value))
 
         // console.log(response.data.classes[value])
       })
+<<<<<<< HEAD
 <<<<<<< Updated upstream
       response.data.races_classes.races.forEach(value => {
 =======
       response.data.races.forEach(value => {
 >>>>>>> Stashed changes
+=======
+      response.data.races_classes.races.forEach(value => {
+>>>>>>> master
         //console.log(value)
         common.races.push(JSON.parse(value))
         //common.classes.push(response.data.classes)
@@ -360,7 +375,10 @@ new Vue({
 
   data: {
     get_available: function () {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> master
       let uid = JSON.stringify({ "uid": sessionStorage['uid'] })
       console.log(typeof (uid))
       axios({
@@ -370,9 +388,12 @@ new Vue({
           "uid": uid
         }
       }).then(response => {
+<<<<<<< HEAD
 =======
       axios.get("http://80.65.23.35:5000/heroes").then(response => {
 >>>>>>> Stashed changes
+=======
+>>>>>>> master
         this.availableHeroes = []
         response.data.forEach(elem => {
           this.availableHeroes.push(elem)

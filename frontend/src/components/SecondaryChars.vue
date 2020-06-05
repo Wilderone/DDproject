@@ -34,11 +34,15 @@
           disabled="true"
           :name="item.tagName"
           :value="item.value"
+<<<<<<< HEAD
 <<<<<<< Updated upstream
           @change="$emit('changeChar', $event.target)"
 =======
           @change="$emit('changeChar', item)"
 >>>>>>> Stashed changes
+=======
+          @change="$emit('changeChar', $event.target)"
+>>>>>>> master
         />
         <button
           @click.prevent="changeValue(item, 'plus')"
@@ -52,11 +56,15 @@
           class="form-check-input position-static trainycheckbox"
           type="checkbox"
           :id="item.tagName+'train'"
+<<<<<<< HEAD
 <<<<<<< Updated upstream
           :value="watchValue"
 =======
           :value="item.training"
 >>>>>>> Stashed changes
+=======
+          :value="watchValue"
+>>>>>>> master
           aria-label="..."
           @click="changeValue(item, 'train')"
           :checked="item.training === true ? 'checked':''"
@@ -66,10 +74,14 @@
   </div>
 </template>
 <script>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 //import func from "../../vue-temp/vue-editor-bridge";
 =======
 >>>>>>> Stashed changes
+=======
+//import func from "../../vue-temp/vue-editor-bridge";
+>>>>>>> master
 const EventBus = require("../EventBus").default.v;
 const Tab = require("./Tabs").default.data.selectedTab;
 export default {
@@ -89,14 +101,20 @@ export default {
   props: {
     secChars: Array
   },
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> master
   computed: {
     watchValue: function() {
       return this.secChars.value;
     }
   },
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> master
 
   data: function() {
     EventBus.$on("current-tag", tag => {
@@ -106,10 +124,14 @@ export default {
         this.isCurrentTab = false;
       }
     });
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 
 =======
 >>>>>>> Stashed changes
+=======
+
+>>>>>>> master
     return {
       isCurrentTab: false,
       checked: false
