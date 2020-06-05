@@ -1,14 +1,18 @@
+<<<<<<< Updated upstream:ТЕСТ.sql
 SELECT MMM
 select 1
 select 2
 CREATE TABLE PLAYERS
+=======
+﻿CREATE TABLE PLAYERS
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
 (
 	GUID_PLAYER    UUID NOT NULL PRIMARY KEY
 	,FIRST_NAME     VARCHAR(100)
 	,MID_NAME      VARCHAR(100)
 	,LAST_NAME     VARCHAR(100)
     ,MAIL          VARCHAR(100)
-	,PASSWORD_PL   bytea 
+	,PASSWORD_PL   bytea
 );
 CREATE TABLE HEROES_CLASS_DIC
 (ID_FIELD  INT  GENERATED ALWAYS AS IDENTITY  PRIMARY KEY
@@ -55,10 +59,10 @@ CREATE TABLE HEROES
    ,LANGUAGE_HERO     INT
    ,GUID_PLAYER       UUID NOT NULL references PLAYERS
 );
-  
+
 CREATE TABLE HEROES_PARAM_DIC
 (ID_FIELD  INT  GENERATED ALWAYS AS IDENTITY  PRIMARY KEY
-,MAIN_PARAM    BOOL NOT NULL 
+,MAIN_PARAM    BOOL NOT NULL
 ,NAME_FIELD VARCHAR(30) NOT NULL
 ,SHORT_NAME_FIELD varchar(5));
 
@@ -67,41 +71,51 @@ CREATE TABLE HEROES_PARAM_ADDFL_ARRAY
 (
 	ID_HERO       INT REFERENCES HEROES
    ,ID_FIELD      INT REFERENCES HEROES_PARAM_DIC
-   ,TRAINING      BOOL 	NOT NULL 	
+   ,TRAINING      BOOL 	NOT NULL
    ,FIELD_INT     INT
    ,FIELD_STRING  VARCHAR(100)
+<<<<<<< Updated upstream:ТЕСТ.sql
    ,FIELD_MONEY   MONEY 	
    ,MODIFIC_MAIN_PARAM  int 
+=======
+   ,FIELD_MONEY   MONEY
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
    ,PRIMARY KEY (ID_HERO ,ID_FIELD ));
-   
+
 CREATE TABLE RACE_PARAM_DEFAULT
 (
 	ID_RACE              INT REFERENCES HEROES_RACES_DIC(ID_FIELD)
    ,ID_FIELD_PARAM       INT REFERENCES HEROES_PARAM_DIC(ID_FIELD)
+<<<<<<< Updated upstream:ТЕСТ.sql
    ,FIELD_DEFAULT        INT 
    ,ADDTOPARAM           INT 	
    ,ADDTOPARAM_DEFAULT   BOOL 
+=======
+   ,FIELD_DEFAULT        INT
+   ,ADDTOPARAM           INT
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
    ,PRIMARY KEY (ID_RACE ,ID_FIELD_PARAM ));
 
 insert into  RACE_PARAM_DEFAULT (ID_RACE,ID_FIELD_PARAM) select hr.ID_FIELD,hp.ID_FIELD  from HEROES_PARAM_DIC hp
 	,HEROES_RACES_DIC hr
 	where hp.main_param = true;
-update RACE_PARAM_DEFAULT as rp 
+update RACE_PARAM_DEFAULT as rp
 	set ADDTOPARAM = 2  where (rp.ID_RACE,rp.ID_FIELD_PARAM) in (
 		select rpd.ID_RACE,hp.ID_FIELD  from    RACE_PARAM_DEFAULT rpd
 			inner join HEROES_PARAM_DIC hp
 				on rpd.ID_FIELD_PARAM = hp.ID_FIELD
 			inner join HEROES_RACES_DIC hr
-				on rpd.ID_RACE = hr.ID_FIELD		
+				on rpd.ID_RACE = hr.ID_FIELD
 			where hp.NAME_FIELD = 'STRENGTH'
 				and hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','ЧЕЛОВЕК','ПОЛУОРК'));
 
-update RACE_PARAM_DEFAULT as rp 
+update RACE_PARAM_DEFAULT as rp
 	set ADDTOPARAM = 2  where rp.ID_RACE in (
 		select rpd.ID_RACE  from    RACE_PARAM_DEFAULT rpd
 			inner join HEROES_PARAM_DIC hp
 				on rpd.ID_FIELD_PARAM = hp.ID_FIELD
 			inner join HEROES_RACES_DIC hr
+<<<<<<< Updated upstream:ТЕСТ.sql
 				on rpd.ID_RACE = hr.ID_FIELD		
 			where hp.NAME_FIELD = 'AGILITY'
 				and hr.NAME_FIELD in ('ЭЛАДРИН','ДРЕВЕНЬ','ЧЕЛОВЕК','ГИТЗЕРАЙ','ПОЛУРОСЛИК','ЭЛЬФ'));
@@ -118,12 +132,22 @@ update RACE_PARAM_DEFAULT as rp
    
 --update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
    
+=======
+				on rpd.ID_RACE = hr.ID_FIELD
+			where hp.NAME_FIELD = 'STRENGTH'
+				and hr.NAME_FIELD in ('ДРАКОНОРОЖДЁННЫЙ','ДВАРФ','ЧЕЛОВЕК','ПОЛУОРК'));
+
+
+
+update RACE_PARAM_DEFAULT as rp set FIELD_DEFAULT = 1,ADDTOPARAM = 1 where rp.ID_RACE in (1)
+
+>>>>>>> Stashed changes:создание таблиц и занесение записей .sql
 INSERT INTO HEROES_PARAM_DIC(MAIN_PARAM, NAME_FIELD,SHORT_NAME_FIELD )
 	select TRUE,'STRENGTH','STR'
-	UNION SELECT TRUE,'STAMINA','STA' 
-	UNION SELECT TRUE,'AGILITY','AGL' 
-	UNION SELECT TRUE,'INTELLECT','INT' 
-	UNION SELECT TRUE,'WISDOME','WSD' 
+	UNION SELECT TRUE,'STAMINA','STA'
+	UNION SELECT TRUE,'AGILITY','AGL'
+	UNION SELECT TRUE,'INTELLECT','INT'
+	UNION SELECT TRUE,'WISDOME','WSD'
 	UNION SELECT TRUE,'CHARISMA' ,'CHA'
 	UNION SELECT  FALSE,'DUNGEONS','DNG'
 	UNION SELECT  FALSE,'HEALINGCHARS' ,'HEAL'
@@ -184,7 +208,7 @@ INSERT INTO HEROES_CLASS_DIC(NAME_FIELD)
 	UNION SELECT 'ХРАНИТЕЛЬ'
 	UNION SELECT 'ЧАРОДЕЙ'
 	UNION SELECT 'ШАМАН'order by  1 desc;
-	
+
 INSERT INTO HEROES_LANGUAGE_DIC(NAME_FIELD)
 SELECT 'ДВАРФСКИЙ'
 UNION SELECT 'ОБЩИЙ'
@@ -205,14 +229,14 @@ select * from HEROES;
 select * from HEROES_PARAM_DIC;
 select * from HEROES_PARAM_ADDFL_ARRAY;
 
-DROP TABLE PLAYERS cascade; 
-DROP TABLE HEROES_RACES_DIC cascade; 
+DROP TABLE PLAYERS cascade;
+DROP TABLE HEROES_RACES_DIC cascade;
 DROP TABLE HEROES_CLASS_DIC cascade;
 DROP TABLE HEROES cascade;
-DROP TABLE HEROES_PARAM_DIC cascade; 
+DROP TABLE HEROES_PARAM_DIC cascade;
 DROP TABLE HEROES_PARAM_ADDFL_ARRAY cascade;
-DROP TABLE HEROES_LANGUAGE_DIC cascade; 
-DROP TABLE HEROES_VISION_DIC cascade; 
+DROP TABLE HEROES_LANGUAGE_DIC cascade;
+DROP TABLE HEROES_VISION_DIC cascade;
 DROP TABLE HEROES_SIZE_DIC cascade;
 DROP TABLE RACE_PARAM_DEFAULT CASCADE;
 
@@ -220,7 +244,7 @@ DROP TABLE RACE_PARAM_DEFAULT CASCADE;
 /*
    CREATE OR REPLACE FUNCTION work.fun_test_2 ()
      RETURNS TABLE(id numeric, number numeric, name text, znach numeric) AS
-   $BODY$ 
+   $BODY$
     DECLARE
     rec RECORD;
    BEGIN
@@ -241,9 +265,9 @@ DROP TABLE RACE_PARAM_DEFAULT CASCADE;
 */
 
 --INSERT INTO HEROES_PARAM_DIC(MAIN_PARAM, NAME_FIELD,SHORT_NAME_FIELD )
-      
+
 /*
-insert into HEROES_ADDFL_INT 
+insert into HEROES_ADDFL_INT
 select 1,6,1
 
   delete  from HEROES_BASE_PARAM_DIC
