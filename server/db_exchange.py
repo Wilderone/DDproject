@@ -246,6 +246,7 @@ def select_all_heroes(guid):
                 curr_res[key] = i.__dict__[key]
 
         available_hers.append(curr_res)
+    session.commit()
     print(available_hers)
     return available_hers
 

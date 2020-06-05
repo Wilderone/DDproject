@@ -18,26 +18,45 @@ export default {
   },
 
   data: function() {
-    EventBus.$on("send-data", () => {
-      let commonDataForLS = JSON.stringify(this.commonData);
-      localStorage.setItem("CommonData", commonDataForLS);
-      let dfs = this.dataForSend();
-      axios({
-        method: "post",
-        url: "http://80.65.23.35:5000/",
-        data: {
-          dfs
-        }
-      })
-        .then(function(response) {
-          // тут было записывание uid в ss
-          console.log(response.data);
-        })
-        .catch(function(er) {
-          console.log(er);
+    EventBus.$on(
+      "loads-hero",
+      data => {
+        let currentCommonData = JSON.parse(localStorage.CommonData);
+        Object.keys(currentCommonData).forEach(currentData => {
+          if (typeof currentData == "object") {
+            Object.keys(currentData).forEach(insideData => {
+              Object.keys(data).forEach(serverData => {
+                if (insideData == serverData) {
+                  console.log("AHAHAHHA");
+                  currentData[insideData] = data[serverData];
+                }
+              });
+            });
+          }
+          console.log("currcommondata", currentCommonData);
         });
-    });
+      },
 
+      EventBus.$on("send-data", () => {
+        let commonDataForLS = JSON.stringify(this.commonData);
+        localStorage.setItem("CommonData", commonDataForLS);
+        let dfs = this.dataForSend();
+        axios({
+          method: "post",
+          url: "http://80.65.23.35:5000/",
+          data: {
+            dfs
+          }
+        })
+          .then(function(response) {
+            // тут было записывание uid в ss
+            console.log(response.data);
+          })
+          .catch(function(er) {
+            console.log(er);
+          });
+      })
+    );
     return {};
   }
 };
