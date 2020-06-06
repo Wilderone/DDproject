@@ -4,8 +4,6 @@
     <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_exchange.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_exchange.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../upload_data_into_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/../upload_data_into_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../wb_traits_base.xls" beforeDir="false" afterPath="$PROJECT_DIR$/../wb_traits_base.xls" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

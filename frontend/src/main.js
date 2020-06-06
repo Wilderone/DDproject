@@ -324,6 +324,7 @@ new Vue({
           this.commonData[data[0]][elem] = data[2]
         }
       })
+      localStorage.CommonData = JSON.stringify(this.commonData)
 
     }
 
@@ -356,7 +357,7 @@ new Vue({
         console.log(error)
       }).finally(() => {
         this.readLsCommonData()
-        this.get_available()
+
       })
 
 
@@ -366,26 +367,8 @@ new Vue({
   data: {
 
 
-    get_available: function () {
-      //Список доступных персонажей
-      let uid = JSON.stringify({ "uid": sessionStorage['uid'] })
-      console.log(typeof (uid))
-      axios({
-        method: 'get',
-        url: "http://80.65.23.35:5000/heroes",
-        headers: {
-          "uid": uid
-        }
-      }).then(response => {
-        this.availableHeroes = []
-        response.data.forEach(elem => {
-          this.availableHeroes.push(elem)
 
 
-        })
-      })
-    },
-    availableHeroes: [],
 
     listOfClassRace: {
       races: [],

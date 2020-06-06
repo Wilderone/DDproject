@@ -61,17 +61,12 @@ import axios from "axios";
 // end of imports
 const EventBus = require("../EventBus").default.v;
 export default {
-  props: ["fields", "listOfClassRace", "availableHeroes", "get_available"],
+  props: ["fields", "listOfClassRace"],
   computed: {
     charsForLoad: function() {
       let heroLoad = [];
       heroLoad = [...this.availableHeroes];
       return heroLoad;
-    },
-    updateField: function() {
-      let updatedField = JSON.parse(localStorage.CommonData).common;
-      // TODO КАКОГО ХУЯ ОНО РАБОТАЕТ
-      return "updatedField";
     }
   },
 
@@ -111,6 +106,8 @@ export default {
           return;
         }
       });
+      let saveNewValues = JSON.parse(localStorage.CommonData);
+      localStorage.setItem("CommonData", JSON.stringify(saveNewValues));
       this.get_available();
 
       EventBus.$emit("send-data");
@@ -125,9 +122,27 @@ export default {
       localStorage.removeItem("secondaryStats");
 
       window.location.reload();
+    },
+    get_available: function() {
+      //Список доступных персонажей
+      let uid = JSON.stringify({ uid: sessionStorage["uid"] });
+
+      axios({
+        method: "get",
+        url: "http://80.65.23.35:5000/heroes",
+        headers: {
+          uid: uid
+        }
+      }).then(response => {
+        this.availableHeroes = [];
+        response.data.forEach(elem => {
+          this.availableHeroes.push(elem);
+        });
+      });
     }
   },
   created: function() {
+    this.get_available();
     this.setFields = JSON.parse(localStorage.CommonData).common;
     console.log("23213", this.setFields);
   },
@@ -137,7 +152,8 @@ export default {
       this.setFields = newField.common;
     });
     return {
-      setFields: this.updateField,
+      availableHeroes: [],
+      setFields: "",
       loadedHero: 0,
       paramsAll: [
         {

@@ -35,8 +35,9 @@ export default {
       EventBus.$emit("new-hero-data", currentCommonData);
     }),
       EventBus.$on("send-data", () => {
-        let commonDataForLS = JSON.stringify(this.commonData);
-        localStorage.setItem("CommonData", commonDataForLS);
+        // let commonDataForLS = JSON.stringify(this.commonData);
+        // localStorage.setItem("CommonData", commonDataForLS);
+
         let dfs = this.dataForSend();
         axios({
           method: "post",

@@ -67,6 +67,11 @@ class Races(Base):
     def convert_json(self):
         return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
 
+class Sizes(Base, Races):
+    __tablename__ = "heroes_size_dic"
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    name_field = sa.Column(sa.VARCHAR)
+
 
 class MainStats(Base):
     __tablename__ = 'heroes_param_addfl_array'
@@ -87,11 +92,11 @@ class HeroesParamDic(Base):
     short_name_field = sa.Column(sa.VARCHAR)
 
 
-    def connect_db():
-        engine = sa.create_engine(DB_PATH)
-        Base.metadata.create_all(engine)
-        sessions = sessionmaker(engine)
-        return sessions()
+def connect_db():
+    engine = sa.create_engine(DB_PATH)
+    Base.metadata.create_all(engine)
+    sessions = sessionmaker(engine)
+    return sessions()
 
 
 # <Сияние чистого ебланства>
@@ -122,6 +127,10 @@ class HeroesParamDic(Base):
 #     return res_clases
 # </Сияние чистого ебланства>
 
+
+def get_sizes():
+    with connect_db():
+        
 
 def read_classes_races():
     """Получаем id-name классов и расс
@@ -159,7 +168,7 @@ def read_stats():
     result = {}
     result['main_stats'] = main_stats_result
     result['secondary_stats'] = secondary_stats_result
-    session.commit()
+    session.close()
     return result
 
 
@@ -167,6 +176,7 @@ def read_player(mail):
     """Запрос guid пользователя по email"""
     session = connect_db()
     guid = session.query(Player).filter(Player.mail == mail).first().guid_player
+    session.commit()
     return guid
 
 
@@ -188,8 +198,9 @@ def write_data_player(**kwargs):
     except (KeyError, DataError):
         return print(f'Ошибка {kwargs}')
     current_guid = session.execute(new_player)
-    session.commit()
-    return current_guid.fetchall()
+    result = current_guid.fetchall()
+    session.close()
+    return result
 
 
 def write_data_hero(guid, **kwargs):
@@ -211,6 +222,7 @@ def write_data_hero(guid, **kwargs):
         for i in id_hero:
             res = i
         print('NHIDdsada', res)
+        session.close()
         return res
 
     except ValueError:
@@ -234,6 +246,7 @@ def update_hero(guid, id_hero, **kwargs):
             session.commit()
             print(f'hero {i.name_hero} already exists')
             return i.id_hero
+    session.close()
 
 
 def select_all_heroes(guid):
@@ -248,8 +261,8 @@ def select_all_heroes(guid):
                 curr_res[key] = i.__dict__[key]
 
         available_hers.append(curr_res)
-    session.commit()
-    print(available_hers)
+    session.close()
+
     return available_hers
 
 def get_preview_hero(uid):

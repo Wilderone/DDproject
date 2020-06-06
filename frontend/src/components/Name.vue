@@ -25,29 +25,27 @@ export default {
   methods: {
     writeData: function(id, value) {
       this.setFields[id] = value;
-      this.$emit("common-fields", ["common", id, value]);
+      this.$emit("common-fields", ["nameSexExp", id, value]);
     }
   },
-  computed: {
-    updateField: function() {
-      let updatedField = JSON.parse(localStorage.CommonData).nameSexExp;
-      return "updatedField";
-    }
+  created: function() {
+    this.setFields = JSON.parse(localStorage.CommonData).nameSexExp;
+    console.log("23213", this.setFields);
   },
   data: function() {
     EventBus.$on("new-hero-data", newField => {
       this.setFields = newField.nameSexExp;
     });
     return {
-      setFields: this.updateField,
+      setFields: "",
       paramsAll: [
-        { id: "name_hero", title: "Имя", value: this.setFields.name_hero },
+        { id: "name_hero", title: "Имя", value: "" },
         {
           id: "level_hero",
           title: "Уровень",
-          value: this.setFields.level_hero
+          value: ""
         },
-        { id: "currentexp", title: "Опыт", value: this.setFields.currentexp }
+        { id: "currentexp", title: "Опыт", value: "" }
       ],
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };
