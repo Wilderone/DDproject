@@ -87,11 +87,11 @@ class HeroesParamDic(Base):
     short_name_field = sa.Column(sa.VARCHAR)
 
 
-def connect_db():
-    engine = sa.create_engine(DB_PATH)
-    Base.metadata.create_all(engine)
-    sessions = sessionmaker(engine)
-    return sessions()
+    def connect_db():
+        engine = sa.create_engine(DB_PATH)
+        Base.metadata.create_all(engine)
+        sessions = sessionmaker(engine)
+        return sessions()
 
 
 # <Сияние чистого ебланства>

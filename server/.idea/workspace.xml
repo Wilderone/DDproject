@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Common.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Common.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Name.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Name.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_exchange.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_exchange.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../upload_data_into_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/../upload_data_into_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../wb_traits_base.xls" beforeDir="false" afterPath="$PROJECT_DIR$/../wb_traits_base.xls" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +32,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dd" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../upload_data_into_db.py" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RunManager" selected="Python.db_exchange (1)">
@@ -171,10 +168,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="545" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1590688081801" />
-    <state x="887" y="295" key="FileChooserDialogImpl" timestamp="1591276735043">
+    <state x="887" y="295" key="FileChooserDialogImpl" timestamp="1591385921107">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="887" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591276735043" />
+    <state x="887" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591385921107" />
     <state width="1483" height="334" key="GridCell.Tab.0.bottom" timestamp="1591207847642">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

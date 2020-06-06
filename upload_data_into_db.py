@@ -9,10 +9,10 @@ from pandas import *
 def connect_base():
     con = psycopg2.connect(
         database="postgres",
-        user="postgres",
-        password="3955458",
-        host="127.0.0.1",
-        port="5432"
+        user="backend",
+        password="54321",
+        host="80.65.23.35",
+        port="9988"
     )
     print("Database opened successfully")
     return con
@@ -91,7 +91,7 @@ def getfields_xlp(path_xl, field_sheet_name):
 
 def main():
     # Путь к файлу Экселя
-    path_xl = 'e:\wb_traits_base.xls'
+    path_xl = f'D:/projects/danganddrag/DDproject/wb_traits_base.xls'
 
     # Название листа с данными для заливки.
     # ВАЖНО: первая строка должна содержать названия полей в базе
