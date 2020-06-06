@@ -13,9 +13,17 @@ CORS(app)
 @cross_origin()
 def get_data():
     data = request.get_json()
+
     new_pr = pr(data['dfs'])
     current_user = new_pr.current_owner()
+    #if new_pr.current_hero():
+        #main_stats = new_pr.parse_hero_mainstats()
+
+    #else:
+    main_stats = new_pr.parse_hero_main_stats()
+    sec_stats = new_pr.parse_hero_sec_stats()
     hero_id = new_pr.write_hero_common()
+    db.update_hero(guid=current_user, id_hero=hero_id, stats=sec_stats)
     return {'current_user':current_user, 'hero_id':hero_id}
 
 @app.route('/stats', methods=["GET"])
@@ -40,7 +48,7 @@ def send_heroes():
     try:
         uid = json.loads(request.headers.get('uid'))['uid']
     except KeyError:
-        uid = player = db.read_player('superuser@email.ru')
+        uid = db.read_player('superuser@email.ru')
 
     #res = json.dumps(db.get_preview_hero())
     res = json.dumps(db.select_all_heroes(uid))
@@ -52,7 +60,6 @@ def send_heroes():
 def selhero():
 
     req = request.get_json()
-
     guid = req['uid']
     id_hero = req['id']
     print(id_hero)

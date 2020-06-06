@@ -7,6 +7,8 @@ class ParseRequest:
         self.data = data
         self.common = data['common']
         self.main_stats = data['basicsLs']
+        self.secondary_stats = data['secondaryChars']
+        self.current_hero = self.common['curr_hero_id']
         self.curr_player = None
 
     def current_owner(self):
@@ -31,14 +33,26 @@ class ParseRequest:
         result = {**self.common['nameSexExp'], **self.common['heigWeigSize'], **self.common['visLang'], **self.common['common']}
         return db.write_data_hero(self.current_player, **result)
 
+    def current_hero_id(self):
+        if self.current_hero:
+            return self.current_hero
+        else:
+            return None
 
-    def parse_hero_mainstats(self):
-
-        result = {}
+    def parse_hero_main_stats(self):
+        result = []
         for i in self.main_stats:
-            result = {**i}
+            result.append({**i})
         print(result)
+        return result
 
+
+    def parse_hero_sec_stats(self):
+        result = []
+        for i in self.secondary_stats:
+            result.append({**i})
+        print(result)
+        return result
 
     # her_common = {'name_hero': '10?',
     #               'level_hero': 1,

@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import DataError
+from sqlalchemy import not_, select, exists
 from contextlib import contextmanager
 
 
@@ -146,6 +147,8 @@ class MainStats(Base):
     training = sa.Column(sa.BOOLEAN)
 
 
+
+
 class HeroesParamDic(Base):
     __tablename__ = 'heroes_param_dic'
     id_field = sa.Column(sa.Integer, primary_key=True)
@@ -155,7 +158,7 @@ class HeroesParamDic(Base):
 
 
 def connect_db():
-    engine = sa.create_engine(DB_PATH, pool=QueuePool(reset_on_return='commit'))
+    engine = sa.create_engine(DB_PATH)
     Base.metadata.create_all(engine)
     sessions = sessionmaker(engine)
     return sessions()
@@ -323,23 +326,50 @@ def write_data_hero(guid, **kwargs):
             return print(f'Ошибка при записи персонажа!')
 
 
-def update_hero(guid, id_hero, **kwargs):
+def update_hero(guid, id_hero, stats):
     with session_scope() as session:
         herlist = select_all_heroes(guid)
+        insrt = ''
         for i in herlist:
-            print(f"send_name {kwargs['name_hero']}-{type(kwargs['name_hero'])} eq {i.name_hero}-{type(i.name_hero)}"
-                  f" send class {kwargs['id_class']}-{type(kwargs['id_class'])} {i.id_class}-{type(str(i.id_class))}"
-                  f"send race {kwargs['id_race']}-{type(kwargs['id_race'])} {i.id_race}-{type(str(i.id_race))}")
-            if (str(kwargs['name_hero']) == str(i.name_hero)) and (str(kwargs['id_class']) == str(i.id_hero)) and (
-                    str(kwargs['id_race']) == str(i.id_race)):
-                print('SAMEEE')
-                insrt = insert(Hero).values(guid_player=guid, **kwargs)
-                do_update = insrt.on_conflict_do_update(index_elements=['id_hero'],
-                                                        set_=dict(**kwargs))
+            for stat in stats:
+                print(stat)
+                if "training" in stat.keys():
 
-                session.execute(do_update)
+                    for each in session.query(MainStats.id_hero.in_(stat['id_field'])).all():
+                        session.merge(stat.pop(each.id))
+                    session.add_all(stat)
+                    # insrt = insert(MainStats).filter(MainStats.id_hero == int(id_hero)).update({"id_field": stat.id},
+                    #                                                                            {"training": stat.trained},
+                    #                                                                            {"field_int": stat.value},
+                    #                                                                            {"field_string": stat.title},
+                    #                                                                            )
+                # else:
+                #     insrt = insert(MainStats).filter(MainStats.id_hero == int(id_hero)).update({"id_field": stat.id},
+                #                                                                                {
+                #                                                                                    "modify_param": stat.valueModif},
+                #                                                                                {
+                #                                                                                    "field_int": stat.valueBase},
+                #                                                                                {
+                #                                                                                    "field_string": stat.title},
+                #                                                                                )
+
+
+                session.execute(insrt)
                 session.commit()
-                print(f'hero {i.name_hero} already exists')
+
+            # print(f"send_name {kwargs['name_hero']}-{type(kwargs['name_hero'])} eq {i.name_hero}-{type(i.name_hero)}"
+            #       f" send class {kwargs['id_class']}-{type(kwargs['id_class'])} {i.id_class}-{type(str(i.id_class))}"
+            #       f"send race {kwargs['id_race']}-{type(kwargs['id_race'])} {i.id_race}-{type(str(i.id_race))}")
+            # if (str(kwargs['name_hero']) == str(i.name_hero)) and (str(kwargs['id_class']) == str(i.id_hero)) and (
+            #         str(kwargs['id_race']) == str(i.id_race)):
+            #     print('SAMEEE')
+            #     insrt = insert(Hero).values(guid_player=guid, **kwargs)
+            #     do_update = insrt.on_conflict_do_update(index_elements=['id_hero'],
+            #                                             set_=dict(**kwargs))
+            #
+            #     session.execute(do_update)
+            #     session.commit()
+            #     print(f'hero {i.name_hero} already exists')
                 return i.id_hero
 
 
@@ -392,6 +422,7 @@ def select_one_hero(guid, id):
         # print(type(id))
 
         if i["id_hero"] == int(id):
+
             return i
 
 

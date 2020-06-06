@@ -35,7 +35,7 @@ new Vue({
         tagName: "acrobatics",
         vizibleName: "Акробатика (Лов)",
         value: 0,
-        dataining: false
+        training: false
 
       },
       {
@@ -43,112 +43,112 @@ new Vue({
         tagName: "athletics",
         vizibleName: "Атлетика (Сил)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "attention",
         vizibleName: "Внимательность (Мдр)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "thef",
         vizibleName: "Воровство (Лов)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "endurance",
         vizibleName: "Выносливость (Тел)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "intimidation",
         vizibleName: "Запугивание (Хар)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "streets",
         vizibleName: "Знание улиц (Хар)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "history",
         vizibleName: "История (Инт)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "magic",
         vizibleName: "Магия (Инт) ",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "deception",
         vizibleName: "Обман (Хар)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "conversation",
         vizibleName: "Переговоры (Хар)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "dungeons",
         vizibleName: "Подземелья (Мдр)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "nature",
         vizibleName: "Природа (Мдр)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "insight",
         vizibleName: "Проницательность (Мдр)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "religion",
         vizibleName: "Религия (Инт)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "stealth",
         vizibleName: "Скрытность (Лов)",
         value: 0,
-        dataining: false
+        training: false
       },
       {
         id_field: 0,
         tagName: "healingchars",
         vizibleName: "Целительство (Мдр)",
         value: 5,
-        dataining: false
+        training: false
       }
     ],
 
@@ -244,13 +244,13 @@ new Vue({
       if (!localStorage.secondaryStats) {
         localStorage.secondaryStats = JSON.stringify(this.secStats);
       } else {
-
+        //dataining??
         let secStatsForLoad = JSON.parse(localStorage.secondaryStats);
         this.secStats.forEach(element => {
           secStatsForLoad.forEach(currStat => {
             if (element.id_field == currStat.id_field) {
               element.value = +currStat.value
-              element.dataining = currStat.dataining
+              element.training = currStat.training
             }
           })
         })

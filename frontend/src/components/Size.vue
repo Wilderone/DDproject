@@ -8,7 +8,7 @@
           </div>
           <input
             :id="param.id"
-            type="text"
+            type="number"
             :value="setFields[param.id]"
             class="form-control"
             @change="writeData(param.id, $event.target.value)"
@@ -39,7 +39,7 @@ export default {
   methods: {
     writeData: function(id, value) {
       console.log(id, value);
-      this.fields[id] = value;
+      this.setFields[id] = value;
       this.$emit("common-fields", ["heigWeigSize", id, value]);
       console.log("dsads", this.fields);
     }

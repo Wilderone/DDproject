@@ -8,7 +8,7 @@
           </div>
           <input
             :id="param.id"
-            type="text"
+            :type="param.id == 'name_hero' ? 'text' : 'number'"
             class="form-control"
             @change="writeData(param.id, $event.target.value)"
             :value="setFields[param.id]"
