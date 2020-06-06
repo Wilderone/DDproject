@@ -15,17 +15,33 @@
           />
         </div>
       </div>
+      <div :class="col">
+        <select
+          id="size"
+          v-model="setFields['size']"
+          @change="writeData('size', $event.target.value)"
+          class="form-control"
+        >
+          <option
+            v-for="size in sizeId"
+            :key="size.id_field"
+            :value="size.id_field"
+          >{{size.name_field}}</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
 <script>
 const EventBus = require("../EventBus").default.v;
 export default {
-  props: ["fields"],
+  props: ["fields", "sizeId"],
   methods: {
     writeData: function(id, value) {
+      console.log(id, value);
       this.fields[id] = value;
       this.$emit("common-fields", ["heigWeigSize", id, value]);
+      console.log("dsads", this.fields);
     }
   },
   created: function() {
@@ -41,10 +57,10 @@ export default {
       setFields: "",
       paramsAll: [
         { id: "height", title: "Рост", value: "" },
-        { id: "weight", title: "Вес", value: "" },
-        { id: "size", title: "Размер", value: "" }
+        { id: "weight", title: "Вес", value: "" }
       ],
       value: " ",
+      selectValue: "",
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };
   }

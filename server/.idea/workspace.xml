@@ -2,7 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Common.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Common.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Size.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Size.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Vision.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Vision.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_exchange.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_exchange.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,6 +212,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="430" y="183" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591279912376" />
+    <state width="872" height="430" key="XDebugger.FullValuePopup" timestamp="1591432502530">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="872" height="430" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1591432502530" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

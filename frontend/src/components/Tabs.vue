@@ -87,9 +87,8 @@ export default {
 }
 
 .choosentab {
-  border-top: 1px solid grey;
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
+  border: 1px solid grey;
+
   border-radius: 5px;
   padding: 6px;
   background-color: rgba(218, 212, 212, 0.215);

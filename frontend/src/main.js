@@ -34,7 +34,7 @@ new Vue({
         id_field: 0,
         tagName: "acrobatics",
         vizibleName: "Акробатика (Лов)",
-        value: 2,
+        value: 0,
         dataining: false
 
       },
@@ -320,44 +320,49 @@ new Vue({
       Object.keys(this.commonData[data[0]]).forEach(elem => {
 
         if (elem == data[1]) {
-          console.log('elem', elem, data[2])
+          console.log('elem', data[0], elem, data[2])
           this.commonData[data[0]][elem] = data[2]
         }
       })
       localStorage.CommonData = JSON.stringify(this.commonData)
 
+    },
+    parseParams: function (respons, groupName, storage) {
+      //для работы в created
+
+      respons[groupName].forEach(value => {
+        if (typeof (storage) == 'object') {
+          storage[groupName].push(JSON.parse(value))
+        } else { storage.push(JSON.parse(value)) }
+      })
     }
-
-
   },
   created: function () {
     // Получение списка рас и классов, а так же получение
     // пока единственного GUID
+    this.readLsCommonData()
     //TODO когда прикрутишь авторизацию убери отсюда guid
     axios.get('http://80.65.23.35:5000/race_class').then(response => {
 
       let common = this.listOfClassRace
+      let visLangFromBase = this.visLangIds
+      let respVulture = response.data.races_classes
+      let sizesWithId = this.sizesId
       sessionStorage.uid = response.data.player;
       console.log('resp', response.data)
-      response.data.races_classes.classes.forEach(value => {
-        //console.log(value)
-        common.classes.push(JSON.parse(value))
 
-        // console.log(response.data.classes[value])
-      })
-      response.data.races_classes.races.forEach(value => {
-        //console.log(value)
-        common.races.push(JSON.parse(value))
-        //common.classes.push(response.data.classes)
+      this.parseParams(respVulture, 'classes', common)
+      this.parseParams(respVulture, 'races', common)
+      this.parseParams(respVulture, 'vision', visLangFromBase)
+      this.parseParams(respVulture, 'language', visLangFromBase)
+      this.parseParams(respVulture, 'sizes', sizesWithId)
 
-      })
+
+
     })
 
       .catch(error => {
         console.log(error)
-      }).finally(() => {
-        this.readLsCommonData()
-
       })
 
 
@@ -367,12 +372,16 @@ new Vue({
   data: {
 
 
-
-
-
     listOfClassRace: {
       races: [],
       classes: []
+    },
+    visLangIds: {
+      vision: [],
+      language: []
+    },
+    sizesId: {
+      sizes: [],
     },
 
     commonData: {
@@ -391,11 +400,11 @@ new Vue({
       heigWeigSize: {
         height: '',
         weight: '',
-        size: '',
+        size: 0,
       },
       visLang: {
-        vision: '',
-        language_hero: ''
+        vision: 0,
+        language_hero: 0
       }
 
     },

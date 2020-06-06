@@ -36,12 +36,13 @@
           @change="[writeData(param.id, $event.target.value), $event.target.value == 0 ?
            $event.target.classList.add('not-selected') : 
            $event.target.classList.remove('not-selected')]"
-          :value="setFields[param.id]"
+          v-model="setFields[param.id]"
           :id="param.id"
           type="text"
           :class="['custom-select']"
           :placeholder="setFields[param.id]"
         >
+          <option disabled value="0">Выбери {{param.title == 'Раса' ? 'Расу' : param.title}}</option>
           <option
             v-for="item in param.options"
             :key="item.name_field"
@@ -182,7 +183,6 @@ export default {
               : this.fields.sex,
 
           options: [
-            { id_field: 0, name_field: "Выбери пол" },
             { id_field: 1, name_field: "Мужской" },
             { id_field: 2, name_field: "Женский" },
             { id_field: 3, name_field: "Другое" }

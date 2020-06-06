@@ -29,15 +29,18 @@ def send_stats():
 @cross_origin()
 def send_races_classes():
     # Отправка доступных к загрузке героев
+    print('sending')
     player = db.read_player('superuser@email.ru') #Временно. Для получения пока единственного пользователя
-    result = {"player":player, "races_classes": db.read_classes_races()}
+    result = {"player":player, "races_classes": db.read_classes_races_etc()}
     return result
 
 @app.route('/heroes', methods=["GET"])
 @cross_origin()
 def send_heroes():
-    uid = json.loads(request.headers.get('uid'))['uid']
-
+    try:
+        uid = json.loads(request.headers.get('uid'))['uid']
+    except KeyError:
+        uid = player = db.read_player('superuser@email.ru')
 
     #res = json.dumps(db.get_preview_hero())
     res = json.dumps(db.select_all_heroes(uid))

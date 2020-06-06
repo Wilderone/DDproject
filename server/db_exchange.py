@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import DataError
 from contextlib import contextmanager
 
+
 import uuid as puuid
 # from sqlalchemy.types import JSON
 import json
@@ -13,7 +14,10 @@ import json
 Base = declarative_base()
 DB_PATH = 'postgresql://backend:54321@80.65.23.35:9988/postgres'
 
+
 class DBManager(object):
+    """Правильная работа с engine
+    вызывать get_db_session() у экземпляра класса"""
 
     def __init__(self):
         self.con_string = 'postgresql://backend:54321@80.65.23.35:9988/postgres'
@@ -21,7 +25,6 @@ class DBManager(object):
         self.engine = self.create_db_engine()
 
     def get_database_connection_string(self):
-
         db_url = self.con_string
         return db_url
 
@@ -57,7 +60,7 @@ class Hero(Base):
                         unique=True,
                         nullable=False)
     name_hero = sa.Column(sa.VARCHAR)
-    id_race = sa.Column(sa.Integer) #sa.Column(sa.ForeignKey('heroes_races_dic'))
+    id_race = sa.Column(sa.Integer)  # sa.Column(sa.ForeignKey('heroes_races_dic'))
     level_hero = sa.Column(sa.Integer)
     id_class = sa.Column(sa.Integer)
     sex = sa.Column(sa.VARCHAR)
@@ -71,7 +74,8 @@ class Hero(Base):
 
     def convert_json(self):
         return json.dumps({'id_hero': self.id_hero, 'name_hero': self.name_hero.capitalize(),
-                           'level_hero' : self.level_hero, 'id_class' : self.id_class, 'id_race' : self.id_race}, ensure_ascii=False)
+                           'level_hero': self.level_hero, 'id_class': self.id_class, 'id_race': self.id_race},
+                          ensure_ascii=False)
 
 
 class Classes(Base):
@@ -94,6 +98,7 @@ class Races(Base):
     def convert_json(self):
         return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
 
+
 class Sizes(Base):
     __tablename__ = "heroes_size_dic"
     id_field = sa.Column(sa.Integer, primary_key=True)
@@ -104,6 +109,31 @@ class Sizes(Base):
 
     def convert_json(self):
         return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+
+
+class Vision(Base):
+    __tablename__ = "heroes_vision_dic"
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    name_field = sa.Column(sa.VARCHAR)
+
+    def __repr__(self):
+        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
+
+    def convert_json(self):
+        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+
+
+class Language(Base):
+    __tablename__ = "heroes_language_dic"
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    name_field = sa.Column(sa.VARCHAR)
+
+    def __repr__(self):
+        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
+
+    def convert_json(self):
+        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+
 
 class MainStats(Base):
     __tablename__ = 'heroes_param_addfl_array'
@@ -125,7 +155,7 @@ class HeroesParamDic(Base):
 
 
 def connect_db():
-    engine = sa.create_engine(DB_PATH)
+    engine = sa.create_engine(DB_PATH, pool=QueuePool(reset_on_return='commit'))
     Base.metadata.create_all(engine)
     sessions = sessionmaker(engine)
     return sessions()
@@ -133,9 +163,11 @@ def connect_db():
 
 @contextmanager
 def session_scope():
-    """Provide a transactional scope around a series of operations."""
-    session_manager = DBManager()
-    session = session_manager.get_db_session()
+    """Контекст для закрывания сессий по завершению работы
+    и откату изменений при ошибке"""
+    # session_manager = DBManager()
+    # session = session_manager.get_db_session()
+    session = connect_db()
     try:
         yield session
         session.commit()
@@ -177,28 +209,42 @@ def session_scope():
 
 # def get_sizes():
 #     with connect_db():
-        
 
-def read_classes_races():
-    """Получаем id-name классов и расс
+
+def read_classes_races_etc():
+    """Получаем id-name классов и расс, upd: зрения, размеров, языков. Все для выпадающих список персонажа
     результат в формате {'name_field': str, 'id_field': int}"""
 
     with session_scope() as session:
-
         class_query = session.query(Classes).all()
         race_query = session.query(Races).all()
-        race_result = []
+        vision_query = session.query(Vision).all()
+        sizes_query = session.query(Sizes).all()
+        lang_query = session.query(Language).all()
 
+        race_result = []
+        vision_result = []
+        sizes_result = []
+        lang_result = []
+        class_result = []
         for i in race_query:
             race_result.append(i.convert_json())
-
-        class_result = []
 
         for i in class_query:
             class_result.append(i.convert_json())
 
-        result = {'classes': class_result, "races": race_result}
+        for i in vision_query:
+            vision_result.append(i.convert_json())
 
+        for i in sizes_query:
+            sizes_result.append(i.convert_json())
+
+        for i in lang_query:
+            lang_result.append(i.convert_json())
+
+        result = {'classes': class_result, "races": race_result, 'sizes': sizes_result, "vision": vision_result,
+                  "language": lang_result}
+        session.close()
         return result
 
 
@@ -225,7 +271,6 @@ def read_player(mail):
         guid = session.query(Player).filter(Player.mail == mail).first().guid_player
 
         return guid
-
 
 
 def write_data_player(**kwargs):
@@ -277,6 +322,7 @@ def write_data_hero(guid, **kwargs):
         except ValueError:
             return print(f'Ошибка при записи персонажа!')
 
+
 def update_hero(guid, id_hero, **kwargs):
     with session_scope() as session:
         herlist = select_all_heroes(guid)
@@ -297,7 +343,6 @@ def update_hero(guid, id_hero, **kwargs):
                 return i.id_hero
 
 
-
 def select_all_heroes(guid):
     """По GUID пользователя читаем всех доступных ему персов"""
     with session_scope() as session:
@@ -311,16 +356,19 @@ def select_all_heroes(guid):
 
             available_hers.append(curr_res)
 
-
         return available_hers
+
 
 def get_preview_hero(uid):
     """Отладочная функция. Выбирает всех персонажей в базе"""
     with session_scope() as session:
-        tables = session.query(Hero, Races, Classes).filter(Hero.guid_player==uid).filter(Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
+        tables = session.query(Hero, Races, Classes).filter(Hero.guid_player == uid).filter(
+            Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
         res = []
         for hero, race, clas in tables:
-            res.append({"id_hero":hero.id_hero, "name_hero":hero.name_hero, "class_hero":clas.name_field.capitalize(), "hero_level":hero.level_hero})
+            res.append(
+                {"id_hero": hero.id_hero, "name_hero": hero.name_hero, "class_hero": clas.name_field.capitalize(),
+                 "hero_level": hero.level_hero})
         return res
 
 
@@ -336,16 +384,14 @@ def hero_main_stats(id, **kwargs):
         session.execute(do_update)
 
 
-
 def select_one_hero(guid, id):
     """"Выбор героя по гуид пользователя и ид героя"""
 
     for i in select_all_heroes(guid):
-       #print(i, type(i.id_hero))
-       # print(type(id))
+        # print(i, type(i.id_hero))
+        # print(type(id))
 
         if i["id_hero"] == int(id):
-
             return i
 
 
@@ -376,7 +422,6 @@ her_stats = {
     'field_string': None,
     'field_money': None
 }
-
 
 # --------------DATA FOR TESTS---------------
 
