@@ -4,8 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import DataError
-from sqlalchemy import not_, select, exists
+from sqlalchemy.dialects import postgresql
+from sqlalchemy import not_, select, exists, update, UniqueConstraint, ForeignKeyConstraint
+
+
 from contextlib import contextmanager
+
 
 
 import uuid as puuid
@@ -139,14 +143,41 @@ class Language(Base):
 class MainStats(Base):
     __tablename__ = 'heroes_param_addfl_array'
     id_hero = sa.Column(sa.ForeignKey("heroes.id_hero"), primary_key=True)
-    id_field = sa.Column(sa.Integer)
+    id_field = sa.Column(sa.Integer, primary_key=True)
     modify_param = sa.Column(sa.Integer)
     field_int = sa.Column(sa.Integer)
     field_string = sa.Column(sa.VARCHAR)
     field_money = sa.Column(MONEY)
     training = sa.Column(sa.BOOLEAN)
 
+    def __repr__(self):
+        return str([getattr(self, c.name, None) for c in self.__table__.c])
 
+def compile_query(query):
+    compiler = query.compile if not hasattr(query, 'statement') else query.statement.compile
+    return compiler(dialect=postgresql.dialect())
+
+def upsert(session, model, rows, new_int='field_int', new_modif="modify_param", no_update_cols=[]):
+    table = model.__table__
+
+    stmt = insert(table).values(rows)
+
+    update_cols = [c.name for c in table.c
+                   if c not in list(table.primary_key.columns)
+                   and c.name not in no_update_cols]
+    print("GETATTTRRRRRR!!",getattr(model, new_int))
+    on_conflict_stmt = stmt.on_conflict_do_update(
+        index_elements=table.primary_key.columns,
+        set_={k: getattr(stmt.excluded, k) for k in update_cols},
+        index_where=(getattr(model, new_int) != getattr(stmt.excluded, new_int)))
+
+
+   #print(compile_query(on_conflict_stmt))
+    session.execute(on_conflict_stmt)
+
+    # __table_args__ = (
+    #     UniqueConstraint(id_hero, id_field, name='uq_mainstats_id_hero_id_field'),
+    # )
 
 
 class HeroesParamDic(Base):
@@ -298,79 +329,48 @@ def write_data_player(**kwargs):
         return result
 
 
-def write_data_hero(guid, **kwargs):
+def write_data_hero(guid, id_hero=None, **kwargs):
     """Принимаем guid пользователя, добавляем связанного с ним героя
     возвращает id вновь созданного героя"""
     # TODO: придумать как не дать делать новую запись если перс уже есть
 
     with session_scope() as session:
         print("WRITE DATA HERO")
+        if id_hero:
+            pass
+        else:
+            try:
+                # new_hero = Hero(**kwargs, guid_player=guid)
+                print(kwargs)
+                new_hero = insert(Hero).returning(Hero.id_hero).values(**kwargs, guid_player=guid)
+                rproxy = session.execute(new_hero)
+                session.commit()
 
-        try:
-            # new_hero = Hero(**kwargs, guid_player=guid)
-            new_hero = insert(Hero).returning(Hero.id_hero).values(**kwargs, guid_player=guid)
-            rproxy = session.execute(new_hero)
-            session.commit()
+                id_hero = rproxy.fetchone()
+                session.close()
+                print('ID HERO', id_hero)
+                res = 0
+                for i in id_hero:
+                    res = i
+                print('NHIDdsada', res)
 
-            id_hero = rproxy.fetchone()
-            session.close()
-            print('ID HERO', id_hero)
-            res = 0
-            for i in id_hero:
-                res = i
-            print('NHIDdsada', res)
+                return res
 
-            return res
-
-        except ValueError:
-            return print(f'Ошибка при записи персонажа!')
+            except ValueError:
+                return print(f'Ошибка при записи персонажа!')
 
 
 def update_hero(guid, id_hero, stats):
+    data = []
+    for st in stats:
+        st['id_hero'] = id_hero
+
+        data.append({k: v for k, v in st.items() if
+                     k in ['id_hero','id_field', 'training', 'field_int', 'field_string', 'field_money', 'modify_param']})
+        print('update-hero-data',data)
     with session_scope() as session:
-        herlist = select_all_heroes(guid)
-        insrt = ''
-        for i in herlist:
-            for stat in stats:
-                print(stat)
-                if "training" in stat.keys():
+        upsert(session, MainStats, data,  no_update_cols=['id_hero'])
 
-                    for each in session.query(MainStats.id_hero.in_(stat['id_field'])).all():
-                        session.merge(stat.pop(each.id))
-                    session.add_all(stat)
-                    # insrt = insert(MainStats).filter(MainStats.id_hero == int(id_hero)).update({"id_field": stat.id},
-                    #                                                                            {"training": stat.trained},
-                    #                                                                            {"field_int": stat.value},
-                    #                                                                            {"field_string": stat.title},
-                    #                                                                            )
-                # else:
-                #     insrt = insert(MainStats).filter(MainStats.id_hero == int(id_hero)).update({"id_field": stat.id},
-                #                                                                                {
-                #                                                                                    "modify_param": stat.valueModif},
-                #                                                                                {
-                #                                                                                    "field_int": stat.valueBase},
-                #                                                                                {
-                #                                                                                    "field_string": stat.title},
-                #                                                                                )
-
-
-                session.execute(insrt)
-                session.commit()
-
-            # print(f"send_name {kwargs['name_hero']}-{type(kwargs['name_hero'])} eq {i.name_hero}-{type(i.name_hero)}"
-            #       f" send class {kwargs['id_class']}-{type(kwargs['id_class'])} {i.id_class}-{type(str(i.id_class))}"
-            #       f"send race {kwargs['id_race']}-{type(kwargs['id_race'])} {i.id_race}-{type(str(i.id_race))}")
-            # if (str(kwargs['name_hero']) == str(i.name_hero)) and (str(kwargs['id_class']) == str(i.id_hero)) and (
-            #         str(kwargs['id_race']) == str(i.id_race)):
-            #     print('SAMEEE')
-            #     insrt = insert(Hero).values(guid_player=guid, **kwargs)
-            #     do_update = insrt.on_conflict_do_update(index_elements=['id_hero'],
-            #                                             set_=dict(**kwargs))
-            #
-            #     session.execute(do_update)
-            #     session.commit()
-            #     print(f'hero {i.name_hero} already exists')
-                return i.id_hero
 
 
 def select_all_heroes(guid):
@@ -422,7 +422,6 @@ def select_one_hero(guid, id):
         # print(type(id))
 
         if i["id_hero"] == int(id):
-
             return i
 
 

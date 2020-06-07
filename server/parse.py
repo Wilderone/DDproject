@@ -31,13 +31,13 @@ class ParseRequest:
 
     def write_hero_common(self):
         result = {**self.common['nameSexExp'], **self.common['heigWeigSize'], **self.common['visLang'], **self.common['common']}
-        return db.write_data_hero(self.current_player, **result)
+        return db.write_data_hero(self.current_player, id_hero=self.current_hero_id(), **result)
 
     def current_hero_id(self):
         if self.current_hero:
             return self.current_hero
         else:
-            return None
+            return self.write_hero_common()
 
     def parse_hero_main_stats(self):
         result = []

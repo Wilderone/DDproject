@@ -42,7 +42,10 @@
           :class="['custom-select']"
           :placeholder="setFields[param.id]"
         >
-          <option disabled value="0">Выбери {{param.title == 'Раса' ? 'Расу' : param.title}}</option>
+          <option
+            disabled
+            value="0"
+          >Выбери {{param.field_string == 'Раса' ? 'Расу' : param.field_string}}</option>
           <option
             v-for="item in param.options"
             :key="item.name_field"
@@ -101,7 +104,7 @@ export default {
       //TODO Доделать сообщение при некорректном заполнении
       Object.keys(this.setFields).forEach((elem, index, array) => {
         if (this.setFields[elem] == 0) {
-          let title = array[index];
+          let field_string = array[index];
 
           this.errors = "Заполни все поля правильно";
           return;
@@ -159,14 +162,14 @@ export default {
       paramsAll: [
         {
           id: "id_race",
-          title: "Раса",
+          field_string: "Раса",
           defaultTitle: "Выбери расу",
           currOption: +this.fields.id_race == 0 ? 0 : this.fields.id_race,
           options: this.listOfClassRace.races
         },
         {
           id: "id_class",
-          title: "Класс",
+          field_string: "Класс",
           defaultTitle: "Выбери класс",
           currOption:
             +this.fields.id_class == 0 && !this.fields.id_class.length > 0
@@ -176,7 +179,7 @@ export default {
         },
         {
           id: "sex",
-          title: "Пол",
+          field_string: "Пол",
           currOption:
             +this.fields.sex == 0 && !this.fields.sex.length > 0
               ? 0

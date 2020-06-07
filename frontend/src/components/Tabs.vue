@@ -7,7 +7,7 @@
         class="select__selectors col-12 col-md-3 col-sm-3 col-lg-3 col-xl-3"
         :class="[tab.tag, {choosentab: selectedTab ===tab.tag}]"
         @click="changeSelected(tab.tag)"
-      >{{tab.title}}</div>
+      >{{tab.field_string}}</div>
     </div>
   </nav>
 </template>
@@ -24,12 +24,12 @@ export default {
   data: function() {
     return {
       tabs: [
-        { title: "Сводка", tag: "sumar-tab" },
-        { title: "Хиты", tag: "hits-tab" },
-        { title: "Атака, Защита, Движение", tag: "adm-tab" },
-        { title: "Основные характеристики", tag: "primary-tab" },
-        { title: "Вторичные характеристики", tag: "secondary-tab" },
-        { title: "Записная книга", tag: "notes-tab" }
+        { field_string: "Сводка", tag: "sumar-tab" },
+        { field_string: "Хиты", tag: "hits-tab" },
+        { field_string: "Атака, Защита, Движение", tag: "adm-tab" },
+        { field_string: "Основные характеристики", tag: "primary-tab" },
+        { field_string: "Вторичные характеристики", tag: "secondary-tab" },
+        { field_string: "Записная книга", tag: "notes-tab" }
       ],
       selectedTab: localStorage.selectedTab
         ? localStorage.selectedTab

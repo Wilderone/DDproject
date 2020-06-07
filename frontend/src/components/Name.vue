@@ -4,7 +4,7 @@
       <div v-for="param in paramsAll" :key="param.id" :class="[col, param.id]">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text">{{param.title}}</span>
+            <span class="input-group-text">{{param.field_string}}</span>
           </div>
           <input
             :id="param.id"
@@ -39,13 +39,13 @@ export default {
     return {
       setFields: "",
       paramsAll: [
-        { id: "name_hero", title: "Имя", value: "" },
+        { id: "name_hero", field_string: "Имя", value: "" },
         {
           id: "level_hero",
-          title: "Уровень",
+          field_string: "Уровень",
           value: ""
         },
-        { id: "currentexp", title: "Опыт", value: "" }
+        { id: "currentexp", field_string: "Опыт", value: "" }
       ],
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };

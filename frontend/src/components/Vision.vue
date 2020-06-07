@@ -11,7 +11,7 @@
             v-model="setFields[param.id]"
             @change="writeData(param.id, $event.target.value)"
           >
-            <option disabled value="0">Выбери {{param.title}}</option>
+            <option disabled value="0">Выбери {{param.field_string}}</option>
             <option
               v-for="item in param.options"
               :key="item.id_field"
@@ -46,13 +46,13 @@ export default {
       paramsAll: [
         {
           id: "vision",
-          title: "Зрение",
+          field_string: "Зрение",
           value: "",
           options: this.visLangId.vision
         },
         {
           id: "language_hero",
-          title: "Язык",
+          field_string: "Язык",
           value: "",
           options: this.visLangId.language
         }

@@ -22,8 +22,12 @@ def get_data():
     #else:
     main_stats = new_pr.parse_hero_main_stats()
     sec_stats = new_pr.parse_hero_sec_stats()
-    hero_id = new_pr.write_hero_common()
+    hero_id = new_pr.current_hero_id() #Если в данных есть cur_hero_id то присваивается он. Если нет, создаётся новый перс
+
+    print('HERO ID ', hero_id)
+    db.update_hero(guid=current_user, id_hero=hero_id, stats=main_stats)
     db.update_hero(guid=current_user, id_hero=hero_id, stats=sec_stats)
+
     return {'current_user':current_user, 'hero_id':hero_id}
 
 @app.route('/stats', methods=["GET"])
