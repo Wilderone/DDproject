@@ -165,7 +165,7 @@ def upsert(session, model, rows, new_int='field_int', new_modif="modify_param", 
     update_cols = [c.name for c in table.c
                    if c not in list(table.primary_key.columns)
                    and c.name not in no_update_cols]
-    print("GETATTTRRRRRR!!",getattr(model, new_int))
+
     on_conflict_stmt = stmt.on_conflict_do_update(
         index_elements=table.primary_key.columns,
         set_={k: getattr(stmt.excluded, k) for k in update_cols},
@@ -341,7 +341,7 @@ def write_data_hero(guid, id_hero=None, **kwargs):
         else:
             try:
                 # new_hero = Hero(**kwargs, guid_player=guid)
-                print(kwargs)
+
                 new_hero = insert(Hero).returning(Hero.id_hero).values(**kwargs, guid_player=guid)
                 rproxy = session.execute(new_hero)
                 session.commit()
@@ -352,7 +352,7 @@ def write_data_hero(guid, id_hero=None, **kwargs):
                 res = 0
                 for i in id_hero:
                     res = i
-                print('NHIDdsada', res)
+
 
                 return res
 
@@ -367,7 +367,7 @@ def update_hero(guid, id_hero, stats):
 
         data.append({k: v for k, v in st.items() if
                      k in ['id_hero','id_field', 'training', 'field_int', 'field_string', 'field_money', 'modify_param']})
-        print('update-hero-data',data)
+
     with session_scope() as session:
         upsert(session, MainStats, data,  no_update_cols=['id_hero'])
 
@@ -418,10 +418,8 @@ def select_one_hero(guid, id):
     """"Выбор героя по гуид пользователя и ид героя"""
 
     for i in select_all_heroes(guid):
-        # print(i, type(i.id_hero))
-        # print(type(id))
-
         if i["id_hero"] == int(id):
+
             return i
 
 

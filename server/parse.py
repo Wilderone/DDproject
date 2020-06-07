@@ -5,10 +5,15 @@ import uuid as puuid
 class ParseRequest:
     def __init__(self, data):
         self.data = data
+
         self.common = data['common']
         self.main_stats = data['basicsLs']
         self.secondary_stats = data['secondaryChars']
-        self.current_hero = self.common['curr_hero_id']
+        self.current_hero = None
+        try:
+            self.current_hero = self.common['curr_hero_id']
+        except KeyError:
+            self.current_hero =None
         self.curr_player = None
 
     def current_owner(self):
@@ -31,7 +36,7 @@ class ParseRequest:
 
     def write_hero_common(self):
         result = {**self.common['nameSexExp'], **self.common['heigWeigSize'], **self.common['visLang'], **self.common['common']}
-        return db.write_data_hero(self.current_player, id_hero=self.current_hero_id(), **result)
+        return db.write_data_hero(self.current_player, id_hero=self.current_hero, **result)
 
     def current_hero_id(self):
         if self.current_hero:
@@ -43,7 +48,7 @@ class ParseRequest:
         result = []
         for i in self.main_stats:
             result.append({**i})
-        print(result)
+
         return result
 
 
@@ -51,7 +56,7 @@ class ParseRequest:
         result = []
         for i in self.secondary_stats:
             result.append({**i})
-        print(result)
+
         return result
 
     # her_common = {'name_hero': '10?',
