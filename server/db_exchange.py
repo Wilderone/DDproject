@@ -172,7 +172,6 @@ def upsert(session, model, rows, new_int='field_int', new_modif="modify_param", 
         index_where=(getattr(model, new_int) != getattr(stmt.excluded, new_int)))
 
 
-   #print(compile_query(on_conflict_stmt))
     session.execute(on_conflict_stmt)
 
     # __table_args__ = (
