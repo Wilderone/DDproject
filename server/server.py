@@ -13,9 +13,21 @@ CORS(app)
 @cross_origin()
 def get_data():
     data = request.get_json()
+
     new_pr = pr(data['dfs'])
     current_user = new_pr.current_owner()
-    hero_id = new_pr.write_hero_common()
+    #if new_pr.current_hero():
+        #main_stats = new_pr.parse_hero_mainstats()
+
+    #else:
+    main_stats = new_pr.parse_hero_main_stats()
+    sec_stats = new_pr.parse_hero_sec_stats()
+    hero_id = new_pr.current_hero_id() #Если в данных есть cur_hero_id то присваивается он. Если нет, создаётся новый перс
+
+    print('HERO ID ', hero_id)
+    db.update_hero(guid=current_user, id_hero=hero_id, stats=main_stats)
+    db.update_hero(guid=current_user, id_hero=hero_id, stats=sec_stats)
+
     return {'current_user':current_user, 'hero_id':hero_id}
 
 @app.route('/stats', methods=["GET"])
@@ -29,15 +41,18 @@ def send_stats():
 @cross_origin()
 def send_races_classes():
     # Отправка доступных к загрузке героев
+    print('sending')
     player = db.read_player('superuser@email.ru') #Временно. Для получения пока единственного пользователя
-    result = {"player":player, "races_classes": db.read_classes_races()}
+    result = {"player":player, "races_classes": db.read_classes_races_etc()}
     return result
 
 @app.route('/heroes', methods=["GET"])
 @cross_origin()
 def send_heroes():
-    uid = json.loads(request.headers.get('uid'))['uid']
-
+    try:
+        uid = json.loads(request.headers.get('uid'))['uid']
+    except KeyError:
+        uid = db.read_player('superuser@email.ru')
 
     #res = json.dumps(db.get_preview_hero())
     res = json.dumps(db.select_all_heroes(uid))
@@ -49,7 +64,6 @@ def send_heroes():
 def selhero():
 
     req = request.get_json()
-
     guid = req['uid']
     id_hero = req['id']
     print(id_hero)

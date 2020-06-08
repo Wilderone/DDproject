@@ -19,6 +19,7 @@ export default {
 
   data: function() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     EventBus.$on("send-data", () => {
       let commonDataForLS = JSON.stringify(this.commonData);
       localStorage.setItem("CommonData", commonDataForLS);
@@ -62,13 +63,31 @@ export default {
           }
           console.log("currcommondata", currentCommonData);
 >>>>>>> master
+=======
+    // запись в LS загруженного персонажа и эмит события NewHeroData
+    EventBus.$on("loads-hero", data => {
+      let currentCommonData = JSON.parse(localStorage.CommonData);
+      currentCommonData["curr_hero_id"] = data.id_hero;
+      Object.keys(currentCommonData).forEach(currentData => {
+        Object.keys(currentCommonData[currentData]).forEach(insideData => {
+          Object.keys(data).forEach(serverData => {
+            if (insideData == serverData) {
+              currentCommonData[currentData][insideData] = data[serverData];
+            }
+          });
+>>>>>>> master
         });
-      },
+      });
 
+      console.log("currcommondata", currentCommonData);
+      localStorage.CommonData = JSON.stringify(currentCommonData);
+      EventBus.$emit("new-hero-data", currentCommonData);
+    }),
       EventBus.$on("send-data", () => {
-        let commonDataForLS = JSON.stringify(this.commonData);
-        localStorage.setItem("CommonData", commonDataForLS);
+        //Отправка данных о персонаже на сервер
+
         let dfs = this.dataForSend();
+        console.log(dfs);
         axios({
           method: "post",
           url: "http://80.65.23.35:5000/",
@@ -83,8 +102,8 @@ export default {
           .catch(function(er) {
             console.log(er);
           });
-      })
-    );
+      });
+
     return {};
   }
 };

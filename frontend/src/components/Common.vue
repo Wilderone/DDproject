@@ -12,7 +12,7 @@
               >
                 <option>Создать нового персонажа</option>
                 <option
-                  v-for="(hero, index) in this.availableHeroes"
+                  v-for="(hero, index) in this.charsForLoad"
                   :key="index"
                   :value="hero.id_hero"
                 >{{hero.name_hero}} {{hero.class_hero}} {{hero.hero_level}}лвл</option>
@@ -27,26 +27,33 @@
       </div>
     </div>
     <div class="errors" v-if="errors.length>0">
-      <div v-for="(error, index) in errors" :key="index">{{error}}</div>
+      <div>{{errors}}</div>
     </div>
+
     <div class="row names">
       <div :class="col" v-for="param in paramsAll" :key="param.id">
         <select
           @change="[writeData(param.id, $event.target.value), $event.target.value == 0 ?
            $event.target.classList.add('not-selected') : 
            $event.target.classList.remove('not-selected')]"
-          :value="fields[param.id]"
+          v-model="setFields[param.id]"
           :id="param.id"
           type="text"
           :class="['custom-select']"
-          :placeholder="fields[param.id]"
+          :placeholder="setFields[param.id]"
         >
+          <option
+            disabled
+            value="0"
+          >Выбери {{param.field_string == 'Раса' ? 'Расу' : param.field_string}}</option>
           <option
             v-for="item in param.options"
             :key="item.name_field"
             :value="item.id_field"
           >{{item.name_field}}</option>
         </select>
+        {{setFields[param.id]}}
+        {{fields[param.id]}}
       </div>
     </div>
   </div>
@@ -55,7 +62,11 @@
 <script>
 import axios from "axios";
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+
+>>>>>>> master
 // end of imports
 =======
 >>>>>>> Stashed changes
@@ -64,14 +75,11 @@ import axios from "axios";
 >>>>>>> master
 const EventBus = require("../EventBus").default.v;
 export default {
-  props: ["fields", "listOfClassRace", "availableHeroes", "get_available"],
+  props: ["fields", "listOfClassRace"],
   computed: {
     charsForLoad: function() {
       let heroLoad = [];
-      //console.log(this.availableHeroes);
-      this.availableHeroes.forEach(elem => {
-        heroLoad.unshift(elem);
-      });
+      heroLoad = [...this.availableHeroes];
       return heroLoad;
     }
   },
@@ -118,7 +126,10 @@ export default {
           uid
         }
       })
+        //loads-hero обрабатывается в SaveCommon
+        //результат возвращается сюда при событии new-hero-data, см. ниже
         .then(response => {
+<<<<<<< HEAD
 <<<<<<< HEAD
           console.log(response.data);
 =======
@@ -137,7 +148,11 @@ export default {
           data.common = this.fields;
           localStorage.CommonData = JSON.stringify(data);
 >>>>>>> master
+=======
+          EventBus.$emit("loads-hero", response.data);
+>>>>>>> master
         })
+
         .catch(error => {
           console.log(error);
         });
@@ -153,20 +168,23 @@ export default {
     },
     sendData: function() {
       //TODO Доделать сообщение при некорректном заполнении
-      Object.keys(this.fields).forEach((index, elem, array) => {
-        if (this.fields[index] == 0) {
-          this.errors.push({ field: index });
+      Object.keys(this.setFields).forEach((elem, index, array) => {
+        if (this.setFields[elem] == 0) {
+          let field_string = array[index];
+
+          this.errors = "Заполни все поля правильно";
           return;
-        } else {
-          this.errors = [];
         }
       });
+      let saveNewValues = JSON.parse(localStorage.CommonData);
+      localStorage.setItem("CommonData", JSON.stringify(saveNewValues));
       this.get_available();
 
       EventBus.$emit("send-data");
     },
     writeData: function(id, value) {
-      this.fields[id] = value;
+      this.setFields[id] = value;
+      this.$emit("common-fields", ["common", id, value]);
     },
     clearData: function() {
       localStorage.removeItem("CommonData");
@@ -174,23 +192,50 @@ export default {
       localStorage.removeItem("secondaryStats");
 
       window.location.reload();
+    },
+    get_available: function() {
+      //Список доступных персонажей
+      let uid = JSON.stringify({ uid: sessionStorage["uid"] });
+
+      axios({
+        method: "get",
+        url: "http://80.65.23.35:5000/heroes",
+        headers: {
+          uid: uid
+        }
+      }).then(response => {
+        this.availableHeroes = [];
+        response.data.forEach(elem => {
+          this.availableHeroes.push(elem);
+        });
+      });
     }
+  },
+  created: function() {
+    this.get_available();
+    this.setFields = JSON.parse(localStorage.CommonData).common;
+    console.log("23213", this.setFields);
   },
 
   data: function() {
+    EventBus.$on("new-hero-data", newField => {
+      this.setFields = newField.common;
+    });
     return {
+      availableHeroes: [],
+      setFields: "",
       loadedHero: 0,
       paramsAll: [
         {
           id: "id_race",
-          title: "Раса",
+          field_string: "Раса",
           defaultTitle: "Выбери расу",
           currOption: +this.fields.id_race == 0 ? 0 : this.fields.id_race,
           options: this.listOfClassRace.races
         },
         {
           id: "id_class",
-          title: "Класс",
+          field_string: "Класс",
           defaultTitle: "Выбери класс",
           currOption:
             +this.fields.id_class == 0 && !this.fields.id_class.length > 0
@@ -200,14 +245,13 @@ export default {
         },
         {
           id: "sex",
-          title: "Пол",
+          field_string: "Пол",
           currOption:
             +this.fields.sex == 0 && !this.fields.sex.length > 0
               ? 0
               : this.fields.sex,
 
           options: [
-            { id_field: 0, name_field: "Выбери пол" },
             { id_field: 1, name_field: "Мужской" },
             { id_field: 2, name_field: "Женский" },
             { id_field: 3, name_field: "Другое" }

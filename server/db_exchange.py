@@ -4,6 +4,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import DataError
+from sqlalchemy.dialects import postgresql
+from sqlalchemy import not_, select, exists, update, UniqueConstraint, ForeignKeyConstraint
+
+
+from contextlib import contextmanager
+
+
 
 import uuid as puuid
 # from sqlalchemy.types import JSON
@@ -11,6 +18,34 @@ import json
 
 Base = declarative_base()
 DB_PATH = 'postgresql://backend:54321@80.65.23.35:9988/postgres'
+
+
+class DBManager(object):
+    """Правильная работа с engine
+    вызывать get_db_session() у экземпляра класса"""
+
+    def __init__(self):
+        self.con_string = 'postgresql://backend:54321@80.65.23.35:9988/postgres'
+
+        self.engine = self.create_db_engine()
+
+    def get_database_connection_string(self):
+        db_url = self.con_string
+        return db_url
+
+    def create_db_engine(self):
+        connection_url = self.get_database_connection_string()
+        return sa.create_engine(connection_url)
+
+    def create_db_session(self):
+        Session = sessionmaker()
+        Session.configure(bind=self.engine)
+        dbsession = Session()
+        return dbsession
+
+    def get_db_session(self):
+        session = self.create_db_session()
+        return session
 
 
 class Player(Base):
@@ -30,7 +65,7 @@ class Hero(Base):
                         unique=True,
                         nullable=False)
     name_hero = sa.Column(sa.VARCHAR)
-    id_race = sa.Column(sa.Integer) #sa.Column(sa.ForeignKey('heroes_races_dic'))
+    id_race = sa.Column(sa.Integer)  # sa.Column(sa.ForeignKey('heroes_races_dic'))
     level_hero = sa.Column(sa.Integer)
     id_class = sa.Column(sa.Integer)
     sex = sa.Column(sa.VARCHAR)
@@ -44,7 +79,8 @@ class Hero(Base):
 
     def convert_json(self):
         return json.dumps({'id_hero': self.id_hero, 'name_hero': self.name_hero.capitalize(),
-                           'level_hero' : self.level_hero, 'id_class' : self.id_class, 'id_race' : self.id_race}, ensure_ascii=False)
+                           'level_hero': self.level_hero, 'id_class': self.id_class, 'id_race': self.id_race},
+                          ensure_ascii=False)
 
 
 class Classes(Base):
@@ -68,15 +104,80 @@ class Races(Base):
         return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
 
 
+class Sizes(Base):
+    __tablename__ = "heroes_size_dic"
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    name_field = sa.Column(sa.VARCHAR)
+
+    def __repr__(self):
+        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
+
+    def convert_json(self):
+        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+
+
+class Vision(Base):
+    __tablename__ = "heroes_vision_dic"
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    name_field = sa.Column(sa.VARCHAR)
+
+    def __repr__(self):
+        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
+
+    def convert_json(self):
+        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+
+
+class Language(Base):
+    __tablename__ = "heroes_language_dic"
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    name_field = sa.Column(sa.VARCHAR)
+
+    def __repr__(self):
+        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
+
+    def convert_json(self):
+        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+
+
 class MainStats(Base):
     __tablename__ = 'heroes_param_addfl_array'
     id_hero = sa.Column(sa.ForeignKey("heroes.id_hero"), primary_key=True)
-    id_field = sa.Column(sa.Integer)
-
+    id_field = sa.Column(sa.Integer, primary_key=True)
+    modify_param = sa.Column(sa.Integer)
     field_int = sa.Column(sa.Integer)
     field_string = sa.Column(sa.VARCHAR)
     field_money = sa.Column(MONEY)
     training = sa.Column(sa.BOOLEAN)
+
+    def __repr__(self):
+        return str([getattr(self, c.name, None) for c in self.__table__.c])
+
+def compile_query(query):
+    compiler = query.compile if not hasattr(query, 'statement') else query.statement.compile
+    return compiler(dialect=postgresql.dialect())
+
+def upsert(session, model, rows, new_int='field_int', new_modif="modify_param", no_update_cols=[]):
+    table = model.__table__
+
+    stmt = insert(table).values(rows)
+
+    update_cols = [c.name for c in table.c
+                   if c not in list(table.primary_key.columns)
+                   and c.name not in no_update_cols]
+
+    on_conflict_stmt = stmt.on_conflict_do_update(
+        index_elements=table.primary_key.columns,
+        set_={k: getattr(stmt.excluded, k) for k in update_cols},
+        index_where=(getattr(model, new_int) != getattr(stmt.excluded, new_int)))
+
+
+   #print(compile_query(on_conflict_stmt))
+    session.execute(on_conflict_stmt)
+
+    # __table_args__ = (
+    #     UniqueConstraint(id_hero, id_field, name='uq_mainstats_id_hero_id_field'),
+    # )
 
 
 class HeroesParamDic(Base):
@@ -92,6 +193,23 @@ def connect_db():
     Base.metadata.create_all(engine)
     sessions = sessionmaker(engine)
     return sessions()
+
+
+@contextmanager
+def session_scope():
+    """Контекст для закрывания сессий по завершению работы
+    и откату изменений при ошибке"""
+    # session_manager = DBManager()
+    # session = session_manager.get_db_session()
+    session = connect_db()
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
 
 # <Сияние чистого ебланства>
@@ -123,26 +241,45 @@ def connect_db():
 # </Сияние чистого ебланства>
 
 
-def read_classes_races():
-    """Получаем id-name классов и расс
+# def get_sizes():
+#     with connect_db():
+
+
+def read_classes_races_etc():
+    """Получаем id-name классов и расс, upd: зрения, размеров, языков. Все для выпадающих список персонажа
     результат в формате {'name_field': str, 'id_field': int}"""
 
-    session = connect_db()
+    with session_scope() as session:
+        class_query = session.query(Classes).all()
+        race_query = session.query(Races).all()
+        vision_query = session.query(Vision).all()
+        sizes_query = session.query(Sizes).all()
+        lang_query = session.query(Language).all()
 
-    class_query = session.query(Classes).all()
-    race_query = session.query(Races).all()
-    race_result = []
+        race_result = []
+        vision_result = []
+        sizes_result = []
+        lang_result = []
+        class_result = []
+        for i in race_query:
+            race_result.append(i.convert_json())
 
-    for i in race_query:
-        race_result.append(i.convert_json())
+        for i in class_query:
+            class_result.append(i.convert_json())
 
-    class_result = []
+        for i in vision_query:
+            vision_result.append(i.convert_json())
 
-    for i in class_query:
-        class_result.append(i.convert_json())
+        for i in sizes_query:
+            sizes_result.append(i.convert_json())
 
-    result = {'classes': class_result, "races": race_result}
-    return result
+        for i in lang_query:
+            lang_result.append(i.convert_json())
+
+        result = {'classes': class_result, "races": race_result, 'sizes': sizes_result, "vision": vision_result,
+                  "language": lang_result}
+        session.close()
+        return result
 
 
 # a = read_classes_races()
@@ -150,136 +287,139 @@ def read_classes_races():
 
 def read_stats():
     """Получаем id-name полей статов"""
-    session = connect_db()
-    main_stats = session.query(HeroesParamDic).filter(HeroesParamDic.main_param == 't').all()
-    secondary_stats = session.query(HeroesParamDic).filter(HeroesParamDic.main_param == 'f').all()
-    main_stats_result = {i.id_field: f'{i.name_field.lower()}-base' for i in main_stats}
-    secondary_stats_result = {i.id_field: i.name_field.lower() for i in secondary_stats}
-    result = {}
-    result['main_stats'] = main_stats_result
-    result['secondary_stats'] = secondary_stats_result
-    return result
+    with session_scope() as session:
+        main_stats = session.query(HeroesParamDic).filter(HeroesParamDic.main_param == 't').all()
+        secondary_stats = session.query(HeroesParamDic).filter(HeroesParamDic.main_param == 'f').all()
+        main_stats_result = {i.id_field: f'{i.name_field.lower()}-base' for i in main_stats}
+        secondary_stats_result = {i.id_field: i.name_field.lower() for i in secondary_stats}
+        result = {}
+        result['main_stats'] = main_stats_result
+        result['secondary_stats'] = secondary_stats_result
+
+        return result
 
 
 def read_player(mail):
     """Запрос guid пользователя по email"""
-    session = connect_db()
-    guid = session.query(Player).filter(Player.mail == mail).first().guid_player
-    return guid
+    with session_scope() as session:
+        guid = session.query(Player).filter(Player.mail == mail).first().guid_player
 
+        return guid
 
 
 def write_data_player(**kwargs):
     """Запись нового пользователя. Проверка на уникальность через mail.
     Функция возвращает guid_player в виде объекта UUID"""
-    session = connect_db()
-    print("WRITE DATA PLAYER")
-    try:
-        for playr in session.query(Player).order_by(Player.mail):
-            if playr.mail == kwargs['mail']:
-                print(f'user {playr.first_name} already exists')
-                return playr.guid_player
-    except (KeyError, DataError):
-        return print('keyerror')
-    try:
-        new_player = insert(Player).returning(Player.guid_player).values(**kwargs)  # Player(**kwargs)
-    except (KeyError, DataError):
-        return print(f'Ошибка {kwargs}')
-    current_guid = session.execute(new_player)
-    session.commit()
-    return current_guid.fetchall()
+    with session_scope() as session:
+        print("WRITE DATA PLAYER")
+        try:
+            for playr in session.query(Player).order_by(Player.mail):
+                if playr.mail == kwargs['mail']:
+                    print(f'user {playr.first_name} already exists')
+                    return playr.guid_player
+        except (KeyError, DataError):
+            return print('keyerror')
+        try:
+            new_player = insert(Player).returning(Player.guid_player).values(**kwargs)  # Player(**kwargs)
+        except (KeyError, DataError):
+            return print(f'Ошибка {kwargs}')
+        current_guid = session.execute(new_player)
+        result = current_guid.fetchall()
+
+        return result
 
 
-def write_data_hero(guid, **kwargs):
+def write_data_hero(guid, id_hero=None, **kwargs):
     """Принимаем guid пользователя, добавляем связанного с ним героя
     возвращает id вновь созданного героя"""
     # TODO: придумать как не дать делать новую запись если перс уже есть
-    session = connect_db()
-    print("WRITE DATA HERO")
 
-    try:
-        # new_hero = Hero(**kwargs, guid_player=guid)
-        new_hero = insert(Hero).returning(Hero.id_hero).values(**kwargs, guid_player=guid)
-        rproxy = session.execute(new_hero)
-        session.commit()
+    with session_scope() as session:
+        print("WRITE DATA HERO")
+        if id_hero:
+            pass
+        else:
+            try:
+                # new_hero = Hero(**kwargs, guid_player=guid)
 
-        id_hero = rproxy.fetchone()
-        print('ID HERO', id_hero)
-        res = 0
-        for i in id_hero:
-            res = i
-        print('NHIDdsada', res)
-        return res
+                new_hero = insert(Hero).returning(Hero.id_hero).values(**kwargs, guid_player=guid)
+                rproxy = session.execute(new_hero)
+                session.commit()
 
-    except ValueError:
-        return print(f'Ошибка при записи персонажа!')
+                id_hero = rproxy.fetchone()
+                session.close()
+                print('ID HERO', id_hero)
+                res = 0
+                for i in id_hero:
+                    res = i
 
-def update_hero(guid, id_hero, **kwargs):
-    session = connect_db()
-    herlist = select_all_heroes(guid)
-    for i in herlist:
-        print(f"send_name {kwargs['name_hero']}-{type(kwargs['name_hero'])} eq {i.name_hero}-{type(i.name_hero)}"
-              f" send class {kwargs['id_class']}-{type(kwargs['id_class'])} {i.id_class}-{type(str(i.id_class))}"
-              f"send race {kwargs['id_race']}-{type(kwargs['id_race'])} {i.id_race}-{type(str(i.id_race))}")
-        if (str(kwargs['name_hero']) == str(i.name_hero)) and (str(kwargs['id_class']) == str(i.id_hero)) and (
-                str(kwargs['id_race']) == str(i.id_race)):
-            print('SAMEEE')
-            insrt = insert(Hero).values(guid_player=guid, **kwargs)
-            do_update = insrt.on_conflict_do_update(index_elements=['id_hero'],
-                                                    set_=dict(**kwargs))
 
-            session.execute(do_update)
-            session.commit()
-            print(f'hero {i.name_hero} already exists')
-            return i.id_hero
+                return res
+
+            except ValueError:
+                return print(f'Ошибка при записи персонажа!')
+
+
+def update_hero(guid, id_hero, stats):
+    data = []
+    for st in stats:
+        st['id_hero'] = id_hero
+
+        data.append({k: v for k, v in st.items() if
+                     k in ['id_hero','id_field', 'training', 'field_int', 'field_string', 'field_money', 'modify_param']})
+
+    with session_scope() as session:
+        upsert(session, MainStats, data,  no_update_cols=['id_hero'])
+
 
 
 def select_all_heroes(guid):
     """По GUID пользователя читаем всех доступных ему персов"""
-    session = connect_db()
-    hers = session.query(Hero).filter(Hero.guid_player == guid).all()
-    available_hers = []
-    for i in hers:
-        curr_res = {}
-        for key in i.__dict__.keys():
-            if key != '_sa_instance_state' and key != 'guid_player':
-                curr_res[key] = i.__dict__[key]
+    with session_scope() as session:
+        hers = session.query(Hero).filter(Hero.guid_player == guid).all()
+        available_hers = []
+        for i in hers:
+            curr_res = {}
+            for key in i.__dict__.keys():
+                if key != '_sa_instance_state' and key != 'guid_player':
+                    curr_res[key] = i.__dict__[key]
 
-        available_hers.append(curr_res)
-    session.commit()
-    print(available_hers)
-    return available_hers
+            available_hers.append(curr_res)
+
+        return available_hers
+
 
 def get_preview_hero(uid):
     """Отладочная функция. Выбирает всех персонажей в базе"""
-    session = connect_db()
-    tables = session.query(Hero, Races, Classes).filter(Hero.guid_player==uid).filter(Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
-    res = []
-    for hero, race, clas in tables:
-        res.append({"id_hero":hero.id_hero, "name_hero":hero.name_hero, "class_hero":clas.name_field.capitalize(), "hero_level":hero.level_hero})
-    return res
+    with session_scope() as session:
+        tables = session.query(Hero, Races, Classes).filter(Hero.guid_player == uid).filter(
+            Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
+        res = []
+        for hero, race, clas in tables:
+            res.append(
+                {"id_hero": hero.id_hero, "name_hero": hero.name_hero, "class_hero": clas.name_field.capitalize(),
+                 "hero_level": hero.level_hero})
+        return res
 
 
 def hero_main_stats(id, **kwargs):
     """Запись основных характеристик героя"""
-    session = connect_db()
-    insrt = insert(MainStats).values(id_hero=id, **kwargs)
-    do_update = insrt.on_conflict_do_update(index_elements=['id_hero', 'id_field'],
-                                            set_=dict(training=kwargs['training'],
-                                                      field_int=kwargs['field_int'],
-                                                      field_money=kwargs['field_money']))
+    with session_scope() as session:
+        insrt = insert(MainStats).values(id_hero=id, **kwargs)
+        do_update = insrt.on_conflict_do_update(index_elements=['id_hero', 'id_field'],
+                                                set_=dict(training=kwargs['training'],
+                                                          field_int=kwargs['field_int'],
+                                                          field_money=kwargs['field_money']))
 
-    session.execute(do_update)
-    session.commit()
+        session.execute(do_update)
 
 
 def select_one_hero(guid, id):
     """"Выбор героя по гуид пользователя и ид героя"""
-    for i in select_all_heroes(guid):
-       #print(i, type(i.id_hero))
-       # print(type(id))
 
+    for i in select_all_heroes(guid):
         if i["id_hero"] == int(id):
+
             return i
 
 
@@ -310,7 +450,6 @@ her_stats = {
     'field_string': None,
     'field_money': None
 }
-
 
 # --------------DATA FOR TESTS---------------
 

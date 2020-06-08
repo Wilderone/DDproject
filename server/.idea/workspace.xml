@@ -4,6 +4,7 @@
     <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
       <change beforePath="$PROJECT_DIR$/../frontend/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.eslintrc" afterDir="false" />
@@ -17,8 +18,11 @@
 >>>>>>> master
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/Common.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Common.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" afterDir="false" />
+=======
+>>>>>>> master
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_exchange.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_exchange.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parse.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +49,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../dd" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../upload_data_into_db.py" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RunManager" selected="Python.db_exchange (1)">
@@ -181,10 +185,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="545" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1590688081801" />
-    <state x="887" y="295" key="FileChooserDialogImpl" timestamp="1591276735043">
+    <state x="887" y="295" key="FileChooserDialogImpl" timestamp="1591385921107">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="887" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591276735043" />
+    <state x="887" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591385921107" />
     <state width="1483" height="334" key="GridCell.Tab.0.bottom" timestamp="1591207847642">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -221,6 +225,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="430" y="183" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591279912376" />
+    <state width="872" height="430" key="XDebugger.FullValuePopup" timestamp="1591432502530">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="872" height="430" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1591432502530" />
+    <state x="607" y="320" width="1278" height="546" key="dock-window-1" timestamp="1591509674377">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="607" y="320" width="1278" height="546" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1591509674377" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

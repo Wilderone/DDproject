@@ -20,7 +20,7 @@
         class="row char-rows"
       >
         <div :class="[mianStatTitlebs, item.textTagName, 'main-charsk-text']">
-          <span>{{item.title}}</span>
+          <span>{{item.field_string}}</span>
         </div>
         <div :class="mainStatsInputbs" class="values">
           <button
@@ -32,7 +32,7 @@
             class="form-control mainCharacts"
             :id="item.idBase"
             disabled="true"
-            :value="item.valueBase"
+            :value="item.field_int"
           />
           <button
             @click.prevent="changeValue(item, 'base', 'plus')"
@@ -49,7 +49,7 @@
             class="form-control mainCharacts"
             :id="item.idModif"
             disabled="true"
-            :value="item.valueModif"
+            :value="item.modify_param"
           />
           <button
             @click.prevent="changeValue(item, 'modif', 'plus')"
@@ -73,10 +73,10 @@ export default {
   methods: {
     changeValue: function(item, base, oper) {
       // Хак или Костыль? Хак на грани Костыля или Костыль на грани Хака?
-      base === "base" && oper === "plus" ? item.valueBase++ : "";
-      base === "base" && oper === "minus" ? item.valueBase-- : "";
-      base === "modif" && oper === "plus" ? item.valueModif++ : "";
-      base === "modif" && oper === "minus" ? item.valueModif-- : "";
+      base === "base" && oper === "plus" ? item.field_int++ : "";
+      base === "base" && oper === "minus" ? item.field_int-- : "";
+      base === "modif" && oper === "plus" ? item.modify_param++ : "";
+      base === "modif" && oper === "minus" ? item.modify_param-- : "";
 
       let statsForLS = JSON.stringify(this.rows);
       localStorage.setItem("mainstats", statsForLS);

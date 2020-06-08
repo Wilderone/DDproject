@@ -15,13 +15,12 @@
 
   <main id="wrappy" class="wrapper container">
     <div id="common-t">
-      <common :fields="commonData.common" :list-of-class-race='listOfClassRace' :available-heroes="availableHeroes"
-        :get_available="get_available">
+      <common :fields="commonData.common" :list-of-class-race='listOfClassRace' @common-fields="changeCommon">
       </common>
-      <name :fields="commonData.nameSexExp"></name>
-      <size :fields="commonData.heigWeigSize"></size>
-      <vision :fields="commonData.visLang"></vision>
-      <save-common :common-data="commonData"></save-common>
+      <name :fields="commonData.nameSexExp" @common-fields="changeCommon"></name>
+      <size :fields="commonData.heigWeigSize" :size-id="sizesId.sizes" @common-fields="changeCommon"></size>
+      <vision :fields="commonData.visLang" :vis-lang-id="visLangIds" @common-fields="changeCommon"></vision>
+      <save-common :common-data="commonData" @common-fields="changeCommon"></save-common>
     </div>
 
     <div class="container">

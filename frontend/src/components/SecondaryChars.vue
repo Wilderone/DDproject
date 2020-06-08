@@ -18,7 +18,7 @@
       class="row"
     >
       <div class="col-2 col-sm-6 col-md-7 col-lg-7 col-xl-7">
-        <span>{{item.vizibleName}}</span>
+        <span>{{item.field_string}}</span>
       </div>
       <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 values">
         <button
@@ -33,9 +33,13 @@
           :id="item.tagName"
           disabled="true"
           :name="item.tagName"
+<<<<<<< HEAD
           :value="item.value"
 <<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+          :value="item.field_int"
+>>>>>>> master
           @change="$emit('changeChar', $event.target)"
 =======
           @change="$emit('changeChar', item)"
@@ -89,9 +93,9 @@ export default {
     changeValue: function(item, oper) {
       if (oper == "train") {
         item.training = !item.training;
-        item.training ? (item.value += 5) : (item.value -= 5);
+        item.training ? (item.field_int += 5) : (item.field_int -= 5);
       } else {
-        oper === "plus" ? item.value++ : item.value--;
+        oper === "plus" ? item.field_int++ : item.field_int--;
       }
       let secStatsForLs = JSON.stringify(this.secChars);
       localStorage.setItem("secondaryStats", secStatsForLs);
@@ -107,7 +111,7 @@ export default {
 >>>>>>> master
   computed: {
     watchValue: function() {
-      return this.secChars.value;
+      return this.secChars.field_int;
     }
   },
 <<<<<<< HEAD

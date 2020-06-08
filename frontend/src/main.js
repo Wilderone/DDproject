@@ -33,185 +33,185 @@ new Vue({
       {
         id_field: 0,
         tagName: "acrobatics",
-        vizibleName: "Акробатика (Лов)",
-        value: 2,
+        field_string: "Акробатика (Лов)",
+        field_int: 0,
         training: false
 
       },
       {
         id_field: 0,
         tagName: "athletics",
-        vizibleName: "Атлетика (Сил)",
-        value: 0,
+        field_string: "Атлетика (Сил)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "attention",
-        vizibleName: "Внимательность (Мдр)",
-        value: 0,
+        field_string: "Внимательность (Мдр)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "thef",
-        vizibleName: "Воровство (Лов)",
-        value: 0,
+        field_string: "Воровство (Лов)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "endurance",
-        vizibleName: "Выносливость (Тел)",
-        value: 0,
+        field_string: "Выносливость (Тел)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "intimidation",
-        vizibleName: "Запугивание (Хар)",
-        value: 0,
+        field_string: "Запугивание (Хар)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "streets",
-        vizibleName: "Знание улиц (Хар)",
-        value: 0,
+        field_string: "Знание улиц (Хар)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "history",
-        vizibleName: "История (Инт)",
-        value: 0,
+        field_string: "История (Инт)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "magic",
-        vizibleName: "Магия (Инт) ",
-        value: 0,
+        field_string: "Магия (Инт) ",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "deception",
-        vizibleName: "Обман (Хар)",
-        value: 0,
+        field_string: "Обман (Хар)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "conversation",
-        vizibleName: "Переговоры (Хар)",
-        value: 0,
+        field_string: "Переговоры (Хар)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "dungeons",
-        vizibleName: "Подземелья (Мдр)",
-        value: 0,
+        field_string: "Подземелья (Мдр)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "nature",
-        vizibleName: "Природа (Мдр)",
-        value: 0,
+        field_string: "Природа (Мдр)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "insight",
-        vizibleName: "Проницательность (Мдр)",
-        value: 0,
+        field_string: "Проницательность (Мдр)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "religion",
-        vizibleName: "Религия (Инт)",
-        value: 0,
+        field_string: "Религия (Инт)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "stealth",
-        vizibleName: "Скрытность (Лов)",
-        value: 0,
+        field_string: "Скрытность (Лов)",
+        field_int: 0,
         training: false
       },
       {
         id_field: 0,
         tagName: "healingchars",
-        vizibleName: "Целительство (Мдр)",
-        value: 5,
+        field_string: "Целительство (Мдр)",
+        field_int: 5,
         training: false
       }
     ],
 
     mainStats: [
       {
-        id: 3,
+        id_field: 3,
         mainTagName: "strength-row",
         textTagName: "strength-text",
         idBase: "strength-base",
         idModif: "strength-modif",
-        title: "Сила",
-        valueBase: 0,
-        valueModif: 0
+        field_string: "Сила",
+        field_int: 0,
+        modify_param: 0
       },
       {
-        id: 6,
+        id_field: 6,
         mainTagName: "stamina-row",
         textTagName: "stamina-text",
         idBase: "stamina-base",
         idModif: "stamina-modif",
-        title: "Телосложение",
-        valueBase: 0,
-        valueModif: 0
+        field_string: "Телосложение",
+        field_int: 0,
+        modify_param: 0
       },
       {
-        id: 4,
+        id_field: 4,
         mainTagName: "agility-row",
         textTagName: "agility-text",
         idBase: "agility-base",
         idModif: "agility-modif",
-        title: "Ловкость",
-        valueBase: 0,
-        valueModif: 0
+        field_string: "Ловкость",
+        field_int: 0,
+        modify_param: 0
       },
       {
-        id: 1,
+        id_field: 1,
         mainTagName: "intellect-row",
         textTagName: "intellect-text",
         idBase: "intellect-base",
         idModif: "intellect-modif",
-        title: "Интеллект",
-        valueBase: 0,
-        valueModif: 0
+        field_string: "Интеллект",
+        field_int: 0,
+        modify_param: 0
       },
       {
-        id: 2,
+        id_field: 2,
         mainTagName: "wisdome-row",
         textTagName: "wisdome-text",
         idBase: "wisdome-base",
         idModif: "wisdome-modif",
-        title: "Мудрость",
-        valueBase: 0,
-        valueModif: 0
+        field_string: "Мудрость",
+        field_int: 0,
+        modify_param: 0
       },
       {
-        id: 5,
+        id_field: 5,
         mainTagName: "charisma-row",
         textTagName: "charisma-text",
         idBase: "charisma-base",
         idModif: "charisma-modif",
-        title: "Харизма",
-        valueBase: 0,
-        valueModif: 0
+        field_string: "Харизма",
+        field_int: 0,
+        modify_param: 0
       }
     ],
 
@@ -228,10 +228,10 @@ new Vue({
       } else {
         let mainstatsForLoad = JSON.parse(localStorage.mainstats);
         this.mainStats.forEach(element => {
-          mainstatsForLoad.forEach(lsvalue => {
-            if (lsvalue.id == element.id) {
-              element.valueBase = +lsvalue.valueBase;
-              element.valueModif = +lsvalue.valueModif;
+          mainstatsForLoad.forEach(lsfield_int => {
+            if (lsfield_int.id_field == element.id_field) {
+              element.field_int = +lsfield_int.field_int;
+              element.modify_param = +lsfield_int.modify_param;
             }
           });
         })
@@ -244,12 +244,12 @@ new Vue({
       if (!localStorage.secondaryStats) {
         localStorage.secondaryStats = JSON.stringify(this.secStats);
       } else {
-
+        //dataining??
         let secStatsForLoad = JSON.parse(localStorage.secondaryStats);
         this.secStats.forEach(element => {
           secStatsForLoad.forEach(currStat => {
             if (element.id_field == currStat.id_field) {
-              element.value = +currStat.value
+              element.field_int = +currStat.field_int
               element.training = currStat.training
             }
           })
@@ -280,7 +280,7 @@ new Vue({
           Object.keys(respMainStats).forEach(function (respElem, respElemIndex) {
             if (elem.idBase == respMainStats[respElem]) {
 
-              elem.id = Object.keys(respMainStats)[respElemIndex]
+              elem.id_field = Object.keys(respMainStats)[respElemIndex]
             }
           })
 
@@ -305,6 +305,7 @@ new Vue({
 
 new Vue({
   el: "#common-t",
+
   components: {
     Common, Size, Vision, Name, SaveCommon
   },
@@ -317,18 +318,45 @@ new Vue({
         this.commonData = JSON.parse(localStorage.CommonData)
       }
     },
+    changeCommon: function (data) {
+      //Вызывается событием changeCommon из компонентов основных параметров
+      //data is Array [название объекта, название свойства, значение]
+      // listener на html компонентах
+      Object.keys(this.commonData[data[0]]).forEach(elem => {
 
+        if (elem == data[1]) {
+          console.log('elem', data[0], elem, data[2])
+          this.commonData[data[0]][elem] = data[2]
+        }
+      })
+      localStorage.CommonData = JSON.stringify(this.commonData)
+
+    },
+    parseParams: function (respons, groupName, storage) {
+      //для работы в created
+
+      respons[groupName].forEach(field_int => {
+        if (typeof (storage) == 'object') {
+          storage[groupName].push(JSON.parse(field_int))
+        } else { storage.push(JSON.parse(field_int)) }
+      })
+    }
   },
   created: function () {
     // Получение списка рас и классов, а так же получение
     // пока единственного GUID
+    this.readLsCommonData()
     //TODO когда прикрутишь авторизацию убери отсюда guid
     axios.get('http://80.65.23.35:5000/race_class').then(response => {
 <<<<<<< Updated upstream
 
       let common = this.listOfClassRace
+      let visLangFromBase = this.visLangIds
+      let respVulture = response.data.races_classes
+      let sizesWithId = this.sizesId
       sessionStorage.uid = response.data.player;
       console.log('resp', response.data)
+<<<<<<< HEAD
       response.data.races_classes.classes.forEach(value => {
 =======
 
@@ -359,20 +387,27 @@ new Vue({
         //console.log(value)
         common.races.push(JSON.parse(value))
         //common.classes.push(response.data.classes)
+=======
 
-      })
+      this.parseParams(respVulture, 'classes', common)
+      this.parseParams(respVulture, 'races', common)
+      this.parseParams(respVulture, 'vision', visLangFromBase)
+      this.parseParams(respVulture, 'language', visLangFromBase)
+      this.parseParams(respVulture, 'sizes', sizesWithId)
+
+
+>>>>>>> master
+
     })
 
       .catch(error => {
         console.log(error)
-      }).finally(() => {
-        this.readLsCommonData()
-        this.get_available()
       })
 
 
   },
 
+<<<<<<< HEAD
   data: {
     get_available: function () {
 <<<<<<< HEAD
@@ -397,16 +432,22 @@ new Vue({
         this.availableHeroes = []
         response.data.forEach(elem => {
           this.availableHeroes.push(elem)
+=======
+>>>>>>> master
 
+  data: {
 
-        })
-      })
-    },
-    availableHeroes: [],
 
     listOfClassRace: {
       races: [],
       classes: []
+    },
+    visLangIds: {
+      vision: [],
+      language: []
+    },
+    sizesId: {
+      sizes: [],
     },
 
     commonData: {
@@ -414,7 +455,7 @@ new Vue({
 
       common: {
         id_race: 0,
-        sex: '',
+        sex: 0,
         id_class: 0,
       },
       nameSexExp: {
@@ -425,11 +466,11 @@ new Vue({
       heigWeigSize: {
         height: '',
         weight: '',
-        size: '',
+        size: 0,
       },
       visLang: {
-        vision: '',
-        language_hero: ''
+        vision: 0,
+        language_hero: 0
       }
 
     },
