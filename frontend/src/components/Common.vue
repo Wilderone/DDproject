@@ -31,40 +31,42 @@
     </div>
 
     <div class="row names">
-      <div :class="col" v-for="param in paramsAll" :key="param.id">
-        <select
-          @change="[writeData(param.id, $event.target.value), $event.target.value == 0 ?
-           $event.target.classList.add('not-selected') : 
-           $event.target.classList.remove('not-selected')]"
-          v-model="setFields[param.id]"
-          :id="param.id"
-          type="text"
-          :class="['custom-select']"
-          :placeholder="setFields[param.id]"
-        >
-          <option
-            disabled
-            value="0"
-          >Выбери {{param.field_string == 'Раса' ? 'Расу' : param.field_string}}</option>
-          <option
-            v-for="item in param.options"
-            :key="item.name_field"
-            :value="item.id_field"
-          >{{item.name_field}}</option>
-        </select>
-        {{setFields[param.id]}}
-        {{fields[param.id]}}
-      </div>
+      <selecter
+        :class="this.col"
+        :ident-of-tab="'common'"
+        :set-fields="this.setFields"
+        :params-all="this.paramsAll.races"
+        @write-data="writeData"
+      ></selecter>
+      <selecter
+        :class="this.col"
+        :ident-of-tab="'common'"
+        :set-fields="this.setFields"
+        :params-all="this.paramsAll.classes"
+        @write-data="writeData"
+      ></selecter>
+      <selecter
+        :class="this.col"
+        :ident-of-tab="'common'"
+        :set-fields="this.setFields"
+        :params-all="this.paramsAll.sex"
+        @write-data="writeData"
+      ></selecter>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Selecter from "./Selecter";
 
 // end of imports
 const EventBus = require("../EventBus").default.v;
+
 export default {
+  components: {
+    Selecter
+  },
   props: ["fields", "listOfClassRace"],
   computed: {
     charsForLoad: function() {
@@ -90,16 +92,16 @@ export default {
         //loads-hero обрабатывается в SaveCommon
         //результат возвращается сюда при событии new-hero-data, см. ниже
         .then(response => {
-          EventBus.$emit("loads-hero", response.data);
+          console.log("responseeee", response.data);
+          EventBus.$emit("loads-hero", response.data.cd);
+          EventBus.$emit("loads-hero-stats", response.data.params.params);
         })
 
         .catch(error => {
           console.log(error);
         });
     },
-    consolelog: function(data) {
-      console.log(data);
-    },
+
     sendData: function() {
       //TODO Доделать сообщение при некорректном заполнении
       Object.keys(this.setFields).forEach((elem, index, array) => {
@@ -110,15 +112,18 @@ export default {
           return;
         }
       });
-      let saveNewValues = JSON.parse(localStorage.CommonData);
-      localStorage.setItem("CommonData", JSON.stringify(saveNewValues));
+      //let saveNewValues = JSON.parse(localStorage.CommonData);
+      //localStorage.setItem("CommonData", JSON.stringify(saveNewValues));
       this.get_available();
 
       EventBus.$emit("send-data");
     },
-    writeData: function(id, value) {
-      this.setFields[id] = value;
-      this.$emit("common-fields", ["common", id, value]);
+    writeData: function(data) {
+      console.log("emitted", data);
+      this.setFields[data[1]] = data[2];
+      console.log(this.setFields);
+
+      this.$emit("common-fields", data);
     },
     clearData: function() {
       localStorage.removeItem("CommonData");
@@ -155,19 +160,23 @@ export default {
     EventBus.$on("new-hero-data", newField => {
       this.setFields = newField.common;
     });
+    // EventBus.$on("write-data", data => {
+    //   this.writeData(data[0], data[1]);
+    // });
+
     return {
       availableHeroes: [],
       setFields: "",
       loadedHero: 0,
-      paramsAll: [
-        {
+      paramsAll: {
+        races: {
           id: "id_race",
           field_string: "Раса",
           defaultTitle: "Выбери расу",
           currOption: +this.fields.id_race == 0 ? 0 : this.fields.id_race,
           options: this.listOfClassRace.races
         },
-        {
+        classes: {
           id: "id_class",
           field_string: "Класс",
           defaultTitle: "Выбери класс",
@@ -177,7 +186,7 @@ export default {
               : this.fields.id_class,
           options: this.listOfClassRace.classes
         },
-        {
+        sex: {
           id: "sex",
           field_string: "Пол",
           currOption:
@@ -186,12 +195,12 @@ export default {
               : this.fields.sex,
 
           options: [
-            { id_field: 1, name_field: "Мужской" },
-            { id_field: 2, name_field: "Женский" },
-            { id_field: 3, name_field: "Другое" }
+            { id_param: 1, name_param: "Мужской" },
+            { id_param: 2, name_param: "Женский" },
+            { id_param: 3, name_param: "Другое" }
           ]
         }
-      ],
+      },
       errors: [],
       currRace: "",
       cirrCLass: "",

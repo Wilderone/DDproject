@@ -67,10 +67,11 @@ def selhero():
     guid = req['uid']
     id_hero = req['id']
     print(id_hero)
-    res = db.select_one_hero(guid, id_hero)
+    common = db.select_one_hero(guid, id_hero)
+    params = db.read_hero_params(id_hero)
+    res = {'cd':{'commonData': common}, 'params':{"params": params}}
 
-
-    return res
+    return json.dumps(res)
 
 # app.run(host="localhost", port="5000", debug=True)
 serve(app, host='192.168.0.14', port=5000)

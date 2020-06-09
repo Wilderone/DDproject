@@ -80,7 +80,6 @@ export default {
 
       let statsForLS = JSON.stringify(this.rows);
       localStorage.setItem("mainstats", statsForLS);
-      //   localStorage.mainstats.item.tagName = item.value;
     }
   },
 

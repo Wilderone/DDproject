@@ -9,7 +9,7 @@ class ParseRequest:
         self.common = data['common']
         self.main_stats = data['basicsLs']
         self.secondary_stats = data['secondaryChars']
-        self.current_hero = None
+
         try:
             self.current_hero = self.common['curr_hero_id']
         except KeyError:
@@ -17,22 +17,24 @@ class ParseRequest:
         self.curr_player = None
 
     def current_owner(self):
-        owner_data = self.data['common']
+        owner_data = self.common
         owner = {}
         owner['first_name']= owner_data['owner'],
         owner['last_name']= owner_data['owner'],
         owner['mail'] = f'{owner_data["owner"]}@email.ru'
+
         try:
             guid = db.read_player(owner['mail'])
             owner['guid_player'] = guid
+            self.current_player = guid
         except AttributeError:
 
             owner['guid_player'] = puuid.uuid1()
-        owner['password_pl'] = 'superpassword'
-        curr_player = db.write_data_player(**owner)
-        self.current_player = curr_player
+            owner['password_pl'] = 'superpassword'
+            self.current_player = db.write_data_player(**owner)
+
         print('CURRENT GUID',self.current_player)
-        return curr_player
+        return self.current_player
 
     def write_hero_common(self):
         result = {**self.common['nameSexExp'], **self.common['heigWeigSize'], **self.common['visLang'], **self.common['common']}

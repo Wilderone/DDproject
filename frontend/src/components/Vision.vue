@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="row size">
-      <div v-for="(param) in paramsAll" :key="param.id" :class="[col, param.id]">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend"></div>
-          <select
+      <!-- <select
             :id="param.id"
             type="text"
             class="form-control"
@@ -17,20 +14,38 @@
               :key="item.id_field"
               :value="item.id_field"
             >{{item.name_field}}</option>
-          </select>
-        </div>
-      </div>
+      </select>-->
+      <selecter
+        :ident-of-tab="'visLang'"
+        :class="this.col"
+        :set-fields="this.setFields"
+        :params-all="this.paramsAll.language"
+        @write-data="writeData"
+      ></selecter>
+      <selecter
+        :ident-of-tab="'visLang'"
+        :class="this.col"
+        :set-fields="this.setFields"
+        :params-all="this.paramsAll.vision"
+        @write-data="writeData"
+      ></selecter>
     </div>
   </div>
 </template>
 <script>
+import Selecter from "./Selecter";
 const EventBus = require("../EventBus").default.v;
+
 export default {
   props: ["fields", "visLangId"],
+  components: { Selecter },
   methods: {
-    writeData: function(id, value) {
-      this.fields[id] = value;
-      this.$emit("common-fields", ["visLang", id, value]);
+    writeData: function(data) {
+      console.log("emitted", data);
+      this.setFields[data[1]] = data[2];
+      console.log(this.setFields);
+
+      this.$emit("common-fields", data);
     }
   },
   created: function() {
@@ -41,22 +56,25 @@ export default {
     EventBus.$on("new-hero-data", newField => {
       this.setFields = newField.visLang;
     });
+    // EventBus.$on("write-data", data => {
+    //   this.writeData(data[0], data[1]);
+    // });
     return {
       setFields: "",
-      paramsAll: [
-        {
+      paramsAll: {
+        vision: {
           id: "vision",
           field_string: "Зрение",
           value: "",
           options: this.visLangId.vision
         },
-        {
+        language: {
           id: "language_hero",
           field_string: "Язык",
           value: "",
           options: this.visLangId.language
         }
-      ],
+      },
       col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
     };
   }

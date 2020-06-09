@@ -5,12 +5,10 @@ from sqlalchemy.dialects.postgresql import MONEY
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import DataError
 from sqlalchemy.dialects import postgresql
-from sqlalchemy import not_, select, exists, update, UniqueConstraint, ForeignKeyConstraint
-
+from sqlalchemy import not_, select, exists, update, UniqueConstraint, ForeignKeyConstraint, func
+import psycopg2
 
 from contextlib import contextmanager
-
-
 
 import uuid as puuid
 # from sqlalchemy.types import JSON
@@ -85,65 +83,31 @@ class Hero(Base):
 
 class Classes(Base):
     __tablename__ = "heroes_class_dic"
-    id_field = sa.Column(sa.ForeignKey('heroes.id_class'), primary_key=True)
-    name_field = sa.Column(sa.VARCHAR)
+    id_class = sa.Column(sa.ForeignKey('heroes.id_class'), primary_key=True)
+    name_class = sa.Column(sa.VARCHAR)
 
     def convert_json(self):
-        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+        return json.dumps({'id_class': self.id_class, 'name_class': self.name_class.capitalize()}, ensure_ascii=False)
 
 
 class Races(Base):
     __tablename__ = "heroes_races_dic"
-    id_field = sa.Column(sa.ForeignKey('heroes.id_race'), primary_key=True)
-    name_field = sa.Column(sa.VARCHAR)
+    id_race = sa.Column(sa.ForeignKey('heroes.id_race'), primary_key=True)
+    name_race = sa.Column(sa.VARCHAR)
+    count_languages = sa.Column(sa.Integer)
+    language_default = sa.Column(sa.Integer)
 
     def __repr__(self):
-        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
+        return f"'id_race': {self.id_race}, 'name_race':{self.name_race}"
 
     def convert_json(self):
-        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
-
-
-class Sizes(Base):
-    __tablename__ = "heroes_size_dic"
-    id_field = sa.Column(sa.Integer, primary_key=True)
-    name_field = sa.Column(sa.VARCHAR)
-
-    def __repr__(self):
-        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
-
-    def convert_json(self):
-        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
-
-
-class Vision(Base):
-    __tablename__ = "heroes_vision_dic"
-    id_field = sa.Column(sa.Integer, primary_key=True)
-    name_field = sa.Column(sa.VARCHAR)
-
-    def __repr__(self):
-        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
-
-    def convert_json(self):
-        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
-
-
-class Language(Base):
-    __tablename__ = "heroes_language_dic"
-    id_field = sa.Column(sa.Integer, primary_key=True)
-    name_field = sa.Column(sa.VARCHAR)
-
-    def __repr__(self):
-        return f"'id_field': {self.id_field}, 'name_field':{self.name_field}"
-
-    def convert_json(self):
-        return json.dumps({'id_field': self.id_field, 'name_field': self.name_field.capitalize()}, ensure_ascii=False)
+        return json.dumps({'id_race': self.id_race, 'name_race': self.name_race.capitalize()}, ensure_ascii=False)
 
 
 class MainStats(Base):
     __tablename__ = 'heroes_param_addfl_array'
     id_hero = sa.Column(sa.ForeignKey("heroes.id_hero"), primary_key=True)
-    id_field = sa.Column(sa.Integer, primary_key=True)
+    id_param = sa.Column(sa.Integer, primary_key=True)
     modify_param = sa.Column(sa.Integer)
     field_int = sa.Column(sa.Integer)
     field_string = sa.Column(sa.VARCHAR)
@@ -153,9 +117,19 @@ class MainStats(Base):
     def __repr__(self):
         return str([getattr(self, c.name, None) for c in self.__table__.c])
 
+    def convert_json(self):
+        return json.dumps({'id_param': self.id_param, 'training': self.training, 'field_int': self.field_int,
+                           'field_string': self.field_string,
+                           'field_money': self.field_money, 'modify_param': self.modify_param}, ensure_ascii=False)
+            # {'id_param': self.id_param, 'training': self.training, 'field_int': self.field_int,
+            #                'field_string': self.field_string,
+            #                'field_money': self.field_money, 'modify_param': self.modify_param}, ensure_ascii=False)
+
+
 def compile_query(query):
     compiler = query.compile if not hasattr(query, 'statement') else query.statement.compile
     return compiler(dialect=postgresql.dialect())
+
 
 def upsert(session, model, rows, new_int='field_int', new_modif="modify_param", no_update_cols=[]):
     table = model.__table__
@@ -171,20 +145,24 @@ def upsert(session, model, rows, new_int='field_int', new_modif="modify_param", 
         set_={k: getattr(stmt.excluded, k) for k in update_cols},
         index_where=(getattr(model, new_int) != getattr(stmt.excluded, new_int)))
 
-
     session.execute(on_conflict_stmt)
-
-    # __table_args__ = (
-    #     UniqueConstraint(id_hero, id_field, name='uq_mainstats_id_hero_id_field'),
-    # )
 
 
 class HeroesParamDic(Base):
     __tablename__ = 'heroes_param_dic'
-    id_field = sa.Column(sa.Integer, primary_key=True)
-    main_param = sa.Column(sa.BOOLEAN, nullable=False)
-    name_field = sa.Column(sa.VARCHAR)
+    id_param = sa.Column(sa.Integer, primary_key=True)
+    id_type_param = sa.Column(sa.Integer, nullable=False)
+    name_param = sa.Column(sa.VARCHAR)
     short_name_field = sa.Column(sa.VARCHAR)
+
+    def __repr__(self):
+        return f"'id_param: {self.id_param}, 'id_type_param':{self.id_type_param}, 'name_param':{self.name_param}, 'short_name_field':{self.short_name_field} "
+
+    def convert_json(self):
+        return json.dumps(
+            {'id_param': self.id_param, 'name_param': self.name_param.capitalize(), 'id_type_param': self.id_type_param,
+             'short_name_field': self.short_name_field}, ensure_ascii=False)
+    ##return json.dumps({'id_param': {self.id_param}, 'id_type_param':{self.id_type_param}, 'name_param':{self.name_param.capitalize()}, 'short_name_field':{self.short_name_field}}, ensure_ascii=False)
 
 
 def connect_db():
@@ -211,39 +189,6 @@ def session_scope():
         session.close()
 
 
-# <Сияние чистого ебланства>
-# def get_gen_rc(cq):
-#     """Получение генератора, для рас или классов. На вход query объект,
-#     дальше вызывается функцией validate_rc чтоб скомпоновать данные"""
-#     index = 0
-#     res = {}
-#     for q in cq:
-#         for k, v in q.__dict__.items():
-#             if type(v) == str or type(v) == int:
-#                 if type(v) == str:
-#                     res[str(index)] = {str(k): v.capitalize()}
-#                 else:
-#                     res[str(index)] = {str(k): v}
-#                 yield res
-#                 index += 1
-#
-# def validate_rc(gen):
-#     """Генератор записывает всё в i"""
-#     for i in gen:
-#         continue
-#     cntr = 0
-#     res_clases = {}
-#     while cntr < len(i):
-#         res_clases[str(cntr)] = {**i[str(cntr)], **i[str(cntr + 1)]}
-#         cntr += 2
-#     return res_clases
-# </Сияние чистого ебланства>
-
-
-# def get_sizes():
-#     with connect_db():
-
-
 def read_classes_races_etc():
     """Получаем id-name классов и расс, upd: зрения, размеров, языков. Все для выпадающих список персонажа
     результат в формате {'name_field': str, 'id_field': int}"""
@@ -251,10 +196,10 @@ def read_classes_races_etc():
     with session_scope() as session:
         class_query = session.query(Classes).all()
         race_query = session.query(Races).all()
-        vision_query = session.query(Vision).all()
-        sizes_query = session.query(Sizes).all()
-        lang_query = session.query(Language).all()
 
+        vision_query = session.query(HeroesParamDic).filter(HeroesParamDic.id_type_param == 3).all()
+        sizes_query = session.query(HeroesParamDic).filter(HeroesParamDic.id_type_param == 5).all()
+        lang_query = session.query(HeroesParamDic).filter(HeroesParamDic.id_type_param == 4).all()
         race_result = []
         vision_result = []
         sizes_result = []
@@ -277,6 +222,7 @@ def read_classes_races_etc():
 
         result = {'classes': class_result, "races": race_result, 'sizes': sizes_result, "vision": vision_result,
                   "language": lang_result}
+
         session.close()
         return result
 
@@ -287,10 +233,10 @@ def read_classes_races_etc():
 def read_stats():
     """Получаем id-name полей статов"""
     with session_scope() as session:
-        main_stats = session.query(HeroesParamDic).filter(HeroesParamDic.main_param == 't').all()
-        secondary_stats = session.query(HeroesParamDic).filter(HeroesParamDic.main_param == 'f').all()
-        main_stats_result = {i.id_field: f'{i.name_field.lower()}-base' for i in main_stats}
-        secondary_stats_result = {i.id_field: i.name_field.lower() for i in secondary_stats}
+        main_stats = session.query(HeroesParamDic).filter(HeroesParamDic.id_type_param == int(1)).all()
+        secondary_stats = session.query(HeroesParamDic).filter(HeroesParamDic.id_type_param == int(2)).all()
+        main_stats_result = {i.id_param: f'{i.name_param.capitalize()}-base' for i in main_stats}
+        secondary_stats_result = {i.id_param: i.name_param.lower() for i in secondary_stats}
         result = {}
         result['main_stats'] = main_stats_result
         result['secondary_stats'] = secondary_stats_result
@@ -301,8 +247,10 @@ def read_stats():
 def read_player(mail):
     """Запрос guid пользователя по email"""
     with session_scope() as session:
-        guid = session.query(Player).filter(Player.mail == mail).first().guid_player
-
+        try:
+            guid = session.query(Player).filter(Player.mail == mail).first().guid_player
+        except AttributeError:
+            guid = write_data_player(**superuser)
         return guid
 
 
@@ -324,7 +272,6 @@ def write_data_player(**kwargs):
             return print(f'Ошибка {kwargs}')
         current_guid = session.execute(new_player)
         result = current_guid.fetchall()
-
         return result
 
 
@@ -336,7 +283,8 @@ def write_data_hero(guid, id_hero=None, **kwargs):
     with session_scope() as session:
         print("WRITE DATA HERO")
         if id_hero:
-            pass
+            update_hero(guid, id_hero, **kwargs)
+
         else:
             try:
                 # new_hero = Hero(**kwargs, guid_player=guid)
@@ -352,7 +300,6 @@ def write_data_hero(guid, id_hero=None, **kwargs):
                 for i in id_hero:
                     res = i
 
-
                 return res
 
             except ValueError:
@@ -365,11 +312,11 @@ def update_hero(guid, id_hero, stats):
         st['id_hero'] = id_hero
 
         data.append({k: v for k, v in st.items() if
-                     k in ['id_hero','id_field', 'training', 'field_int', 'field_string', 'field_money', 'modify_param']})
+                     k in ['id_hero', 'id_param', 'training', 'field_int', 'field_string', 'field_money',
+                           'modify_param']})
 
     with session_scope() as session:
-        upsert(session, MainStats, data,  no_update_cols=['id_hero'])
-
+        upsert(session, MainStats, data, no_update_cols=['id_hero'])
 
 
 def select_all_heroes(guid):
@@ -382,22 +329,24 @@ def select_all_heroes(guid):
             for key in i.__dict__.keys():
                 if key != '_sa_instance_state' and key != 'guid_player':
                     curr_res[key] = i.__dict__[key]
-
             available_hers.append(curr_res)
+    return available_hers
 
-        return available_hers
+
+
 
 
 def get_preview_hero(uid):
     """Отладочная функция. Выбирает всех персонажей в базе"""
     with session_scope() as session:
         tables = session.query(Hero, Races, Classes).filter(Hero.guid_player == uid).filter(
-            Hero.id_race == Races.id_field, Hero.id_class == Classes.id_field).all()
+            Hero.id_race == Races.id_race, Hero.id_class == Classes.id_class).all()
         res = []
         for hero, race, clas in tables:
             res.append(
-                {"id_hero": hero.id_hero, "name_hero": hero.name_hero, "class_hero": clas.name_field.capitalize(),
+                {"id_hero": hero.id_hero, "name_hero": hero.name_hero, "class_hero": clas.name_class.capitalize(),
                  "hero_level": hero.level_hero})
+
         return res
 
 
@@ -405,7 +354,7 @@ def hero_main_stats(id, **kwargs):
     """Запись основных характеристик героя"""
     with session_scope() as session:
         insrt = insert(MainStats).values(id_hero=id, **kwargs)
-        do_update = insrt.on_conflict_do_update(index_elements=['id_hero', 'id_field'],
+        do_update = insrt.on_conflict_do_update(index_elements=['id_hero', 'id_param'],
                                                 set_=dict(training=kwargs['training'],
                                                           field_int=kwargs['field_int'],
                                                           field_money=kwargs['field_money']))
@@ -413,22 +362,34 @@ def hero_main_stats(id, **kwargs):
         session.execute(do_update)
 
 
+def read_hero_params(id_hero):
+    with session_scope() as session:
+        result = []
+        hero_stats = session.query(MainStats).filter(MainStats.id_hero == id_hero).all()
+        for stat in hero_stats:
+            print('JSONY',stat.convert_json())
+            result.append(stat.convert_json())
+
+        return result
+
+
 def select_one_hero(guid, id):
     """"Выбор героя по гуид пользователя и ид героя"""
 
     for i in select_all_heroes(guid):
         if i["id_hero"] == int(id):
+            print('one_hero', i)
 
             return i
 
 
 # --------------DATA FOR TESTS---------------
-player = {
+superuser = {
     'guid_player': puuid.uuid1(),
-    'first_name': 'Zina',
+    'first_name': 'superuser',
     'mid_name': '',
-    'last_name': 'Korzina',
-    'mail': 'a@korfdsfszina.ru',
+    'last_name': '',
+    'mail': 'superuser@mail.ru',
     'password_pl': '21q2w3e4r'
 }
 
@@ -443,7 +404,7 @@ her_common = {'name_hero': 'ZINA_HERO',
               'vision': 1, 'language_hero': 6,
               }
 her_stats = {
-    'id_field': 15,
+    'id_hero': 15,
     'training': False,
     'field_int': 2,
     'field_string': None,
@@ -453,6 +414,14 @@ her_stats = {
 # --------------DATA FOR TESTS---------------
 
 # ------------------TESTS---------------------
+# #DB_PATH = 'postgresql://backend:54321@80.65.23.35:9988/postgres'
+# engine = sa.create_engine((DB_PATH))
+# ses = engine.raw_connection()
+# curs = ses.cursor()
+# #curs.execute('CALL create_table();')
+# curs.execute('CALL insert_into_table()')
+# ses.commit()
+# ses.close()
 #
 # write_data_player(**player)
 # a = write_data_hero(read_player(player['mail']), **her_common)

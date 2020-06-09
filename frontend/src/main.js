@@ -8,8 +8,10 @@ import Tabs from "./components/Tabs";
 import Hits from "./components/Hits";
 import MainStats from "./components/MainStats";
 import SaveCommon from "./components/SaveCommon";
+import Selecter from "./components/Selecter"
 import lsWatcher from "vue-storage-watcher"
 import axios from 'axios';
+
 
 
 
@@ -31,7 +33,7 @@ new Vue({
 
     secStats: [
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "acrobatics",
         field_string: "Акробатика (Лов)",
         field_int: 0,
@@ -39,112 +41,112 @@ new Vue({
 
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "athletics",
         field_string: "Атлетика (Сил)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "attention",
         field_string: "Внимательность (Мдр)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "thef",
         field_string: "Воровство (Лов)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "endurance",
         field_string: "Выносливость (Тел)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "intimidation",
         field_string: "Запугивание (Хар)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "streets",
         field_string: "Знание улиц (Хар)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "history",
         field_string: "История (Инт)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "magic",
         field_string: "Магия (Инт) ",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "deception",
         field_string: "Обман (Хар)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "conversation",
         field_string: "Переговоры (Хар)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "dungeons",
         field_string: "Подземелья (Мдр)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "nature",
         field_string: "Природа (Мдр)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "insight",
         field_string: "Проницательность (Мдр)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "religion",
         field_string: "Религия (Инт)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "stealth",
         field_string: "Скрытность (Лов)",
         field_int: 0,
         training: false
       },
       {
-        id_field: 0,
+        id_param: 0,
         tagName: "healingchars",
         field_string: "Целительство (Мдр)",
         field_int: 5,
@@ -154,64 +156,70 @@ new Vue({
 
     mainStats: [
       {
-        id_field: 3,
+        id_param: 3,
         mainTagName: "strength-row",
         textTagName: "strength-text",
         idBase: "strength-base",
         idModif: "strength-modif",
         field_string: "Сила",
         field_int: 0,
-        modify_param: 0
+        modify_param: 0,
+        training: false
       },
       {
-        id_field: 6,
+        id_param: 6,
         mainTagName: "stamina-row",
         textTagName: "stamina-text",
         idBase: "stamina-base",
         idModif: "stamina-modif",
         field_string: "Телосложение",
         field_int: 0,
-        modify_param: 0
+        modify_param: 0,
+        training: false
       },
       {
-        id_field: 4,
+        id_param: 4,
         mainTagName: "agility-row",
         textTagName: "agility-text",
         idBase: "agility-base",
         idModif: "agility-modif",
         field_string: "Ловкость",
         field_int: 0,
-        modify_param: 0
+        modify_param: 0,
+        training: false
       },
       {
-        id_field: 1,
+        id_param: 1,
         mainTagName: "intellect-row",
         textTagName: "intellect-text",
         idBase: "intellect-base",
         idModif: "intellect-modif",
         field_string: "Интеллект",
         field_int: 0,
-        modify_param: 0
+        modify_param: 0,
+        training: false
       },
       {
-        id_field: 2,
+        id_param: 2,
         mainTagName: "wisdome-row",
         textTagName: "wisdome-text",
         idBase: "wisdome-base",
         idModif: "wisdome-modif",
         field_string: "Мудрость",
         field_int: 0,
-        modify_param: 0
+        modify_param: 0,
+        training: false
       },
       {
-        id_field: 5,
+        id_param: 5,
         mainTagName: "charisma-row",
         textTagName: "charisma-text",
         idBase: "charisma-base",
         idModif: "charisma-modif",
         field_string: "Харизма",
         field_int: 0,
-        modify_param: 0
+        modify_param: 0,
+        training: false
       }
     ],
 
@@ -229,7 +237,7 @@ new Vue({
         let mainstatsForLoad = JSON.parse(localStorage.mainstats);
         this.mainStats.forEach(element => {
           mainstatsForLoad.forEach(lsfield_int => {
-            if (lsfield_int.id_field == element.id_field) {
+            if (lsfield_int.id_param == element.id_param) {
               element.field_int = +lsfield_int.field_int;
               element.modify_param = +lsfield_int.modify_param;
             }
@@ -244,11 +252,11 @@ new Vue({
       if (!localStorage.secondaryStats) {
         localStorage.secondaryStats = JSON.stringify(this.secStats);
       } else {
-        //dataining??
+
         let secStatsForLoad = JSON.parse(localStorage.secondaryStats);
         this.secStats.forEach(element => {
           secStatsForLoad.forEach(currStat => {
-            if (element.id_field == currStat.id_field) {
+            if (element.id_param == currStat.id_param) {
               element.field_int = +currStat.field_int
               element.training = currStat.training
             }
@@ -269,7 +277,7 @@ new Vue({
           Object.keys(respSecondary).forEach(function (respElem, respElemIndex) {
             if (elem.tagName == respSecondary[respElem]) {
 
-              elem.id_field = Object.keys(respSecondary)[respElemIndex]
+              elem.id_param = Object.keys(respSecondary)[respElemIndex]
             }
           })
           //CHANGE
@@ -280,7 +288,7 @@ new Vue({
           Object.keys(respMainStats).forEach(function (respElem, respElemIndex) {
             if (elem.idBase == respMainStats[respElem]) {
 
-              elem.id_field = Object.keys(respMainStats)[respElemIndex]
+              elem.id_param = Object.keys(respMainStats)[respElemIndex]
             }
           })
 
@@ -302,9 +310,12 @@ new Vue({
   el: "#common-t",
 
   components: {
-    Common, Size, Vision, Name, SaveCommon
+    Common, Size, Vision, Name, SaveCommon, Selecter
   },
+
+
   methods: {
+
     readLsCommonData: function () {
 
       if (!localStorage.CommonData) {
@@ -313,6 +324,7 @@ new Vue({
         this.commonData = JSON.parse(localStorage.CommonData)
       }
     },
+
     changeCommon: function (data) {
       //Вызывается событием changeCommon из компонентов основных параметров
       //data is Array [название объекта, название свойства, значение]
@@ -370,6 +382,7 @@ new Vue({
 
 
   data: {
+
 
 
     listOfClassRace: {

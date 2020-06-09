@@ -58,7 +58,6 @@
   </div>
 </template>
 <script>
-//import func from "../../vue-temp/vue-editor-bridge";
 const EventBus = require("../EventBus").default.v;
 const Tab = require("./Tabs").default.data.selectedTab;
 export default {

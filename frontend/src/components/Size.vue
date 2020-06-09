@@ -15,27 +15,30 @@
           />
         </div>
       </div>
+
       <div :class="col">
         <select
           id="size"
-          v-model="setFields['size']"
+          v-model="setFields.size"
           @change="writeData('size', $event.target.value)"
           class="form-control"
         >
           <option
             v-for="size in sizeId"
-            :key="size.id_field"
-            :value="size.id_field"
-          >{{size.name_field}}</option>
+            :key="size.id_param"
+            :value="size.id_param"
+          >{{size.name_param}}</option>
         </select>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Selecter from "./Selecter";
 const EventBus = require("../EventBus").default.v;
 export default {
   props: ["fields", "sizeId"],
+
   methods: {
     writeData: function(id, value) {
       console.log(id, value);
