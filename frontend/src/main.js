@@ -380,10 +380,7 @@ new Vue({
 
   },
 
-
   data: {
-
-
 
     listOfClassRace: {
       races: [],
