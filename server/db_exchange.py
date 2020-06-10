@@ -300,7 +300,7 @@ def write_data_hero(guid, id_hero=None, **kwargs):
                 for i in id_hero:
                     res = i
 
-                return res
+                return {'hero': res, 'status': 'created'}
 
             except ValueError:
                 return print(f'Ошибка при записи персонажа!')
@@ -308,8 +308,11 @@ def write_data_hero(guid, id_hero=None, **kwargs):
 
 def update_hero(guid, id_hero, stats):
     data = []
+
     for st in stats:
+
         st['id_hero'] = id_hero
+        print('stats', st)
 
         data.append({k: v for k, v in st.items() if
                      k in ['id_hero', 'id_param', 'training', 'field_int', 'field_string', 'field_money',
@@ -317,6 +320,7 @@ def update_hero(guid, id_hero, stats):
 
     with session_scope() as session:
         upsert(session, MainStats, data, no_update_cols=['id_hero'])
+        session.commit()
 
 
 def select_all_heroes(guid):
@@ -367,7 +371,7 @@ def read_hero_params(id_hero):
         result = []
         hero_stats = session.query(MainStats).filter(MainStats.id_hero == id_hero).all()
         for stat in hero_stats:
-            print('JSONY',stat.convert_json())
+
             result.append(stat.convert_json())
 
         return result

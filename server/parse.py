@@ -41,8 +41,11 @@ class ParseRequest:
         return db.write_data_hero(self.current_player, id_hero=self.current_hero, **result)
 
     def current_hero_id(self):
-        if self.current_hero:
+        if self.current_hero and self.current_hero != 0:
+            db.update_hero(guid=self.current_owner(), id_hero=self.current_hero, stats=self.parse_hero_main_stats())
+            db.update_hero(guid=self.current_owner(), id_hero=self.current_hero, stats=self.parse_hero_sec_stats())
             return self.current_hero
+
         else:
             return self.write_hero_common()
 

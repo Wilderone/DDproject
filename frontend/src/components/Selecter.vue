@@ -1,29 +1,28 @@
 <template>
   <div>
     <!-- v-for="(index, param) in Object.keys(paramsAll)" :key="index" -->
-    <div>
-      <select
-        :value="paramsAll.currOption"
-        @change="[writeData(paramsAll.id, $event.target.value), $event.target.value == 0 ?
+
+    <select
+      :value="setFields[paramsAll.id]"
+      @change="[writeData(paramsAll.id, $event.target.value), $event.target.value == 0 ?
            $event.target.classList.add('not-selected') : 
            $event.target.classList.remove('not-selected')]"
-        :id="0"
-        type="text"
-        :class="['custom-select']"
-      >
-        <!-- v-model="setFields[param.id]" -->
-        <option
-          disabled
-          value="0"
-        >Выбери {{paramsAll.field_string == 'Раса' ? 'Расу' : paramsAll.field_string}}</option>
-        <option
-          v-for="(param, index) in Object.values(paramsAll.options)"
-          :key="index"
-          :value="Object.values(param)[0]"
-          :v-model="param.currOption"
-        >{{Object.values(param)[1]}}</option>
-      </select>
-    </div>
+      :id="0"
+      type="text"
+      :class="['custom-select']"
+    >
+      <!-- v-model="setFields[param.id]" -->
+      <option
+        disabled
+        value="0"
+      >Выбери {{paramsAll.field_string == 'Раса' ? 'Расу' : paramsAll.field_string}}</option>
+      <option
+        v-for="(param, index) in Object.values(paramsAll.options)"
+        :key="index"
+        :value="Object.values(param)[0]"
+        :v-model="param.currOption"
+      >{{Object.values(param)[1]}}</option>
+    </select>
   </div>
 </template>
 <script>

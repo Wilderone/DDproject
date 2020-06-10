@@ -33,28 +33,52 @@ export default {
         });
       });
 
-      console.log("currcommondata", currentCommonData);
+      // console.log("currcommondata", currentCommonData);
       localStorage.CommonData = JSON.stringify(currentCommonData);
       EventBus.$emit("new-hero-data", currentCommonData);
     }),
       EventBus.$on("loads-hero-stats", data => {
+        // Парс и сохранение в ls основных характеристик (сила, ловкость и тд)
+        console.log("парс основных");
         let currentMainParams = JSON.parse(localStorage.mainstats);
-        console.log("BEFORE", currentMainParams);
         let currentSecParams = JSON.parse(localStorage.secondaryStats);
-        currentMainParams.forEach(mainParData => {
-          console.log("mpd", mainParData);
-          Object.keys(data).forEach(currentData => {
-            if (currentData.id_param == mainParData.id_param) {
-              mainParData.field_int = currentData.field_int;
-              mainParData.training = currentData.training;
-              if (currentData.modify_param && mainParData.modify_param) {
-                mainParData.modify_param = currentData.modify_param;
+        currentMainParams.forEach(mainParElem => {
+          data.forEach(elemstr => {
+            let elem = JSON.parse(JSON.stringify(elemstr));
+            try {
+              if (mainParElem.id_param == JSON.parse(elem).id_param) {
+                mainParElem.field_int = JSON.parse(elem).field_int;
+                mainParElem.modify_param = JSON.parse(elem).modify_param;
               }
+            } catch (e) {
+              console.log("E", e);
+              console.log("ERRROR", elem);
+              alert("Ошибка получения основных характеристик");
             }
-            // TODO продолжить тут. При создании перса приходит ид существующего
           });
         });
-        console.log("AFTER", currentMainParams);
+        // парс вторичных характеристик (Акробатика и тд)
+        console.log("парс вторичных");
+        currentSecParams.forEach(secParElem => {
+          data.forEach(elemstr => {
+            let elem = JSON.parse(JSON.stringify(elemstr));
+            try {
+              if (+secParElem.id_param == +JSON.parse(elem).id_param) {
+                secParElem.field_int = JSON.parse(elem).field_int;
+                secParElem.training = JSON.parse(elem).training;
+              }
+            } catch (e) {
+              console.log("E", e);
+              console.log("ERRROR", elem);
+              alert("Ошибка получения основных характеристик");
+            }
+          });
+        });
+        console.log("newsecparam", currentSecParams);
+        localStorage.mainstats = JSON.stringify(currentMainParams);
+        EventBus.$emit("main-characts-loads", currentMainParams);
+        localStorage.secondaryStats = JSON.stringify(currentSecParams);
+        EventBus.$emit("sec-characts-loads", currentSecParams);
       });
     EventBus.$on("send-data", () => {
       //Отправка данных о персонаже на сервер
@@ -69,8 +93,8 @@ export default {
         }
       })
         .then(function(response) {
-          // тут было записывание uid в ss
-          console.log(response.data);
+          let status = response.data.hero_id.status ? true : false;
+          EventBus.$emit("sending-success", status);
         })
         .catch(function(er) {
           console.log(er);

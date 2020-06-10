@@ -12,7 +12,7 @@
       </div>
     </div>
     <div
-      v-for="(item, index) in secChars"
+      v-for="(item, index) in this.secStats"
       v-bind:key="item.tagName"
       :class="[item.tagName, index%2==0 ? 'char-rows-grey' : 'char-rows-white']"
       class="row"
@@ -22,7 +22,7 @@
       </div>
       <div class="col-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 values">
         <button
-          @click.prevent="changeValue(item, 'minus')"
+          @click.prevent="changeValue(index, 'minus')"
           id="minusbtn"
           :class="item.tagName"
           class="secondary-button acrobatics mr-1"
@@ -37,7 +37,7 @@
           @change="$emit('changeChar', $event.target)"
         />
         <button
-          @click.prevent="changeValue(item, 'plus')"
+          @click.prevent="changeValue(index, 'plus')"
           id="plusbtn"
           :class="item.tagName"
           class="secondary-button ml-1"
@@ -50,7 +50,7 @@
           :id="item.tagName+'train'"
           :value="watchValue"
           aria-label="..."
-          @click="changeValue(item, 'train')"
+          @click="changeValue(index, 'train')"
           :checked="item.training === true ? 'checked':''"
         />
       </div>
@@ -62,14 +62,17 @@ const EventBus = require("../EventBus").default.v;
 const Tab = require("./Tabs").default.data.selectedTab;
 export default {
   methods: {
-    changeValue: function(item, oper) {
+    changeValue: function(index, oper) {
+      let updated = this.secStats[index];
+      console.log("items", index);
+
       if (oper == "train") {
-        item.training = !item.training;
-        item.training ? (item.field_int += 5) : (item.field_int -= 5);
+        updated.training = !updated.training;
+        updated.training ? (updated.field_int += 5) : (updated.field_int -= 5);
       } else {
-        oper === "plus" ? item.field_int++ : item.field_int--;
+        oper === "plus" ? updated.field_int++ : updated.field_int--;
       }
-      let secStatsForLs = JSON.stringify(this.secChars);
+      let secStatsForLs = JSON.stringify(this.secStats);
       localStorage.setItem("secondaryStats", secStatsForLs);
       // localStorage.setItem(item.tagName, item.value);
     }
@@ -79,11 +82,22 @@ export default {
   },
   computed: {
     watchValue: function() {
-      return this.secChars.field_int;
+      return this.secStats.field_int;
+    }
+  },
+  created: function() {
+    if (localStorage.secondaryStats) {
+      this.secStats = JSON.parse(localStorage.secondaryStats);
+    } else {
+      this.secStats = this.secChars;
     }
   },
 
   data: function() {
+    EventBus.$on("sec-characts-loads", loadedData => {
+      this.secStats = loadedData;
+    });
+
     EventBus.$on("current-tag", tag => {
       if (tag == "secondary-tab") {
         this.isCurrentTab = true;
@@ -93,6 +107,7 @@ export default {
     });
 
     return {
+      secStats: "",
       isCurrentTab: false,
       checked: false
     };

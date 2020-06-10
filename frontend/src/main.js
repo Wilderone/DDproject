@@ -232,6 +232,7 @@ new Vue({
     readLsMainstats: function () {
       if (!localStorage.mainstats) {
         localStorage.mainstats = JSON.stringify(this.mainStats);
+        console.log('writing mainstats')
 
       } else {
         let mainstatsForLoad = JSON.parse(localStorage.mainstats);
@@ -249,7 +250,9 @@ new Vue({
     },
     readLsSecondary: function () {
 
+
       if (!localStorage.secondaryStats) {
+        console.log('writing secstats')
         localStorage.secondaryStats = JSON.stringify(this.secStats);
       } else {
 
@@ -265,19 +268,20 @@ new Vue({
       }
     },
   },
+
   beforeCreate: function () {
 
     axios.get('http://80.65.23.35:5000/stats')
       // Получение ID первичных и вторичных характеристик
       .then(response => {
-
+        console.log('secstatsid', response.data)
         let respSecondary = response.data.secondary_stats
         console.log(respSecondary)
         this.secStats.forEach(function (elem, elemIndex) {
           Object.keys(respSecondary).forEach(function (respElem, respElemIndex) {
             if (elem.tagName == respSecondary[respElem]) {
-
               elem.id_param = Object.keys(respSecondary)[respElemIndex]
+
             }
           })
           //CHANGE
@@ -298,7 +302,7 @@ new Vue({
       }).finally(() => {
         this.readLsSecondary();
         this.readLsMainstats();
-      })
+      });
 
 
   },
@@ -312,6 +316,7 @@ new Vue({
   components: {
     Common, Size, Vision, Name, SaveCommon, Selecter
   },
+
 
 
   methods: {
@@ -419,7 +424,7 @@ new Vue({
 
     },
   }
-})
+});
 new Vue({
   render: (h) => h(Tabs),
 

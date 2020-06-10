@@ -8,19 +8,35 @@
               <select
                 id="heroes"
                 class="custom-select"
-                @change="requestDataHero($event.target.value)"
+                @change="+$event.target.value == 0 ? clearData(+$event.target.value) :requestDataHero($event.target.value)"
               >
-                <option>Создать нового персонажа</option>
+                <option value="0">Создать нового персонажа</option>
                 <option
                   v-for="(hero, index) in this.charsForLoad"
                   :key="index"
                   :value="hero.id_hero"
-                >{{hero.name_hero}} {{hero.class_hero}} {{hero.hero_level}}лвл</option>
+                >{{hero.name_hero}} {{hero.class_hero}} {{hero.level_hero}}лвл</option>
               </select>
             </div>
             <div>
               <button @click.prevent="sendData()" class="btn-primary save-hero">Сохранить</button>
               <button @click="clearData()" class="btn-primary flush">Сбросить</button>
+              <div
+                v-if="this.showCreated"
+                class="alert alert-success alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>Герой</strong> Создан
+                <button
+                  @click="closeAlert()"
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
             </div>
           </div>
         </form>
@@ -38,6 +54,7 @@
         :params-all="this.paramsAll.races"
         @write-data="writeData"
       ></selecter>
+
       <selecter
         :class="this.col"
         :ident-of-tab="'common'"
@@ -78,8 +95,14 @@ export default {
 
   methods: {
     requestDataHero: function(id) {
-      //запрашивает данные выбранного героя
+      //запрашивает данные выбранного героя, если id=0 то только меняет значение curr_hero_id в ls
       EventBus.$emit("select-hero", id);
+      console.log("VALUE", id);
+
+      let commond = JSON.parse(localStorage.CommonData);
+      commond.curr_hero_id = +id;
+      localStorage.CommonData = JSON.stringify(commond);
+
       let uid = sessionStorage["uid"];
       axios({
         method: "post",
@@ -95,11 +118,15 @@ export default {
           console.log("responseeee", response.data);
           EventBus.$emit("loads-hero", response.data.cd);
           EventBus.$emit("loads-hero-stats", response.data.params.params);
+          console.log("data", response.data.params);
         })
 
         .catch(error => {
           console.log(error);
         });
+    },
+    closeAlert: function() {
+      return (this.showCreated = false);
     },
 
     sendData: function() {
@@ -112,9 +139,6 @@ export default {
           return;
         }
       });
-      //let saveNewValues = JSON.parse(localStorage.CommonData);
-      //localStorage.setItem("CommonData", JSON.stringify(saveNewValues));
-      this.get_available();
 
       EventBus.$emit("send-data");
     },
@@ -125,7 +149,7 @@ export default {
 
       this.$emit("common-fields", data);
     },
-    clearData: function() {
+    clearData: function(id = 0) {
       localStorage.removeItem("CommonData");
       localStorage.removeItem("mainstats");
       localStorage.removeItem("secondaryStats");
@@ -153,16 +177,19 @@ export default {
   created: function() {
     this.get_available();
     this.setFields = JSON.parse(localStorage.CommonData).common;
-    console.log("23213", this.setFields);
   },
 
   data: function() {
     EventBus.$on("new-hero-data", newField => {
       this.setFields = newField.common;
-    });
-    // EventBus.$on("write-data", data => {
-    //   this.writeData(data[0], data[1]);
-    // });
+    }),
+      EventBus.$on("sending-success", (created = false) => {
+        this.get_available();
+        if (created) {
+          this.showCreated = true;
+          this.menuPosition = this.setFields.length - 1;
+        }
+      });
 
     return {
       availableHeroes: [],
@@ -173,26 +200,23 @@ export default {
           id: "id_race",
           field_string: "Раса",
           defaultTitle: "Выбери расу",
-          currOption: +this.fields.id_race == 0 ? 0 : this.fields.id_race,
+          currOption: this.fields.races,
           options: this.listOfClassRace.races
         },
         classes: {
           id: "id_class",
           field_string: "Класс",
           defaultTitle: "Выбери класс",
-          currOption:
-            +this.fields.id_class == 0 && !this.fields.id_class.length > 0
-              ? 0
-              : this.fields.id_class,
+          currOption: this.fields.classes,
           options: this.listOfClassRace.classes
         },
         sex: {
           id: "sex",
           field_string: "Пол",
-          currOption:
-            +this.fields.sex == 0 && !this.fields.sex.length > 0
-              ? 0
-              : this.fields.sex,
+          currOption: +this.fields.sex,
+          // +this.fields.sex == 0 && !this.fields.sex.length > 0
+          //   ? 0
+          //   : this.fields.sex,
 
           options: [
             { id_param: 1, name_param: "Мужской" },
@@ -204,7 +228,9 @@ export default {
       errors: [],
       currRace: "",
       cirrCLass: "",
-      col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3"
+      col: "col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3",
+      showCreated: false,
+      menuPosition: 0
     };
   }
 };

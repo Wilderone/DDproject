@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f722cfb6-0b35-4aa9-940d-0c747aa985c2" name="Default Changelist" comment="">
+    <list default="true" id="e9f17407-2368-42d6-b2aa-348691c539ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Common.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Common.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/MainStats.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/MainStats.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SaveCommon.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/SecondaryChars.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/SecondaryChars.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Selecter.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Selecter.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db_exchange.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_exchange.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parse.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse.py" afterDir="false" />

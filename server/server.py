@@ -16,17 +16,15 @@ def get_data():
 
     new_pr = pr(data['dfs'])
     current_user = new_pr.current_owner()
-    #if new_pr.current_hero():
-        #main_stats = new_pr.parse_hero_mainstats()
+    # if new_pr.current_hero():
+    #     main_stats = new_pr.parse_hero_mainstats()
+    #
+    # else:
 
-    #else:
-    main_stats = new_pr.parse_hero_main_stats()
-    sec_stats = new_pr.parse_hero_sec_stats()
     hero_id = new_pr.current_hero_id() #Если в данных есть cur_hero_id то присваивается он. Если нет, создаётся новый перс
 
     print('HERO ID ', hero_id)
-    db.update_hero(guid=current_user, id_hero=hero_id, stats=main_stats)
-    db.update_hero(guid=current_user, id_hero=hero_id, stats=sec_stats)
+
 
     return {'current_user':current_user, 'hero_id':hero_id}
 
